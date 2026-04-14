@@ -1,5 +1,5 @@
 baseurl = "https://ParsaAminpour.github.io/"
-title = "Tony Blake"
+title = "ParsaAmini"
 theme = "hugo-coder"
 languagecode = "en"
 defaultcontentlanguage = "en"
@@ -12,9 +12,9 @@ pagerSize = 20
 style = "github-dark"
 
 [params]
-  author = "Tony Blake"
+  author = "ParsaAmini"
   info = "Blockchain & Software Engineer"
-  description = "Tony Blake's personal website"
+  description = "ParsaAmini's personal website"
   keywords = "blog,blockchain,software,engineer"
   avatarurl = "images/avatar.jpg"
 

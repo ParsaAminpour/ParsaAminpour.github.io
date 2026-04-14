@@ -1,8 +1,8 @@
 +++
 title = "About"
-description = "About Tony Blake"
+description = "About ParsaAmini"
 date = "2024-01-01"
-author = "Tony Blake"
+author = "ParsaAmini"
 +++
 
 Blockchain & Backend Engineer — I build serious infrastructure, not demos.
