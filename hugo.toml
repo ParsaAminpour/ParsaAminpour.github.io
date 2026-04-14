@@ -1,3 +1,68 @@
-baseURL = 'https://example.org/'
-locale = 'en-us'
-title = 'My New Hugo Project'
+baseurl = "http://www.example.com"
+title = "Tony Blake"
+theme = "hugo-coder"
+languagecode = "en"
+defaultcontentlanguage = "en"
+
+
+[pagination]
+pagerSize = 20
+
+[markup.highlight]
+style = "github-dark"
+
+[params]
+  author = "Tony Blake"
+  info = "Blockchain & Software Engineer"
+  description = "Tony Blake's personal website"
+  keywords = "blog,blockchain,software,engineer"
+  avatarurl = "images/avatar.jpg"
+
+  since = 2024
+
+  enableTwemoji = true
+
+  colorScheme = "auto"
+  hidecolorschemetoggle = false
+
+  customCSS = ["css/custom.css"]
+  # customSCSS = ["scss/custom.scss"]
+  # customJS = ["js/custom.js"]
+
+[taxonomies]
+  category = "categories"
+  series = "series"
+  tag = "tags"
+  author = "authors"
+
+# Social links
+[[params.social]]
+  name = "Github"
+  icon = "fa-brands fa-github fa-2x"
+  weight = 1
+  url = "https://github.com/ParsaAminpour"
+[[params.social]]
+  name = "Twitter"
+  icon = "fa-brands fa-x-twitter fa-2x"
+  weight = 2
+  url = "https://x.com/ntonyjnr"
+[[params.social]]
+  name = "Medium"
+  icon = "fa-brands fa-medium fa-2x"
+  weight = 3
+  url = "https://medium.com/@parsaamini"
+[[params.social]]
+  name = "Email"
+  icon = "fa-solid fa-envelope fa-2x"
+  weight = 4
+  url = "mailto:parsa.aminpour@gmail.com"
+
+# Menu links
+[[menu.main]]
+  name = "Blog"
+  weight = 1
+  url  = "posts/"
+[[menu.main]]
+  name = "About"
+  weight = 2
+  url = "about/"
