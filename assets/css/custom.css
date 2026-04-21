@@ -1,3 +1,379 @@
+/* ============================================================
+   Parsa Amini — Hugo custom.css
+   Drop into: assets/css/custom.css
+   Overrides hugo-coder theme with steel blue palette + animations
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap');
+
+/* ── CSS Variables ──────────────────────────────────────── */
+:root {
+  --brand:         #4A90D9;
+  --brand-dim:     #2d6aad;
+  --brand-light:   #7bb8f0;
+  --brand-subtle:  rgba(74, 144, 217, 0.12);
+  --brand-glow:    rgba(74, 144, 217, 0.22);
+
+  --bg:            #0e1117;
+  --bg-raised:     #161b27;
+  --bg-surface:    #1e2538;
+  --fg:            #e8edf5;
+  --fg-muted:      #8a95aa;
+  --fg-subtle:     #4a5568;
+  --border:        #232b3e;
+  --border-strong: #2d3a55;
+  --code-bg:       #1e2538;
+
+  --font-mono: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ── Base overrides ──────────────────────────────────────── */
+body {
+  font-family: var(--font-mono) !important;
+  background-color: var(--bg) !important;
+  color: var(--fg) !important;
+}
+
+/* Override light/dark scheme colors */
+body,
+.coder,
+.coder-dark {
+  background-color: var(--bg) !important;
+  color: var(--fg) !important;
+}
+
+/* ── Navigation ──────────────────────────────────────────── */
+.navigation {
+  background-color: rgba(14, 17, 23, 0.92) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.navigation a,
+.navigation span {
+  font-family: var(--font-mono) !important;
+  color: var(--fg-muted) !important;
+  transition: color 0.2s ease !important;
+}
+
+.navigation a:hover,
+.navigation a:focus {
+  color: var(--brand) !important;
+  text-decoration: none !important;
+}
+
+/* Nav title — bigger, uppercase, animated cursor */
 .navigation-title {
-  font-size: 2.4rem !important;
+  font-size: 1.8rem !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.12em !important;
+  text-transform: uppercase !important;
+  color: var(--fg) !important;
+  position: relative;
+}
+
+/* Blinking cursor after nav title */
+.navigation-title::after {
+  content: '_';
+  color: var(--brand);
+  animation: blink 1s step-end infinite;
+  font-weight: 400;
+}
+
+/* Animated underline on nav links */
+.navigation-list .navigation-item a {
+  position: relative;
+  text-decoration: none !important;
+}
+
+.navigation-list .navigation-item a::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--brand);
+  transition: width 0.25s var(--ease-out);
+}
+
+.navigation-list .navigation-item a:hover::after {
+  width: 100%;
+}
+
+/* ── Links ───────────────────────────────────────────────── */
+a {
+  color: var(--brand) !important;
+  transition: color 0.2s ease !important;
+}
+
+a:hover,
+a:focus {
+  color: var(--brand-light) !important;
+  text-decoration: none !important;
+}
+
+/* ── Headings ────────────────────────────────────────────── */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-mono) !important;
+  color: var(--fg) !important;
+}
+
+h2 {
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 0.6rem;
+}
+
+/* ── Homepage / Profile ──────────────────────────────────── */
+.avatar img {
+  border: 2.5px solid var(--brand) !important;
+  box-shadow: 0 0 28px var(--brand-glow) !important;
+  border-radius: 50% !important;
+  animation: float 4s ease-in-out infinite;
+}
+
+/* Profile name */
+.profile-name,
+.author {
+  font-family: var(--font-mono) !important;
+  font-weight: 600 !important;
+  color: var(--fg) !important;
+  letter-spacing: 0.05em;
+}
+
+/* Tagline / info */
+.profile-info,
+.author-info,
+p.profile-subtitle {
+  color: var(--fg-muted) !important;
+  font-family: var(--font-mono) !important;
+  font-size: 1.5rem !important;
+}
+
+/* Social links */
+.social-links a,
+.social a {
+  color: var(--fg-subtle) !important;
+  transition: color 0.2s ease, transform 0.2s ease !important;
+  display: inline-block;
+}
+
+.social-links a:hover,
+.social a:hover {
+  color: var(--brand) !important;
+  transform: translateY(-2px);
+  text-decoration: none !important;
+}
+
+/* ── Posts list ──────────────────────────────────────────── */
+.posts-list article,
+.posts article,
+li.post {
+  border-bottom: 1px solid var(--border);
+  padding: 1.4rem 0;
+  opacity: 0;
+  transform: translateY(10px);
+  animation: fadeUp 0.4s var(--ease-out) forwards;
+}
+
+.posts-list article:nth-child(1), li.post:nth-child(1) { animation-delay: 0ms; }
+.posts-list article:nth-child(2), li.post:nth-child(2) { animation-delay: 70ms; }
+.posts-list article:nth-child(3), li.post:nth-child(3) { animation-delay: 140ms; }
+.posts-list article:nth-child(4), li.post:nth-child(4) { animation-delay: 210ms; }
+.posts-list article:nth-child(5), li.post:nth-child(5) { animation-delay: 280ms; }
+.posts-list article:nth-child(6), li.post:nth-child(6) { animation-delay: 350ms; }
+
+.posts-list article a,
+.posts article a {
+  transition: color 0.2s ease !important;
+}
+
+.posts-list article a:hover,
+.posts article a:hover {
+  color: var(--brand-light) !important;
+}
+
+/* Post date / meta */
+.post-date,
+time,
+.posts-list .date {
+  color: var(--fg-subtle) !important;
+  font-size: 1.3rem !important;
+  font-family: var(--font-mono) !important;
+}
+
+/* ── Code blocks ─────────────────────────────────────────── */
+code {
+  background-color: var(--code-bg) !important;
+  color: var(--fg) !important;
+  font-family: var(--font-mono) !important;
+  border-radius: 4px !important;
+}
+
+pre {
+  background-color: var(--code-bg) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 8px !important;
+}
+
+pre code {
+  background-color: transparent !important;
+}
+
+.highlight div,
+.highlight pre {
+  background-color: var(--code-bg) !important;
+  border: 1px solid var(--border);
+  border-radius: 8px !important;
+}
+
+/* ── Blockquote ──────────────────────────────────────────── */
+blockquote {
+  border-left: 2px solid var(--brand) !important;
+  color: var(--fg-muted) !important;
+  background: var(--brand-subtle);
+  padding: 1rem 1.5rem !important;
+  border-radius: 0 6px 6px 0;
+}
+
+/* ── HR / Dividers ───────────────────────────────────────── */
+hr {
+  border-color: var(--border) !important;
+}
+
+/* ── Footer ──────────────────────────────────────────────── */
+.footer {
+  border-top: 1px solid var(--border) !important;
+  color: var(--fg-subtle) !important;
+  font-family: var(--font-mono) !important;
+  font-size: 1.3rem !important;
+  background-color: var(--bg) !important;
+}
+
+.footer a {
+  color: var(--fg-subtle) !important;
+}
+
+.footer a:hover {
+  color: var(--brand) !important;
+}
+
+/* ── Dark mode toggle ────────────────────────────────────── */
+#dark-mode-toggle {
+  color: var(--fg-subtle) !important;
+  transition: color 0.2s ease !important;
+}
+
+#dark-mode-toggle:hover {
+  color: var(--brand) !important;
+}
+
+/* ── Tags / Categories ───────────────────────────────────── */
+.tag,
+.category,
+a[href*="/tags/"],
+a[href*="/categories/"] {
+  background: var(--bg-surface) !important;
+  color: var(--fg-muted) !important;
+  border-radius: 4px !important;
+  padding: 2px 8px !important;
+  font-size: 1.3rem !important;
+  transition: background 0.2s, color 0.2s !important;
+}
+
+.tag:hover,
+.category:hover {
+  background: var(--brand-subtle) !important;
+  color: var(--brand) !important;
+}
+
+/* ── Selection ───────────────────────────────────────────── */
+::selection {
+  background: rgba(74, 144, 217, 0.3);
+  color: #fff;
+}
+
+/* ── Scrollbar ───────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--brand); }
+
+/* ── Page load fade-in ───────────────────────────────────── */
+.container > *,
+main > *,
+article > * {
+  animation: fadeUp 0.5s var(--ease-out) both;
+}
+
+/* ── Keyframes ───────────────────────────────────────────── */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-7px); }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── About page ──────────────────────────────────────────── */
+.about .content h2 {
+  color: var(--brand) !important;
+  font-size: 1.6rem !important;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* Tech stack inline code tags */
+.content p code {
+  border: 1px solid var(--border);
+  margin: 2px;
+  display: inline-block;
+  transition: border-color 0.2s, color 0.2s;
+}
+
+.content p code:hover {
+  border-color: var(--brand);
+  color: var(--brand) !important;
+}
+
+/* Experience links */
+.content a[href*="skatefi"],
+.content a[href*="pixelrace"],
+.content a[href*="acc.foundation"],
+.content a[href*="allinhype"] {
+  font-weight: 600;
+  border-bottom: 1px solid var(--border);
+  transition: border-color 0.2s !important;
+}
+
+.content a[href*="skatefi"]:hover,
+.content a[href*="pixelrace"]:hover,
+.content a[href*="acc.foundation"]:hover,
+.content a[href*="allinhype"]:hover {
+  border-color: var(--brand);
+}
+
+/* ── Light mode override (if user toggles) ───────────────── */
+body.light,
+[data-theme="light"] body {
+  --bg:         #f4f7fb;
+  --bg-raised:  #e8eef8;
+  --bg-surface: #dde6f5;
+  --fg:         #1a2236;
+  --fg-muted:   #4a5a7a;
+  --fg-subtle:  #8a95aa;
+  --border:     #cdd5e5;
+  --code-bg:    #e2e8f3;
 }
