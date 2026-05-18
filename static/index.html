@@ -28,6 +28,13 @@
     40% { transform: rotate(-4deg); }
     50% { transform: rotate(10deg); }
   }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(22px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .fade-up {
+    animation: fadeUp 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
   ::-webkit-scrollbar { width: 8px; }
   ::-webkit-scrollbar-track { background: #0f0f10; }
   ::-webkit-scrollbar-thumb { background: #d0c7b8; border-radius: 4px; }
@@ -152,7 +159,7 @@ const DockItem = ({item, navRef, mouseX}) => {
 
 /* ─────────────────── HERO ─────────────────── */
 const Hero = () => (
-  <section id="top" style={{maxWidth:MAX, margin:'0 auto', ...padX, paddingTop:'96px', paddingBottom:'72px'}}>
+  <section id="top" className="fade-up" style={{maxWidth:MAX, margin:'0 auto', ...padX, paddingTop:'96px', paddingBottom:'72px', animationDelay:'0ms'}}>
     <div style={{display:'flex', alignItems:'center', justifyContent:'space-between', gap:'32px', flexWrap:'wrap'}}>
       <div style={{flex:'1 1 60%', minWidth:'280px'}}>
         <h1 style={{fontSize:'40px', fontWeight:700, lineHeight:1.15, letterSpacing:'-0.025em', marginBottom:'20px', color:C.ink}}>
@@ -163,7 +170,7 @@ const Hero = () => (
         </p>
       </div>
       <img src="/images/avatar.jpg" alt="Parsa Amini" style={{
-        width:'112px', height:'112px', borderRadius:'14px',
+        width:'112px', height:'112px', borderRadius:'50%',
         objectFit:'cover', flexShrink:0,
       }} />
     </div>
@@ -177,15 +184,15 @@ const H2 = ({children}) => (
   </h2>
 );
 
-const Section = ({id, children, style}) => (
-  <section id={id} style={{maxWidth:MAX, margin:'0 auto', ...padX, paddingTop:'48px', paddingBottom:'48px', ...style}}>
+const Section = ({id, children, style, delay=0}) => (
+  <section id={id} className="fade-up" style={{maxWidth:MAX, margin:'0 auto', ...padX, paddingTop:'48px', paddingBottom:'48px', animationDelay:`${delay}ms`, ...style}}>
     {children}
   </section>
 );
 
 /* ─────────────────── ABOUT ─────────────────── */
 const About = () => (
-  <Section id="about">
+  <Section id="about" delay={80}>
     <H2>About</H2>
     <p style={pStyle}>
       I started writing code seriously around 6 years ago, and within a year I was deep into smart contracts on Ethereum. Not gonna lie — my first Solidity contracts were rough, but I was hooked. Now, with 4 years in web3 and 2 years building backend systems, I've shipped protocols, run audits, and engineered exchange infrastructure end-to-end. I work primarily in <strong>Go</strong>, <strong>Solidity</strong>, and <strong>Rust</strong>. Currently I'm building <a href="#projects" style={inlineLink}>Coinhub</a>, a CEX from scratch, and <a href="#projects" style={inlineLink}>Axon</a>, an AI agent with an integrated crypto wallet.
@@ -204,16 +211,16 @@ const experience = [
   { logo:'/images/logo-prc.png', cover:false, bg:'#ebebeb', name:'PixelRaceClub', dates:'2024', role:'Smart Contract Engineer',
     desc:'On-chain game mechanics and smart contract infrastructure. Designed and shipped NFT mint flow, on-chain race logic with verifiable randomness, and a deterministic prize pool distributor.',
     url:'https://x.com/PixelRaceClub' },
-  { logo:'/images/logo-allinhype.png', cover:true, name:'Accelerate DeSci', dates:'2023 - 2024', role:'Blockchain Engineer',
+  { logo:'/images/logo-accelerate.png', cover:true, name:'Accelerate DeSci', dates:'2023 - 2024', role:'Blockchain Engineer',
     desc:'Decentralized science infrastructure at the Acc Foundation. Architected and shipped on-chain primitives for research funding, contributor attribution, and grant disbursement.',
     url:'https://acc.foundation' },
-  { logo:'/images/logo-accelerate.png', cover:true, name:'AllinHype', dates:'2022 - 2023', role:'Software & Blockchain Engineer',
+  { logo:'/images/logo-allinhype.png', cover:true, name:'AllinHype', dates:'2022 - 2023', role:'Software & Blockchain Engineer',
     desc:'Backend systems and blockchain integration across the full stack. Designed REST/gRPC APIs in Go, wrote indexers for EVM chains, and ran the on-chain integration layer.',
     url:'https://allinhype.com' },
 ];
 
 const Work = () => (
-  <Section id="work">
+  <Section id="work" delay={160}>
     <H2>Work Experience</H2>
     <div style={{display:'flex', flexDirection:'column', gap:'10px'}}>
       {experience.map((e, i) => <WorkCard key={i} item={e} />)}
@@ -283,7 +290,7 @@ const skills = [
 ];
 
 const Skills = () => (
-  <Section>
+  <Section delay={240}>
     <H2>Skills</H2>
     <div style={{display:'flex', flexWrap:'wrap', gap:'8px'}}>
       {skills.map((s, i) => <SkillChip key={i} s={s} />)}
@@ -330,7 +337,7 @@ const projects = [
 ];
 
 const Projects = () => (
-  <Section id="projects">
+  <Section id="projects" delay={320}>
     <div style={{fontSize:'13px', color:C.inkMute, fontWeight:500, marginBottom:'4px'}}>My Projects</div>
     <H2>Check out my latest work</H2>
     <p style={{...pStyle, marginBottom:'32px', color:C.inkMute, fontSize:'15px'}}>
@@ -408,7 +415,7 @@ const repos = [
 ];
 
 const OpenSource = () => (
-  <Section>
+  <Section delay={400}>
     <div style={{fontSize:'13px', color:C.inkMute, fontWeight:500, marginBottom:'4px'}}>Open Source</div>
     <H2>Code over claims</H2>
     <p style={{...pStyle, marginBottom:'32px', color:C.inkMute, fontSize:'15px'}}>
@@ -429,7 +436,7 @@ const posts = [
 ];
 
 const Writing = () => (
-  <Section>
+  <Section delay={480}>
     <div style={{fontSize:'13px', color:C.inkMute, fontWeight:500, marginBottom:'4px'}}>Writing</div>
     <H2>Notes from the trenches</H2>
     <p style={{...pStyle, marginBottom:'24px', color:C.inkMute, fontSize:'15px'}}>
@@ -462,7 +469,7 @@ const PostRow = ({p}) => {
 
 /* ─────────────────── CONTACT ─────────────────── */
 const Contact = () => (
-  <Section id="contact">
+  <Section id="contact" delay={560}>
     <div style={{fontSize:'13px', color:C.inkMute, fontWeight:500, marginBottom:'4px'}}>Contact</div>
     <H2>Get in Touch</H2>
     <p style={{...pStyle, fontSize:'17px', maxWidth:'560px'}}>
