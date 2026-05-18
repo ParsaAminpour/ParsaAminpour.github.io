@@ -1,73 +1,18 @@
-baseurl = "https://ParsaAminpour.github.io/"
+baseURL = "https://ParsaAminpour.github.io/"
 title = "Parsa Amini"
-theme = "hugo-coder"
-languagecode = "en"
-defaultcontentlanguage = "en"
+languageCode = "en"
+defaultContentLanguage = "en"
 
-
-[pagination]
-pagerSize = 20
-
-[markup.highlight]
-style = "github-dark"
+# No theme — using custom layouts
+# theme = ""
 
 [params]
   author = "Parsa Amini"
-  info = "Blockchain & Software Engineer"
-  description = "ParsaAmini's personal website"
-  keywords = "blog,blockchain,software,engineer"
-  avatarurl = "images/avatar.jpg"
+  description = "Blockchain & Backend Engineer"
 
-  since = 2024
+[markup]
+  [markup.goldmark.renderer]
+    unsafe = true
 
-  enableTwemoji = true
-
-  colorScheme = "auto"
-  hidecolorschemetoggle = false
-
-  customCSS = ["css/custom.css"]
-  # customSCSS = ["scss/custom.scss"]
-  # customJS = ["js/custom.js"]
-
-[taxonomies]
-  category = "categories"
-  series = "series"
-  tag = "tags"
-  author = "authors"
-
-# Social links
-[[params.social]]
-  name = "Github"
-  icon = "fa-brands fa-github fa-2x"
-  weight = 1
-  url = "https://github.com/ParsaAminpour"
-[[params.social]]
-  name = "Twitter"
-  icon = "fa-brands fa-x-twitter fa-2x"
-  weight = 2
-  url = "https://x.com/ntonyjnr"
-[[params.social]]
-  name = "Medium"
-  icon = "fa-brands fa-medium fa-2x"
-  weight = 3
-  url = "https://medium.com/@parsaamini"
-[[params.social]]
-  name = "Telegram"
-  icon = "fa-brands fa-telegram fa-2x"
-  weight = 4
-  url = "https://t.me/antonyjnr"
-[[params.social]]
-  name = "Email"
-  icon = "fa-solid fa-envelope fa-2x"
-  weight = 5
-  url = "mailto:parsa.aminpour@gmail.com"
-
-# Menu links
-[[menu.main]]
-  name = "Blog"
-  weight = 1
-  url  = "posts/"
-[[menu.main]]
-  name = "About"
-  weight = 2
-  url = "about/"
+[build]
+  writeStats = false
