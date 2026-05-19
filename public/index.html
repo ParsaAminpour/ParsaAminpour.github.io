@@ -65,6 +65,8 @@ const MAX = '720px';
 const padX = { paddingLeft: '24px', paddingRight: '24px' };
 
 /* ─────────────────── BOTTOM FLOATING NAV (dock-style) ─────────────────── */
+const isTouch = () => window.matchMedia('(hover: none)').matches;
+
 const Nav = () => {
   const [mouseX, setMouseX] = React.useState(null);
   const navRef = React.useRef(null);
@@ -78,11 +80,11 @@ const Nav = () => {
     { type:'link', href:'#contact', icon:'fa-solid fa-envelope',    label:'Contact' },
     { type:'divider' },
     { type:'link', href:'https://github.com/ParsaAminpour', icon:'fa-brands fa-github',    label:'GitHub', external:true },
-    { type:'link', href:'https://x.com/ntonyjnr',           icon:'fa-brands fa-x-twitter', label:'X',       external:true },
+    { type:'link', href:'https://x.com/megaparsa',           icon:'fa-brands fa-x-twitter', label:'X',       external:true },
   ];
 
   const handleMove = (e) => {
-    setMouseX(e.clientX);
+    if (!isTouch()) setMouseX(e.clientX);
   };
   const handleLeave = () => setMouseX(null);
 
@@ -134,7 +136,7 @@ const DockItem = ({item, navRef, mouseX}) => {
     <a href={item.href} title={item.label}
       target={item.external?'_blank':undefined} rel={item.external?'noreferrer':undefined}
       ref={itemRef}
-      onMouseEnter={()=>setHov(true)}
+      onMouseEnter={()=>{ if (!isTouch()) setHov(true); }}
       onMouseLeave={()=>setHov(false)}
       onTouchEnd={()=>setHov(false)}
       style={{
@@ -486,15 +488,48 @@ const PostRow = ({p}) => {
 };
 
 /* ─────────────────── CONTACT ─────────────────── */
+const socialLinks = [
+  { href:'https://github.com/ParsaAminpour', icon:'fa-brands fa-github',    label:'GitHub' },
+  { href:'https://x.com/megaparsa',           icon:'fa-brands fa-x-twitter', label:'X' },
+  { href:'https://medium.com/@parsaamini',   icon:'fa-brands fa-medium',    label:'Medium' },
+  { href:'https://t.me/antonyjnr',           icon:'fa-brands fa-telegram',  label:'Telegram' },
+];
+
 const Contact = () => (
-  <Section id="contact" delay={560}>
-    <div style={{fontSize:'13px', color:C.inkMute, fontWeight:500, marginBottom:'4px'}}>Contact</div>
-    <H2>Get in Touch</H2>
-    <p style={{...pStyle, fontSize:'17px', maxWidth:'560px'}}>
-      Want to chat? Shoot me a DM <a href="https://x.com/ntonyjnr" target="_blank" rel="noreferrer" style={inlineLink}>with a direct question on twitter</a> and I'll respond whenever I can. I will ignore all soliciting.
+  <Section id="contact" delay={560} style={{textAlign:'center'}}>
+    <div style={{
+      display:'inline-block', fontSize:'14px', fontWeight:500,
+      color:C.bg, background:C.ink,
+      borderRadius:'8px', padding:'4px 12px', marginBottom:'20px',
+    }}>Contact</div>
+    <h2 style={{fontSize:'48px', fontWeight:700, color:C.ink, letterSpacing:'-0.03em', lineHeight:1.1, marginBottom:'24px'}}>Get in Touch</h2>
+    <p style={{fontSize:'16px', color:C.inkMute, lineHeight:1.75, maxWidth:'600px', margin:'0 auto 32px'}}>
+      Want to chat? Shoot me a DM <a href="https://x.com/megaparsa" target="_blank" rel="noreferrer" style={inlineLink}>with a direct question on Twitter</a> and I'll respond whenever I can. I will ignore all soliciting.
     </p>
+    <div style={{display:'flex', justifyContent:'center', gap:'8px'}}>
+      {socialLinks.map(s => <SocialIcon key={s.label} s={s} />)}
+    </div>
   </Section>
 );
+
+const SocialIcon = ({s}) => {
+  const [h, setH] = React.useState(false);
+  return (
+    <a href={s.href} target="_blank" rel="noreferrer" title={s.label}
+      onMouseEnter={()=>setH(true)} onMouseLeave={()=>setH(false)}
+      style={{
+        width:'48px', height:'48px', borderRadius:'8px',
+        display:'inline-flex', alignItems:'center', justifyContent:'center',
+        background: h ? 'rgba(255,255,255,0.08)' : 'transparent',
+        border:`1px solid ${h ? C.borderStrong : C.border}`,
+        color: h ? C.ink : C.inkMute,
+        fontSize:'18px',
+        transition:'all 0.18s ease',
+      }}>
+      <i className={s.icon}></i>
+    </a>
+  );
+};
 
 /* ─────────────────── FOOTER ─────────────────── */
 const Footer = () => (
@@ -505,7 +540,7 @@ const Footer = () => (
         <FootLink href="#">/posts</FootLink>
         <FootLink href="#projects">/projects</FootLink>
         <FootLink href="https://github.com/ParsaAminpour">github</FootLink>
-        <FootLink href="https://x.com/ntonyjnr">X</FootLink>
+        <FootLink href="https://x.com/megaparsa">X</FootLink>
         <FootLink href="https://medium.com/@parsaamini">medium</FootLink>
         <FootLink href="https://t.me/antonyjnr">telegram</FootLink>
       </div>
