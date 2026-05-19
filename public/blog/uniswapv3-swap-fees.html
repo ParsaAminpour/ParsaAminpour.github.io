@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How swap fees work in UniswapV3 — Parsa Amini</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: hsl(210, 11.1%, 3.53%);
+    color: #ededed;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+  }
+  a { color: inherit; text-decoration: none; }
+  ::selection { background: #ededed; color: hsl(210,11.1%,3.53%); }
+  ::-webkit-scrollbar { width: 8px; }
+  ::-webkit-scrollbar-track { background: hsl(210,11.1%,3.53%); }
+  ::-webkit-scrollbar-thumb { background: #d0c7b8; border-radius: 4px; }
+
+  .container {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 64px 24px 120px;
+  }
+
+  .back {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: #a1a1a8;
+    font-weight: 500;
+    margin-bottom: 48px;
+    transition: color 0.15s;
+  }
+  .back:hover { color: #ededed; }
+  .back svg { width: 14px; height: 14px; }
+
+  .meta {
+    font-size: 13px;
+    color: #6b6b75;
+    margin-bottom: 16px;
+    display: flex;
+    gap: 12px;
+  }
+  .meta span::after { content: '·'; margin-left: 12px; }
+  .meta span:last-child::after { content: ''; }
+
+  h1 {
+    font-size: 36px;
+    font-weight: 800;
+    line-height: 1.15;
+    letter-spacing: -0.03em;
+    color: #ededed;
+    margin-bottom: 32px;
+  }
+
+  .divider {
+    border: none;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    margin-bottom: 40px;
+  }
+
+  .content h2 {
+    font-size: 20px;
+    font-weight: 700;
+    color: #ededed;
+    letter-spacing: -0.02em;
+    margin: 40px 0 12px;
+  }
+
+  .content p {
+    font-size: 15px;
+    color: #a1a1a8;
+    line-height: 1.8;
+    margin-bottom: 20px;
+  }
+
+  .content p strong {
+    color: #ededed;
+    font-weight: 600;
+  }
+
+  .content ul, .content ol {
+    font-size: 15px;
+    color: #a1a1a8;
+    line-height: 1.8;
+    margin: 0 0 20px 20px;
+  }
+
+  .content li { margin-bottom: 6px; }
+
+  .content code {
+    font-family: 'SF Mono', 'Fira Code', 'Fira Mono', monospace;
+    font-size: 13px;
+    background: rgba(255,255,255,0.06);
+    color: #ededed;
+    padding: 2px 6px;
+    border-radius: 4px;
+  }
+
+  .content pre {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 10px;
+    padding: 20px 24px;
+    overflow-x: auto;
+    margin: 24px 0;
+  }
+
+  .content pre code {
+    background: none;
+    padding: 0;
+    font-size: 13px;
+    color: #ededed;
+    line-height: 1.7;
+  }
+
+  .formula {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 8px;
+    padding: 14px 20px;
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: 14px;
+    color: #ededed;
+    margin: 20px 0;
+    text-align: center;
+    letter-spacing: 0.01em;
+  }
+
+  .tag {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    color: #a1a1a8;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+    padding: 3px 10px;
+    border-radius: 999px;
+    margin-right: 6px;
+  }
+
+  .tags { margin-bottom: 32px; }
+
+  @media (max-width: 600px) {
+    h1 { font-size: 26px; }
+    .container { padding: 40px 20px 80px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <a href="../index.html" class="back">
+    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8">
+      <path d="M10 12L6 8l4-4" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    Back
+  </a>
+
+  <div class="meta">
+    <span>Jun 26, 2024</span>
+    <span>7 min read</span>
+  </div>
+
+  <h1>How swap fees work in UniswapV3</h1>
+
+  <div class="tags">
+    <span class="tag">Solidity</span>
+    <span class="tag">DeFi</span>
+    <span class="tag">Uniswap</span>
+    <span class="tag">EVM</span>
+  </div>
+
+  <hr class="divider">
+
+  <img src="images/uniswapv3-header.webp" alt="How swap fees work in UniswapV3" style="width:100%;border-radius:12px;margin-bottom:40px;border:1px solid rgba(255,255,255,0.08);">
+
+  <div class="content">
+
+    <p>If you are in the web3 space, you often find yourself paying fees for transactions you have requested, but rarely do you consider the process happening behind the scenes. Whether you are a newbie web3 or blockchain developer looking to understand the fee architecture, or simply someone interested in learning more, you are in the right place. So buckle up and enjoy the show 🙂</p>
+
+    <p>This year, I analyzed the fee architecture of several web3 platforms and decided to focus on Uniswap. In Uniswap V3, unlike Uniswap V2, liquidity can be added within a specific price range. These price ranges in Uniswap V3 are known as ticks.</p>
+
+    <p>While I won't dive into the details of ticks or the equations that relate ticks to other parameters (we'll just have a brief explanation further) it's important to understand that when adding liquidity, we can define specific boundaries. When the price reaches these boundaries, the protocol can use our liquidity to perform a swap. Consequently, even though we add our assets to a specific range, fees only accrue to us when the price is within our predefined liquidity range.</p>
+
+    <p>Let me illustrate what I mean; the concepts I've described are visualized below:</p>
+
+    <img src="images/uniswapv3-ticks.webp" alt="Uniswap V3 ticks and liquidity ranges" style="width:100%;border-radius:10px;margin:8px 0 24px;border:1px solid rgba(255,255,255,0.08);">
+
+    <p>When a swap is executed in Uniswap V3, the swap's fees are collected when the price enters a specific range associated with that swap.</p>
+
+    <p>Since smart contracts cannot handle synchronous tasks automatically, our fee monitoring process relies on some global variables within Uniswap.</p>
+
+    <p>Let's explore how these fees are calculated given the constraints imposed on us by the Ethereum Virtual Machine (EVM).</p>
+
+    <p>In Uniswap V3, each token pair is known as a pool. Each pool has two significant state variables that track fees: <code>feeGrowthGlobal0X128</code> and <code>feeGrowthGlobal1X128</code>.</p>
+
+    <p>These two variables track the total accumulated fees per unit of liquidity. The first variable is associated with token X, and the second is associated with token Y in the tokenX/tokenY pair.</p>
+
+    <p>In fact, the fees associated with a specific range are calculated based on these two parameters.</p>
+
+    <p>When a swap is performed and the price increases or decreases, the price will change (as expected), and <code>feeGrowthGlobal0X128</code> and <code>feeGrowthGlobal1X128</code> will also change during the swap process.</p>
+
+    <p>I want to go ahead with a scenario in which you want to swap in a specific price range and explain step-by-step operations that will be accomplished during this process focusing on fees.</p>
+
+    <p>The fee system of UniswapV3 is a kinda incentive base, which means that how much you add more liquidity to a specific position (each position has unique price level boundaries) you will be eligible for more fees when you want to collect it (We will discuss the collect function in each pool later).</p>
+
+    <p>This is why we tell this feeGrowth, this growth depends on the time that you add liquidity to that position.</p>
+
+    <p>NOTE that the feeGrowth values are not the amount of tokens that a liquidity provider will obtain after collecting his own fee, imagine this value as the fee amount weight that a LP will eligible to collect that. they will multiply to liquidity amount that you'll see it later in this essay.</p>
+
+    <p>BTW, for effecting the fee values related to that position, we should first know how the position's feeGrowthInside will calculate. For better understanding let's refer to our last diagram again.</p>
+
+    <img src="images/uniswapv3-feegrowth.webp" alt="feeGrowthInside calculation diagram" style="width:100%;border-radius:10px;margin:8px 0 24px;border:1px solid rgba(255,255,255,0.08);">
+
+    <p>In this diagram, I bring the assumed fee growth line to indicate the feeGrowth concept (Note that the height of this growth line isn't measurable based on the liquidity height, as they're unrelated. I just visualized some assumed lines).</p>
+
+    <p>the darker-green areas in the engaged section (the position price level boundaries) are known as feeGrowthInside and the red areas are known as feeGrowthAbove and below.</p>
+
+    <p>while this swap is accomplished, the position and tick should be updated, so what does that mean and how does this happen?</p>
+
+    <p>Let's recap with a definition of these two concepts:</p>
+
+    <p>A position is a mapping inside each pool that maps a bytes32 value (constructed based on the owner's address of that position and the price level boundaries related to that position, Aka the upperTick and lowerTick) to a struct containing the position's information.</p>
+
+    <p>The position info records several parameters, such as liquidity, feeGrowthInside for both tokenX and tokenY, and the amounts of tokens owed to the LPs, aka tokenOwed0 and tokenOwed1.</p>
+
+    <p>A Tick refers to a specific price point within a pool and each tick represents a discrete shift in the price ratio of the trading pair.</p>
+
+    <p>Now, when a swap occurs, the first thing that happens is the update of feeGrowthInside (which we discussed earlier). This update is done using the <code>tick.getFeeGrowthInside</code> function from the Tick library. This function calculates the feeGrowthInside, similar to the diagram we looked at earlier. The feeGrowthInside is determined based on two parameters: feeGrowthGlobal, feeGrowthBelow, and feeGrowthAbove, like this:</p>
+
+    <img src="images/uniswapv3-formula.png" alt="feeGrowthInside formula" style="width:100%;border-radius:10px;margin:8px 0 24px;border:1px solid rgba(255,255,255,0.08);filter:invert(1);">
+
+    <p>feeGrowthBelow is related to the ranges below the lowerTick, and feeGrowthAbove is related to the ranges above the upperTick.</p>
+
+    <p>After calculating feeGrowthInside using the above equation, we update the data related to the position where the swap occurred. We do this using the <code>position.update</code> function, passing in the feeGrowthInside amounts we calculated earlier as inputs.</p>
+
+    <p>ultimately, in this function, we'll calculate the amount of fee that this position owes to its liquidity providers. this amount will be calculated based on this equation:</p>
+
+    <img src="images/uniswapv3-feeowed.png" alt="feeOwed formula" style="width:100%;border-radius:10px;margin:8px 0 24px;border:1px solid rgba(255,255,255,0.08);filter:invert(1);">
+
+
+    <p>This is why we said the fee owed per unit of liquidity. That number associated with the fee is not the actual fee amount. Instead, it's a unit of liquidity that will ultimately be multiplied by the amount of liquidity. In the end, this calculated feeOwed will be added to the total fee owed by the position, and the feeGrowthInside will be updated to feeGrowthInsideLast, becoming the "last" value for the next swap.</p>
+
+    <p>Another question that might arise is: why do we divide by 2¹²⁸? The answer is kinda obvs, Uniswap V3 uses fixed-point arithmetic to handle large numbers with high precision, storing these numbers with 128 bits of precision. This approach provides a large scale of precision for each number, ensuring the accuracy of calculations. At the end, we divide by 2¹²⁸ to convert these high-precision values back to a regular integer representation i.e. the amount of fee owed by the position in this scenario.</p>
+
+    <hr class="divider" style="margin:40px 0;">
+
+    <p>Now let's imagine you're one of those liquidity providers that provided liquidity on that position in which that swap occurs and now you want to collect your share from the fee accumulated during this swap.</p>
+
+    <p>So in this scenario, UniswapV3 provides collect function for you.</p>
+
+    <p>This is the actual function code base:</p>
+
+<pre><code>function collect(
+    address recipient,
+    int24 tickLower,
+    int24 tickUpper,
+    uint128 amount0Requested,
+    uint128 amount1Requested
+) external override lock returns (uint128 amount0, uint128 amount1) {
+    Position.Info storage position = positions.get(msg.sender, tickLower, tickUpper);
+
+    amount0 = amount0Requested > position.tokensOwed0 ? position.tokensOwed0 : amount0Requested;
+    amount1 = amount1Requested > position.tokensOwed1 ? position.tokensOwed1 : amount1Requested;
+
+    if (amount0 > 0) {
+        position.tokensOwed0 -= amount0;
+        TransferHelper.safeTransfer(token0, recipient, amount0);
+    }
+    if (amount1 > 0) {
+        position.tokensOwed1 -= amount1;
+        TransferHelper.safeTransfer(token1, recipient, amount1);
+    }
+
+    emit Collect(msg.sender, recipient, tickLower, tickUpper, amount0, amount1);
+}</code></pre>
+
+    <p>this is it, this ordinary function is the saver of the whole protocol at the end. Liquidity providers ultimately could call this function to withdraw their own reward; as you can see we will extract the LP's individual position and get the owed amount that we calculated earlier to transfer it to that LP guy.</p>
+
+    <p>While reading this article, you might wonder, "How does the protocol itself make money?" Well, in Uniswap V3, there's a mechanism for that called the Protocol Fee.</p>
+
+    <p>Protocol fees come from a small portion of swap fees that are set aside and saved as protocol fees. These are later collected by the Factory contract owner, which in this case is Uniswap V3.</p>
+
+    <p>This mechanism is built into the UniswapV3Pool contract. In the main struct of this contract, called Slot0, there's a variable named <code>feeProtocol</code> that determines how much the protocol takes from swap fees (actually it's a denominator of fees). Additionally, there's another struct called <code>ProtocolFees</code>, which keeps track of the accumulated protocol fees for the tokenX/tokenY pair.</p>
+
+    <p>These amounts increase within the swap function (I won't dive into this part because it's a huge function beyond the scope of this article).</p>
+
+    <p>In one section of the swap function, we decrease the (feeAmount/protocolFee) from the calculated feeAmount and then add it to the protocolFee values.</p>
+
+    <p>In the end, the factory owner (Uniswap V3) can call a function called <code>collectProtocol</code> to withdraw their portion of the protocol fee.</p>
+
+    <p>They might use it to buy a Gucci watch for their girlfriend, only to have her leave them in the end with that portion of the fee. So, we and the factory owner can cry together at the end of the story.</p>
+
+    <p>Yes, all these implementations and engineering efforts for the protocol ultimately boil down to buying some luxury items for a traitorous gf :)</p>
+
+    <hr class="divider" style="margin:40px 0;">
+
+    <p>In conclusion, the sophisticated fee system and architecture of Uniswap V3 demonstrate the innovative approach taken to ensure the protocol's sustainability and growth. By efficiently collecting and distributing fees, Uniswap V3 not only rewards liquidity providers but also maintains a robust mechanism for protocol earnings. This detailed and well-thought-out system underscores the complexity and ingenuity behind decentralized finance.</p>
+
+  </div>
+
+</div>
+</body>
+</html>

@@ -13,7 +13,7 @@
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
   body {
-    background: #0f0f10;
+    background: hsl(210, 11.1%, 3.53%);
     color: #ededed;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     -webkit-font-smoothing: antialiased;
@@ -45,7 +45,7 @@
 <script type="text/babel">
 
 const C = {
-  bg: '#0f0f10',
+  bg: 'hsl(210,11.1%,3.53%)',
   bgAlt: '#1a1a1c',
   card: 'rgba(255,255,255,0.03)',
   cardHover: 'rgba(255,255,255,0.06)',
@@ -69,6 +69,7 @@ const Nav = () => {
     { type:'link', href:'#about',   icon:'fa-solid fa-user',        label:'About' },
     { type:'link', href:'#work',    icon:'fa-solid fa-briefcase',   label:'Work' },
     { type:'link', href:'#projects',icon:'fa-solid fa-rocket',      label:'Projects' },
+    { type:'link', href:'/posts',   icon:'fa-solid fa-feather-pointed',label:'Blog' },
     { type:'link', href:'#contact', icon:'fa-solid fa-envelope',    label:'Contact' },
     { type:'divider' },
     { type:'link', href:'https://github.com/ParsaAminpour', icon:'fa-brands fa-github',    label:'GitHub', external:true },
@@ -159,18 +160,18 @@ const DockItem = ({item, navRef, mouseX}) => {
 
 /* ─────────────────── HERO ─────────────────── */
 const Hero = () => (
-  <section id="top" className="fade-up" style={{maxWidth:MAX, margin:'0 auto', ...padX, paddingTop:'96px', paddingBottom:'72px', animationDelay:'0ms'}}>
+  <section id="top" className="fade-up" style={{maxWidth:MAX, margin:'0 auto', ...padX, paddingTop:'80px', paddingBottom:'32px', animationDelay:'0ms'}}>
     <div style={{display:'flex', alignItems:'center', justifyContent:'space-between', gap:'32px', flexWrap:'wrap'}}>
       <div style={{flex:'1 1 60%', minWidth:'280px'}}>
-        <h1 style={{fontSize:'40px', fontWeight:700, lineHeight:1.15, letterSpacing:'-0.025em', marginBottom:'20px', color:C.ink}}>
+        <h1 style={{fontSize:'48px', fontWeight:800, lineHeight:1.1, letterSpacing:'-0.04em', marginBottom:'16px', color:C.ink}}>
           Hi, I'm Parsa <span style={{display:'inline-block', transformOrigin:'70% 70%', animation:'wave 2.5s ease-in-out infinite', animationDelay:'1s'}}>👋</span>
         </h1>
-        <p style={{fontSize:'19px', color:C.inkMute, lineHeight:1.55, fontWeight:400}}>
+        <p style={{fontSize:'16px', color:C.inkMute, lineHeight:1.6, fontWeight:400, maxWidth:'480px'}}>
           Blockchain &amp; backend engineer. I love building serious infrastructure — not demos.
         </p>
       </div>
       <img src="/images/avatar.jpg" alt="Parsa Amini" style={{
-        width:'112px', height:'112px', borderRadius:'50%',
+        width:'104px', height:'104px', borderRadius:'50%',
         objectFit:'cover', flexShrink:0,
       }} />
     </div>
@@ -185,7 +186,7 @@ const H2 = ({children}) => (
 );
 
 const Section = ({id, children, style, delay=0}) => (
-  <section id={id} className="fade-up" style={{maxWidth:MAX, margin:'0 auto', ...padX, paddingTop:'48px', paddingBottom:'48px', animationDelay:`${delay}ms`, ...style}}>
+  <section id={id} className="fade-up" style={{maxWidth:MAX, margin:'0 auto', ...padX, paddingTop:'24px', paddingBottom:'24px', animationDelay:`${delay}ms`, ...style}}>
     {children}
   </section>
 );
@@ -193,9 +194,9 @@ const Section = ({id, children, style, delay=0}) => (
 /* ─────────────────── ABOUT ─────────────────── */
 const About = () => (
   <Section id="about" delay={80}>
-    <H2>About</H2>
-    <p style={pStyle}>
-      I started writing code seriously around 6 years ago, and within a year I was deep into smart contracts on Ethereum. Not gonna lie — my first Solidity contracts were rough, but I was hooked. Now, with 4 years in web3 and 2 years building backend systems, I've shipped protocols, run audits, and engineered exchange infrastructure end-to-end. I work primarily in <strong>Go</strong>, <strong>Solidity</strong>, and <strong>Rust</strong>. Currently I'm building <a href="#projects" style={inlineLink}>Coinhub</a>, a CEX from scratch, and <a href="#projects" style={inlineLink}>Axon</a>, an AI agent with an integrated crypto wallet.
+    <h2 style={{fontSize:'20px', fontWeight:700, color:C.ink, letterSpacing:'-0.015em', marginBottom:'10px'}}>About</h2>
+    <p style={{fontSize:'14px', color:C.inkMute, lineHeight:1.75, fontWeight:400}}>
+      I started writing code seriously around 6 years ago, and within a year I was deep into smart contracts on Ethereum. Not gonna lie — my first Solidity contracts were rough, but I was hooked. Now, with 4 years in web3 and 2 years building backend systems, I've shipped protocols, run audits, and engineered exchange infrastructure end-to-end. I work primarily in <strong style={{color:C.ink, fontWeight:500}}>Go</strong>, <strong style={{color:C.ink, fontWeight:500}}>Solidity</strong>, and <strong style={{color:C.ink, fontWeight:500}}>Rust</strong>. Currently I'm building <a href="#projects" style={inlineLink}>Coinhub</a>, a CEX from scratch, and <a href="#projects" style={inlineLink}>Axon</a>, an AI agent with an integrated crypto wallet.
     </p>
   </Section>
 );
@@ -217,6 +218,9 @@ const experience = [
   { logo:'/images/logo-allinhype.png', cover:true, name:'AllinHype', dates:'2022 - 2023', role:'Software & Blockchain Engineer',
     desc:'Backend systems and blockchain integration across the full stack. Designed REST/gRPC APIs in Go, wrote indexers for EVM chains, and ran the on-chain integration layer.',
     url:'https://allinhype.com' },
+  { logo:'https://play-lh.googleusercontent.com/ncjzuRVtEV8NNrsUrS3zP3lxrTudcDOmxVWnu5exPg4AhqzLeVgFo0AXufAUS1w9TQ8=w240-h480', cover:true, name:'8BallMagic', dates:'2024', role:'Web3 Developer',
+    desc:'Sole blockchain engineer on a Solana-native gaming protocol. Designed and implemented the game\'s SPL token from the ground up, then built the full staking program — emission schedule, lock-up mechanics, and on-chain reward distribution. Owned the entire smart contract surface end-to-end: architecture, implementation, and mainnet deployment.',
+    url:'https://8ballmagic.io' },
 ];
 
 const Work = () => (
@@ -284,9 +288,12 @@ const skills = [
   { name: 'Docker',      note: '' },
   { name: 'Kubernetes',  note: 'When Vercel isn\'t cutting it' },
   { name: 'gRPC',        note: '' },
-  { name: 'RabbitMQ',    note: '' },
-  { name: 'TypeScript',  note: 'Type safety is a must' },
-  { name: 'NestJS',      note: 'When the team needs structure' },
+  { name: 'RabbitMQ',       note: '' },
+  { name: 'TypeScript',     note: 'Type safety is a must' },
+  { name: 'NestJS',         note: 'When the team needs structure' },
+  { name: 'Python',         note: 'Data stuff' },
+  { name: 'Certora',        note: 'Formal verification' },
+  { name: 'EigenLayer AVSs',note: 'Make the hacking painful' },
 ];
 
 const Skills = () => (
@@ -303,15 +310,15 @@ const SkillChip = ({s}) => {
   return (
     <div onMouseEnter={()=>setH(true)} onMouseLeave={()=>setH(false)}
       style={{
-        display:'inline-flex', alignItems:'baseline', gap:'8px',
-        padding:'8px 14px', borderRadius:'10px',
+        display:'inline-flex', alignItems:'baseline', gap:'6px',
+        padding:'5px 10px', borderRadius:'8px',
         background: h ? 'rgba(255,255,255,0.06)' : 'rgba(255,255,255,0.03)',
         border:`1px solid ${h?'rgba(255,255,255,0.18)':'rgba(255,255,255,0.08)'}`,
         transition:'all 0.18s ease',
         cursor:'default',
       }}>
-      <span style={{fontSize:'14px', color:C.ink, fontWeight:600}}>{s.name}</span>
-      {s.note && <span style={{fontSize:'12px', color:C.inkMute}}>{s.note}</span>}
+      <span style={{fontSize:'12px', color:C.ink, fontWeight:600}}>{s.name}</span>
+      {s.note && <span style={{fontSize:'11px', color:C.inkMute}}>{s.note}</span>}
     </div>
   );
 };
@@ -429,6 +436,7 @@ const OpenSource = () => (
 
 /* ─────────────────── WRITING ─────────────────── */
 const posts = [
+  {title:'How swap fees work in UniswapV3', date:'Jun 2024', read:'7 min', url:'blog/uniswapv3-swap-fees.html'},
   {title:'Building a CEX order matching engine in Go', date:'Nov 2025', read:'12 min'},
   {title:'Protocol architecture for cross-chain DeFi',  date:'Sep 2025', read:'9 min'},
   {title:'Rust vs Go for high-throughput infrastructure', date:'Jul 2025', read:'7 min'},
@@ -451,7 +459,7 @@ const Writing = () => (
 const PostRow = ({p}) => {
   const [h, setH] = React.useState(false);
   return (
-    <a href="#" onMouseEnter={()=>setH(true)} onMouseLeave={()=>setH(false)}
+    <a href={p.url || '#'} onMouseEnter={()=>setH(true)} onMouseLeave={()=>setH(false)}
       style={{
         display:'flex', justifyContent:'space-between', alignItems:'baseline',
         padding:'16px 4px', borderBottom:`1px solid ${C.border}`,
@@ -508,7 +516,7 @@ const FootLink = ({href, children}) => {
 
 /* ─────────────────── TWEAKS ─────────────────── */
 const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
-  "bg": "#0f0f10"
+  "bg": "hsl(210,11.1%,3.53%)"
 }/*EDITMODE-END*/;
 
 const TweaksPanel = ({visible, tweaks, setTweaks}) => {
