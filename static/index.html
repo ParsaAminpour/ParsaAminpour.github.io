@@ -41,12 +41,14 @@
 
   /* ── Hero poster — layered aurora + dot grid + grain ── */
   .hero-poster {
-    position: absolute;
+    position: fixed;
     top: 0; left: 0; right: 0;
     height: 720px;
     pointer-events: none;
     z-index: 0;
     overflow: hidden;
+    transform: translate3d(0, var(--poster-shift, 0px), 0);
+    will-change: transform;
     -webkit-mask-image: linear-gradient(to bottom,
       rgba(0,0,0,1) 0%,
       rgba(0,0,0,0.95) 40%,
@@ -86,10 +88,55 @@
     mix-blend-mode: overlay;
     pointer-events: none;
   }
+  .hero-spotlight {
+    position: absolute; inset: 0;
+    background: radial-gradient(
+      400px 280px at var(--mx, 50%) var(--my, 30%),
+      rgba(255,210,160,0.18) 0%,
+      rgba(255,210,160,0.08) 35%,
+      transparent 70%);
+    mix-blend-mode: screen;
+    pointer-events: none;
+  }
+  .hero-vignette {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 90% 70% at 50% 35%,
+      transparent 40%, rgba(0,0,0,0.45) 100%);
+    pointer-events: none;
+  }
+  .hero-horizon {
+    position: absolute;
+    left: 8%; right: 8%;
+    bottom: 80px;
+    height: 1px;
+    background: linear-gradient(to right,
+      transparent 0%,
+      rgba(255,255,255,0.20) 35%,
+      rgba(244,166,65,0.32) 50%,
+      rgba(255,255,255,0.20) 65%,
+      transparent 100%);
+    pointer-events: none;
+    opacity: 0.85;
+  }
+  .hero-horizon::after {
+    content: '';
+    position: absolute;
+    left: 50%; top: 50%;
+    width: 5px; height: 5px;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background: rgba(244,166,65,0.8);
+    box-shadow: 0 0 12px rgba(244,166,65,0.6);
+    animation: pulse 3s ease-in-out infinite;
+  }
   @keyframes aurora {
     0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
     33%      { transform: translate3d(-2%, 1%, 0) scale(1.04); }
     66%      { transform: translate3d(2%, -1%, 0) scale(0.98); }
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(0.9); }
+    50%      { opacity: 1;   transform: translate(-50%, -50%) scale(1.15); }
   }
 
   @media (max-width: 500px) {
@@ -659,10 +706,52 @@ const App = () => {
   React.useEffect(()=>{
     document.body.style.background = tweaks.bg;
   }, []);
+  React.useEffect(() => {
+    const poster = document.querySelector('.hero-poster');
+    const spot   = document.querySelector('.hero-spotlight');
+    if (!poster || !spot) return;
+
+    let mx = 50, my = 30, tx = 50, ty = 30;
+    let rafId = null;
+
+    const onMove = (e) => {
+      const r = poster.getBoundingClientRect();
+      tx = ((e.clientX - r.left) / r.width)  * 100;
+      ty = ((e.clientY - r.top)  / r.height) * 100;
+      if (!rafId) rafId = requestAnimationFrame(loop);
+    };
+    const loop = () => {
+      mx += (tx - mx) * 0.15;
+      my += (ty - my) * 0.15;
+      spot.style.setProperty('--mx', mx + '%');
+      spot.style.setProperty('--my', my + '%');
+      if (Math.abs(tx - mx) > 0.1 || Math.abs(ty - my) > 0.1) {
+        rafId = requestAnimationFrame(loop);
+      } else {
+        rafId = null;
+      }
+    };
+    const onScroll = () => {
+      const shift = Math.min(window.scrollY * 0.35, 260);
+      poster.style.setProperty('--poster-shift', `-${shift}px`);
+    };
+
+    window.addEventListener('mousemove', onMove);
+    window.addEventListener('scroll', onScroll, {passive:true});
+    onScroll();
+    return () => {
+      window.removeEventListener('mousemove', onMove);
+      window.removeEventListener('scroll', onScroll);
+      if (rafId) cancelAnimationFrame(rafId);
+    };
+  }, []);
   return (
     <>
       <div className="hero-poster">
+        <div className="hero-spotlight"></div>
+        <div className="hero-vignette"></div>
         <div className="hero-grain"></div>
+        <div className="hero-horizon"></div>
       </div>
       <Nav />
       <Hero />
