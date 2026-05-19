@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LayerZero V2: The DVN Model from a Solidity Engineer's Lens — Parsa Amini</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: hsl(210, 11.1%, 3.53%);
+    color: #ededed;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+  }
+  a { color: inherit; text-decoration: none; }
+  ::selection { background: #ededed; color: hsl(210,11.1%,3.53%); }
+  ::-webkit-scrollbar { width: 8px; }
+  ::-webkit-scrollbar-track { background: hsl(210,11.1%,3.53%); }
+  ::-webkit-scrollbar-thumb { background: #d0c7b8; border-radius: 4px; }
+
+  .container {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 64px 24px 120px;
+  }
+
+  .back {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: #a1a1a8;
+    font-weight: 500;
+    margin-bottom: 28px;
+    transition: color 0.15s;
+  }
+  .back:hover { color: #ededed; }
+  .back svg { width: 14px; height: 14px; }
+
+  .meta {
+    font-size: 13px;
+    color: #6b6b75;
+    margin-bottom: 16px;
+    display: flex;
+    gap: 12px;
+  }
+  .meta span::after { content: '·'; margin-left: 12px; }
+  .meta span:last-child::after { content: ''; }
+
+  h1 {
+    font-size: 36px;
+    font-weight: 800;
+    line-height: 1.15;
+    letter-spacing: -0.03em;
+    color: #ededed;
+    margin-bottom: 20px;
+  }
+
+  .divider {
+    border: none;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    margin-bottom: 24px;
+  }
+
+  .content h2 {
+    font-size: 20px;
+    font-weight: 700;
+    color: #ededed;
+    letter-spacing: -0.02em;
+    margin: 28px 0 8px;
+  }
+
+  .content p {
+    font-size: 15px;
+    color: #a1a1a8;
+    line-height: 1.75;
+    margin-bottom: 14px;
+  }
+
+  .content p strong { color: #ededed; font-weight: 600; }
+
+  .content ul, .content ol {
+    font-size: 15px;
+    color: #a1a1a8;
+    line-height: 1.75;
+    margin: 0 0 14px 20px;
+  }
+
+  .content li { margin-bottom: 6px; }
+
+  .content code {
+    font-family: 'SF Mono', 'Fira Code', 'Fira Mono', monospace;
+    font-size: 13px;
+    background: rgba(255,255,255,0.06);
+    color: #ededed;
+    padding: 2px 6px;
+    border-radius: 4px;
+  }
+
+  .content pre {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 10px;
+    padding: 20px 24px;
+    overflow-x: auto;
+    margin: 20px 0;
+  }
+
+  .content pre code {
+    background: none;
+    padding: 0;
+    font-size: 13px;
+    color: #ededed;
+    line-height: 1.7;
+  }
+
+  .tag {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    color: #a1a1a8;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+    padding: 3px 10px;
+    border-radius: 999px;
+    margin-right: 6px;
+  }
+
+  .tags { margin-bottom: 32px; }
+
+  @media (max-width: 600px) {
+    h1 { font-size: 26px; }
+    .container { padding: 40px 20px 80px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <a href="../index.html" class="back">
+    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8">
+      <path d="M10 12L6 8l4-4" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    Back
+  </a>
+
+  <div class="meta">
+    <span>2025</span>
+    <span>10 min read</span>
+  </div>
+
+  <h1>LayerZero V2: The DVN Model from a Solidity Engineer's Lens</h1>
+
+  <div class="tags">
+    <span class="tag">LayerZero</span>
+    <span class="tag">Cross-chain</span>
+    <span class="tag">Solidity</span>
+    <span class="tag">DVN</span>
+  </div>
+
+
+
+  <div style="position:relative;margin-bottom:40px;">
+    <img src="images/layerzero-header.png" alt="LayerZero V2 DVN Model" style="width:100%;display:block;border-radius:12px;">
+    <div style="position:absolute;left:0;right:0;top:0;bottom:-2px;background:linear-gradient(to bottom, transparent 40%, hsl(210,11.1%,3.53%) 100%);"></div>
+  </div>
+
+  <div class="content">
+
+    <p>Cross-chain messaging has gone through several generations of design. The first generation relied on trusted relayers and multisig bridges — simple to build, dangerous to use. The second leaned into optimistic or ZK fraud proofs. LayerZero V2 takes a different path: it decouples the verification layer entirely and lets applications choose their own security model through Decentralized Verifier Networks, or DVNs.</p>
+
+    <p>This article looks at how the DVN model works at the contract level — what a Solidity engineer actually needs to understand when building on or integrating with LayerZero V2.</p>
+
+    <h2>The problem V2 is solving</h2>
+
+    <p>In LayerZero V1, every cross-chain message was verified by two parties: an Oracle and a Relayer. The Oracle delivered the block header, the Relayer delivered the transaction proof, and the endpoint checked they matched. It worked, but the trust model was fixed — you always trusted exactly those two roles, and the protocol defined how they interacted.</p>
+
+    <p>V2 replaces this with a configurable stack. Instead of a hardcoded two-party check, each <code>OApp</code> (Omnichain Application) selects a set of DVNs it trusts to verify messages. The endpoint enforces that the required DVNs have signed off before delivering any message. The application decides the quorum, the DVN set, and the security threshold.</p>
+
+    <h2>The endpoint and message flow</h2>
+
+    <p>Every LayerZero V2 message passes through the <strong>Endpoint</strong> contract on both the source and destination chain. The source-side flow looks like this:</p>
+
+    <ul>
+      <li>Your <code>OApp</code> calls <code>_lzSend()</code>, which encodes the message into a <code>Packet</code> struct</li>
+      <li>The Endpoint emits a <code>PacketSent</code> event with the encoded payload</li>
+      <li>Off-chain DVNs listen for this event, independently verify the source transaction, and call <code>verify()</code> on the destination Endpoint</li>
+      <li>Once the required DVN threshold is met, an Executor calls <code>commitVerification()</code> and then <code>lzReceive()</code> on the destination <code>OApp</code></li>
+    </ul>
+
+    <p>Crucially, no single party can forge a message delivery. The Executor can only call <code>lzReceive()</code> after verification is committed, and verification only commits once the required DVN signatures are on-chain.</p>
+
+    <h2>What a DVN actually does</h2>
+
+    <p>A DVN is any entity — a single node, a threshold committee, a ZK proof system, a decentralized oracle network — that implements the <code>IDVN</code> interface and can call <code>verify()</code> on the Endpoint. That's the whole interface requirement from LayerZero's perspective.</p>
+
+    <p>In practice, a DVN watches source chain events, validates that a <code>PacketSent</code> event is genuinely included in a finalized block, and then submits that attestation on the destination chain. How it does the verification internally is entirely up to the DVN — it can use a light client, a committee of signers, a ZK proof, or any other mechanism.</p>
+
+    <p>This is the key architectural insight of V2: <strong>LayerZero defines the interface for plugging in verifiers, not the verification logic itself.</strong></p>
+
+    <h2>OApp configuration from a Solidity perspective</h2>
+
+    <p>When you build an OApp, you inherit from LayerZero's <code>OApp</code> base contract and configure your security stack via the Endpoint's <code>setConfig()</code> function. The config specifies, per destination chain:</p>
+
+    <ul>
+      <li>Which DVNs are <strong>required</strong> (all must verify)</li>
+      <li>Which DVNs are <strong>optional</strong> (a threshold N-of-M must verify)</li>
+      <li>The <strong>Executor</strong> responsible for calling <code>lzReceive()</code></li>
+      <li>Block confirmation requirements on the source chain</li>
+    </ul>
+
+    <p>This config is stored in the Endpoint and enforced at the protocol level. Your OApp doesn't need to re-implement any of this logic — it just needs to trust that <code>lzReceive()</code> will only be called after the configured security threshold is met.</p>
+
+    <h2>The receive path and reentrancy considerations</h2>
+
+    <p>The destination-side entry point for your OApp is <code>_lzReceive()</code>, which you override to handle incoming messages:</p>
+
+<pre><code>function _lzReceive(
+    Origin calldata _origin,
+    bytes32 _guid,
+    bytes calldata _message,
+    address _executor,
+    bytes calldata _extraData
+) internal override {
+    // decode and handle _message
+}</code></pre>
+
+    <p>The <code>Origin</code> struct contains the source endpoint ID, the sender's bytes32-encoded address, and the nonce. Always validate <code>_origin.srcEid</code> and <code>_origin.sender</code> inside <code>_lzReceive()</code> — the Endpoint guarantees delivery integrity, but your business logic should still verify that the message came from the expected peer OApp on the expected chain.</p>
+
+    <p>The Endpoint calls <code>lzReceive()</code> with a specific gas limit passed by the Executor. If your handler reverts, the message is marked as failed and can be retried via <code>retryMessage()</code>. Design your receive logic to be idempotent where possible, and guard against reentrancy if you're making external calls inside the handler.</p>
+
+    <h2>What this means for security audits</h2>
+
+    <p>When auditing an OApp, the DVN configuration is as important as the contract logic itself. A well-written OApp with a weak DVN set — say, a single centralized DVN — offers far weaker guarantees than the code might suggest. Auditors should check:</p>
+
+    <ul>
+      <li>Whether the DVN config can be changed by an owner without a timelock</li>
+      <li>Whether the required DVN set is sufficiently decentralized for the value at risk</li>
+      <li>Whether the <code>_lzReceive()</code> handler validates peer addresses before executing state changes</li>
+      <li>Whether the message nonce is being used to prevent replay across chains</li>
+    </ul>
+
+    <h2>Closing thoughts</h2>
+
+    <p>LayerZero V2's DVN model is an honest acknowledgment that there is no universally correct cross-chain security model. Different applications have different threat models, different budgets, and different latency requirements. By making the verification layer modular and configurable at the application layer, V2 gives Solidity engineers real control over the trust assumptions their protocol makes — and real responsibility for getting that configuration right.</p>
+
+    <p>The protocol does its job: it enforces the rules. What goes into those rules is up to you.</p>
+
+  </div>
+
+</div>
+</body>
+</html>
