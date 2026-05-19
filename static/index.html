@@ -290,7 +290,7 @@ const Hero = () => (
 
 /* ─────────────────── SECTION HEADING ─────────────────── */
 const H2 = ({children}) => (
-  <h2 style={{fontSize:'30px', fontWeight:700, color:C.ink, letterSpacing:'-0.02em', marginBottom:'24px', lineHeight:1.2}}>
+  <h2 style={{fontSize:'30px', fontWeight:700, color:C.ink, letterSpacing:'-0.02em', marginBottom:'12px', lineHeight:1.2}}>
     {children}
   </h2>
 );
@@ -306,7 +306,7 @@ const About = () => (
   <Section id="about" delay={80}>
     <h2 style={{fontSize:'20px', fontWeight:700, color:C.ink, letterSpacing:'-0.015em', marginBottom:'10px'}}>About</h2>
     <p style={{fontSize:'14px', color:C.inkMute, lineHeight:1.75, fontWeight:400}}>
-      I started writing code seriously around 6 years ago, and within a year I was deep into smart contracts on Ethereum. Not gonna lie — my first Solidity contracts were rough, but I was hooked. Now, with 4 years in web3 and 2 years building backend systems, I've shipped protocols, run audits, and engineered exchange infrastructure end-to-end. I work primarily in <strong style={{color:C.ink, fontWeight:500}}>Go</strong>, <strong style={{color:C.ink, fontWeight:500}}>Solidity</strong>, and <strong style={{color:C.ink, fontWeight:500}}>Rust</strong>. Currently I'm building <a href="#projects" style={inlineLink}>Coinhub</a>, a CEX from scratch, and <a href="#projects" style={inlineLink}>Axon</a>, an AI agent with an integrated crypto wallet.
+      I've been writing code for 6 years, starting at 15. I went through a lot of areas — backend, frontend, blockchain, embedded — which gave me a decent sense of how things connect. These days I'm focused on backend and blockchain engineering, about 4 years in. I like digging into architecture and system design more than anything else. Currently building <strong style={{color:C.ink, fontWeight:500}}>Axon</strong>, a payment service AI agent with crypto integration.
     </p>
   </Section>
 );
@@ -319,14 +319,14 @@ const experience = [
   { logo:'/images/logo-skatefi.png', cover:false, bg:'#ffffff', name:'SkateFi', dates:'2024 - 2025', role:'Smart Contract Engineer',
     desc:'Led smart contract development for the SkateFi DeFi protocol. Wrote, audited, and gas-optimized contracts shipped to mainnet. Built fuzz invariants in Foundry that caught two critical edge cases before deploy.',
     url:'https://www.skatefi.org' },
-  { logo:'/images/logo-prc.png', cover:false, bg:'#ebebeb', name:'PixelRaceClub', dates:'2024', role:'Smart Contract Engineer',
-    desc:'On-chain game mechanics and smart contract infrastructure. Designed and shipped NFT mint flow, on-chain race logic with verifiable randomness, and a deterministic prize pool distributor.',
+  { logo:'/images/logo-prc.png', cover:false, bg:'#ebebeb', name:'PixelRaceClub', dates:'2025', role:'Smart Contract Engineer',
+    desc:'Built the on-chain infrastructure for a racing game on Abstract network. Implemented account abstraction and on-chain account management, a staking system tied to game mechanics, and the NFT collections associated with the game.',
     url:'https://x.com/PixelRaceClub' },
-  { logo:'/images/logo-accelerate.png', cover:true, name:'Accelerate DeSci', dates:'2023 - 2024', role:'Blockchain Engineer',
-    desc:'Decentralized science infrastructure at the Acc Foundation. Architected and shipped on-chain primitives for research funding, contributor attribution, and grant disbursement.',
+  { logo:'/images/logo-accelerate.png', cover:true, name:'Accelerate DeSci', dates:'2024 - 2025', role:'Lead Blockchain Engineer',
+    desc:'Designed and built the full product — a DeSci launchpad running on both Solana (SVM) and Base (EVM). Responsible for the entire on-chain architecture across multiple components, with a focus on keeping the system maintainable as it grew. Spent a good chunk of time working through bonding curves and AMM mechanics to get the funding model right.',
     url:'https://acc.foundation' },
   { logo:'/images/logo-allinhype.png', cover:true, name:'AllinHype', dates:'2022 - 2023', role:'Software & Blockchain Engineer',
-    desc:'Backend systems and blockchain integration across the full stack. Designed REST/gRPC APIs in Go, wrote indexers for EVM chains, and ran the on-chain integration layer.',
+    desc:'An application layer on top of HyperLiquid — a mini app that simplified trading interactions with the protocol for regular users. I designed the system architecture and wrote the core backend in Go (Gin), with Kafka and RabbitMQ handling the messaging layer and HyperLiquid APIs wired throughout. The product didn\'t make it, but it was a solid engineering exercise.',
     url:'https://allinhype.com' },
   { logo:'https://play-lh.googleusercontent.com/ncjzuRVtEV8NNrsUrS3zP3lxrTudcDOmxVWnu5exPg4AhqzLeVgFo0AXufAUS1w9TQ8=w240-h480', cover:true, name:'8BallMagic', dates:'2024', role:'Web3 Developer',
     desc:'Sole blockchain engineer on a Solana-native gaming protocol. Designed and implemented the game\'s SPL token from the ground up, then built the full staking program — emission schedule, lock-up mechanics, and on-chain reward distribution. Owned the entire smart contract surface end-to-end: architecture, implementation, and mainnet deployment.',
@@ -348,7 +348,7 @@ const Work = () => (
 const WorkCard = ({item}) => {
   const [h, setH] = React.useState(false);
   return (
-    <a href={item.url} target="_blank" rel="noreferrer"
+    <div
       onMouseEnter={()=>setH(true)} onMouseLeave={()=>setH(false)}
       style={{
         display:'flex', gap:'16px', alignItems:'flex-start',
@@ -384,7 +384,7 @@ const WorkCard = ({item}) => {
         <div style={{fontSize:'14px', color:C.inkMute, fontWeight:500, marginBottom:'8px'}}>{item.role}</div>
         <div style={{fontSize:'14px', color:C.inkMute, lineHeight:1.6}}>{item.desc}</div>
       </div>
-    </a>
+    </div>
   );
 };
 
@@ -437,6 +437,7 @@ const SkillChip = ({s}) => {
 };
 
 /* ─────────────────── PROJECTS ─────────────────── */
+/*
 const projects = [
   {
     name:'Coinhub',
@@ -517,6 +518,7 @@ const ProjectCard = ({p}) => {
     </div>
   );
 };
+*/
 
 /* ─────────────────── OPEN SOURCE ─────────────────── */
 const repos = [
@@ -549,11 +551,11 @@ const OpenSource = () => (
 
 /* ─────────────────── WRITING ─────────────────── */
 const posts = [
-  {title:'Soft Resolution: A Prediction Market for Subjective Outcomes', date:'2025', read:'Coming soon', url:'blog/soft-resolution-prediction-market.html'},
-  {title:"I Built an Agentic Stablecoin Payment Service. Here's What Broke", date:'2025', read:'Coming soon', url:'blog/agentic-stablecoin-payment.html'},
-  {title:"LayerZero V2: The DVN Model from a Solidity Engineer's Lens", date:'2025', read:'10 min', url:'blog/layerzero-v2-dvn.html'},
-  {title:'What does "secure" mean in the context of EigenLayer AVS?', date:'2025', read:'8 min', url:'blog/eigenlayer-avs-security.html'},
-  {title:'How swap fees work in UniswapV3', date:'Jun 2024', read:'7 min', url:'blog/uniswapv3-swap-fees.html'},
+  {title:"LayerZero V2: The DVN Model from a Solidity Engineer's Lens", read:'6 min read', url:'blog/layerzero-v2-dvn.html'},
+  {title:'What does "secure" mean in the context of EigenLayer AVS?', read:'5 min read', url:'blog/eigenlayer-avs-security.html'},
+  {title:'How swap fees work in UniswapV3', read:'7 min read', url:'blog/uniswapv3-swap-fees.html'},
+  {title:'Soft Resolution: A Prediction Market for Subjective Outcomes', read:'Coming soon', url:'blog/soft-resolution-prediction-market.html'},
+  {title:"I Built an Agentic Stablecoin Payment Service. Here's What Broke", read:'Coming soon', url:'blog/agentic-stablecoin-payment.html'},
 ];
 
 const Writing = () => (
@@ -581,8 +583,8 @@ const PostRow = ({p}) => {
       <span style={{fontSize:'16px', fontWeight: h?600:500, color:C.ink, transition:'all 0.15s', flex:1}}>
         {p.title}
       </span>
-      <span style={{fontSize:'12px', color:C.inkSubtle, whiteSpace:'nowrap', display:'flex', gap:'10px'}}>
-        <span>{p.date}</span><span style={{color:C.borderStrong}}>·</span><span>{p.read}</span>
+      <span style={{fontSize:'12px', color:C.inkSubtle, whiteSpace:'nowrap'}}>
+        {p.read}
       </span>
     </a>
   );
@@ -758,7 +760,7 @@ const App = () => {
       <About />
       <Work />
       <Skills />
-      <Projects />
+      {/* <Projects /> */}
       <Writing />
       <Contact />
       <Footer />
