@@ -38,6 +38,11 @@
   ::-webkit-scrollbar { width: 8px; }
   ::-webkit-scrollbar-track { background: #0f0f10; }
   ::-webkit-scrollbar-thumb { background: #d0c7b8; border-radius: 4px; }
+  @media (max-width: 500px) {
+    #top h1 { font-size: 26px !important; }
+    #top p  { font-size: 14px !important; }
+    #top img { width: 72px !important; height: 72px !important; }
+  }
 </style>
 </head>
 <body>
@@ -85,6 +90,7 @@ const Nav = () => {
     <nav ref={navRef}
       onMouseMove={handleMove}
       onMouseLeave={handleLeave}
+      onTouchEnd={handleLeave}
       style={{
         position:'fixed', bottom:'24px', left:'50%', transform:'translateX(-50%)',
         zIndex:50,
@@ -130,6 +136,7 @@ const DockItem = ({item, navRef, mouseX}) => {
       ref={itemRef}
       onMouseEnter={()=>setHov(true)}
       onMouseLeave={()=>setHov(false)}
+      onTouchEnd={()=>setHov(false)}
       style={{
         width:'40px', height:'40px', borderRadius:'999px',
         display:'flex', alignItems:'center', justifyContent:'center',
@@ -161,8 +168,8 @@ const DockItem = ({item, navRef, mouseX}) => {
 /* ─────────────────── HERO ─────────────────── */
 const Hero = () => (
   <section id="top" className="fade-up" style={{maxWidth:MAX, margin:'0 auto', ...padX, paddingTop:'80px', paddingBottom:'32px', animationDelay:'0ms'}}>
-    <div style={{display:'flex', alignItems:'center', justifyContent:'space-between', gap:'32px', flexWrap:'wrap'}}>
-      <div style={{flex:'1 1 60%', minWidth:'280px'}}>
+    <div style={{display:'flex', alignItems:'center', justifyContent:'space-between', gap:'24px'}}>
+      <div style={{flex:'1 1 0', minWidth:0}}>
         <h1 style={{fontSize:'48px', fontWeight:800, lineHeight:1.1, letterSpacing:'-0.04em', marginBottom:'16px', color:C.ink}}>
           Hi, I'm Parsa <span style={{display:'inline-block', transformOrigin:'70% 70%', animation:'wave 2.5s ease-in-out infinite', animationDelay:'1s'}}>👋</span>
         </h1>
