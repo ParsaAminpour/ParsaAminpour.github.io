@@ -314,23 +314,25 @@ const inlineLink = {color:C.ink, fontWeight:600, textDecoration:'underline', tex
 /* ─────────────────── WORK EXPERIENCE ─────────────────── */
 const experience = [
   { logo:'/images/logo-skatefi.png', cover:false, bg:'#ffffff', name:'SkateFi', dates:'2024 - 2025', role:'Smart Contract Engineer',
-    desc:'Led smart contract development for the SkateFi DeFi protocol. Wrote, audited, and gas-optimized contracts shipped to mainnet. Built fuzz invariants in Foundry that caught two critical edge cases before deploy.',
-    url:'https://www.skatefi.org' },
-  { logo:'/images/logo-prc.png', cover:false, bg:'#ebebeb', name:'PixelRaceClub', dates:'2025', role:'Smart Contract Engineer',
-    desc:'Built the on-chain infrastructure for a racing game on Abstract network. Implemented account abstraction and on-chain account management, a staking system tied to game mechanics, and the NFT collections associated with the game.',
-    url:'https://x.com/PixelRaceClub' },
-  { logo:'/images/logo-accelerate.png', cover:true, name:'Accelerate DeSci', dates:'2024 - 2025', role:'Lead Blockchain Engineer',
-    desc:'Designed and built the full product — a DeSci launchpad running on both Solana (SVM) and Base (EVM). Responsible for the entire on-chain architecture across multiple components, with a focus on keeping the system maintainable as it grew. Spent a good chunk of time working through bonding curves and AMM mechanics to get the funding model right.',
+    desc:'Worked on the blockchain layer of an institutional staking platform. Wrote staking contracts for both EVM and SVM, and built the tooling around them — wallet integrations, validator monitoring, and the reward distribution logic. Spent a good amount of time coordinating with the backend and product teams to make sure on-chain data surfaced correctly in the dashboards and reporting tools the clients relied on.',
+    url:'https://stakefi.network' },
+  { logo:'/images/logo-accelerate.png', cover:true, name:'Accelerate Foundation', dates:'2024 - 2025', role:'Lead Blockchain Engineer',
+    desc:'Designed and built the full product — a DeSci launchpad running on both Solana (SVM) and Base (EVM), across smart contracts and backend. The protocol gives researchers a structured fundraising path: a private phase, an accelerate phase, and a public phase before the token graduates to a DEX, with each phase directly linking investors to the research output. The tricky parts were verifying IP ownership without a trusted third party, building a verifiable mechanism to confirm a milestone had been reached before the next phase unlocked, and getting the graduation valuation right so projects didn\'t crater on their first day of public trading.',
     url:'https://acc.foundation' },
+  { logo:'/images/logo-prc.png', cover:false, bg:'#ebebeb', name:'PixelRaceClub', dates:'2025', role:'Smart Contract & Software Engineer',
+    desc:'Built the account abstraction layer for a racing game on Abstract network — fully on-chain, based on Abstract\'s AA architecture with a customized paymaster so users never have to touch a wallet while playing. Also maintained both NFT collections tied to the game (PRCSR and PRCH) on Abstract. On the backend side, I was part of the team building the matchmaking engine and the points dashboard that tracked racer standings.',
+    url:'https://x.com/PixelRaceClub' },
   { logo:'/images/logo-allinhype.png', cover:true, name:'AllinHype', dates:'2022 - 2023', role:'Software & Blockchain Engineer',
-    desc:'An application layer on top of HyperLiquid — a mini app that simplified trading interactions with the protocol for regular users. I designed the system architecture and wrote the core backend in Go (Gin), with Kafka and RabbitMQ handling the messaging layer and HyperLiquid APIs wired throughout. The product didn\'t make it, but it was a solid engineering exercise.',
+    desc:'An application layer on top of HyperLiquid — a mini app that simplified trading interactions with the protocol for regular users. I designed the system architecture and wrote the core backend in Go (Gin), with Kafka handling the messaging layer and asynq powering the background workers. Integrated Privy with HyperCore so users could trade without ever touching a wallet. Also handled caching for the market data and PnL panels to keep those views snappy. The product didn\'t make it, but it was a solid engineering exercise.',
     url:'https://allinhype.com' },
-  { logo:'https://play-lh.googleusercontent.com/ncjzuRVtEV8NNrsUrS3zP3lxrTudcDOmxVWnu5exPg4AhqzLeVgFo0AXufAUS1w9TQ8=w240-h480', cover:true, name:'8BallMagic', dates:'2024', role:'Web3 Developer',
+  { logo:'/images/logo-8ballmagic.png', cover:false, bg:'#000000', name:'8BallMagic', dates:'2024', role:'Web3 Developer',
     desc:'Sole blockchain engineer on a Solana-native gaming protocol. Designed and implemented the game\'s SPL token from the ground up, then built the full staking program — emission schedule, lock-up mechanics, and on-chain reward distribution. Owned the entire smart contract surface end-to-end: architecture, implementation, and mainnet deployment.',
-    url:'https://8ballmagic.io' },
+    url:'https://play.google.com/store/apps/details?id=com.ita.eightballmagic' },
+  { logo:'/images/logo-imaginefun.png', cover:false, bg:'transparent', pad:'0', fit:'cover', name:'ImagineFun', dates:'2025', role:'Smart Contract & Software Engineer',
+    desc:'Worked on a no-code token launcher on Monad — anyone can deploy a meme coin without writing a line of code. Pricing runs on a bonding curve so the token price rises with demand, and once a market cap threshold is hit the token moves automatically into a DEX liquidity pool. My piece was the smart contracts and bonding curve logic. The project didn\'t survive — the meme coin hype cycle moved on faster than the product could.' },
   { logo:'/images/logo-fira.jpg', cover:false, bg:'#ffffff', name:'Fira Academy', dates:'2022', role:'Junior Backend Developer',
     desc:'Built the real-time communication layer for an online education platform. Engineered chatrooms with persistent message history and integrated WebRTC-based video calls to power live class sessions — giving students and instructors a seamless, low-latency attendance experience entirely in the browser.',
-    url:'https://ir.linkedin.com/company/fira-education-academy' },
+  },
 ];
 
 const Work = () => (
@@ -344,8 +346,10 @@ const Work = () => (
 
 const WorkCard = ({item}) => {
   const [h, setH] = React.useState(false);
+  const Tag = item.url ? 'a' : 'div';
+  const linkProps = item.url ? {href:item.url, target:'_blank', rel:'noreferrer'} : {};
   return (
-    <div
+    <Tag {...linkProps}
       onMouseEnter={()=>setH(true)} onMouseLeave={()=>setH(false)}
       style={{
         display:'flex', gap:'16px', alignItems:'flex-start',
@@ -355,6 +359,8 @@ const WorkCard = ({item}) => {
         borderRadius:'14px',
         transition:'all 0.18s ease',
         transform: h ? 'translateY(-1px)' : 'translateY(0)',
+        textDecoration:'none', color:'inherit',
+        cursor: item.url ? 'pointer' : 'default',
       }}>
       <div style={{
         width:'48px', height:'48px', borderRadius:'10px',
@@ -366,8 +372,8 @@ const WorkCard = ({item}) => {
         {item.logo ? (
           <img src={item.logo} alt={item.name} style={{
             width:'100%', height:'100%',
-            objectFit: item.cover ? 'cover' : 'contain',
-            padding: item.cover ? 0 : '4px',
+            objectFit: item.fit || (item.cover ? 'cover' : 'contain'),
+            padding: item.cover ? 0 : (item.pad !== undefined ? item.pad : '4px'),
           }}/>
         ) : (
           <span style={{color:C.bg, fontWeight:700, fontSize:'18px'}}>{item.letter}</span>
@@ -376,10 +382,59 @@ const WorkCard = ({item}) => {
       <div style={{flex:1, minWidth:0}}>
         <div style={{display:'flex', justifyContent:'space-between', alignItems:'baseline', gap:'12px', flexWrap:'wrap', marginBottom:'4px'}}>
           <span style={{fontSize:'16px', fontWeight:600, color:C.ink}}>{item.name}</span>
-          <span style={{fontSize:'12px', color:C.inkSubtle, fontWeight:400}}>{item.dates}</span>
         </div>
         <div style={{fontSize:'14px', color:C.inkMute, fontWeight:500, marginBottom:'8px'}}>{item.role}</div>
         <div style={{fontSize:'14px', color:C.inkMute, lineHeight:1.6}}>{item.desc}</div>
+      </div>
+    </Tag>
+  );
+};
+
+/* ─────────────────── EDUCATION ─────────────────── */
+const education = [
+  { logo:'/images/logo-iut.png', cover:false, bg:'#ffffff', name:'Isfahan University of Technology', degree:'Bachelor\'s degree, Mathematics', dates:'2021 - 2025', url:'https://www.iut.ac.ir' },
+];
+
+const Education = () => (
+  <Section id="education" delay={200}>
+    <H2>Education</H2>
+    <div style={{display:'flex', flexDirection:'column', gap:'10px'}}>
+      {education.map((e, i) => (
+        <EduCard key={i} item={e} />
+      ))}
+    </div>
+  </Section>
+);
+
+const EduCard = ({item}) => {
+  const [h, setH] = React.useState(false);
+  return (
+    <div onMouseEnter={()=>setH(true)} onMouseLeave={()=>setH(false)}
+      style={{
+        display:'flex', gap:'16px', alignItems:'center',
+        padding:'16px 20px',
+        background: h ? C.cardHover : C.card,
+        border:`1px solid ${h?C.borderStrong:C.border}`,
+        borderRadius:'14px',
+        transition:'all 0.18s ease',
+      }}>
+      <div style={{
+        width:'48px', height:'48px', borderRadius:'10px',
+        background: item.bg || C.bgAlt,
+        display:'flex', alignItems:'center', justifyContent:'center',
+        flexShrink:0, overflow:'hidden',
+        border:'1px solid rgba(255,255,255,0.08)',
+      }}>
+        {item.logo
+          ? <img src={item.logo} alt={item.name} style={{width:'100%', height:'100%', objectFit:'contain', padding:'5px'}}/>
+          : <span style={{color:'#fff', fontWeight:700, fontSize:'18px'}}>{item.letter}</span>
+        }
+      </div>
+      <div style={{flex:1, minWidth:0}}>
+        <div style={{display:'flex', justifyContent:'space-between', alignItems:'baseline', gap:'12px', flexWrap:'wrap', marginBottom:'2px'}}>
+          <span style={{fontSize:'15px', fontWeight:600, color:C.ink}}>{item.name}</span>
+        </div>
+        <div style={{fontSize:'13px', color:C.inkMute}}>{item.degree}</div>
       </div>
     </div>
   );
@@ -392,13 +447,14 @@ const skills = [
   { name: 'Rust',        note: 'SVM + perf work' },
   { name: 'Foundry',     note: 'The only way' },
   { name: 'EVM / SVM',   note: 'Both worldviews' },
-  { name: 'Kafka',       note: 'Order books, never drop' },
+  { name: 'Kafka',       note: 'Event log, not just a queue' },
   { name: 'Redis',       note: 'Deep into caching' },
   { name: 'PostgreSQL',  note: 'Love Supabase' },
   { name: 'Docker',      note: '' },
   { name: 'Kubernetes',  note: 'When Vercel isn\'t cutting it' },
   { name: 'gRPC',        note: '' },
-  { name: 'RabbitMQ',       note: '' },
+  { name: 'RabbitMQ',    note: '' },
+  { name: 'Privy',       note: 'No wallet signing pop-up' },
   { name: 'TypeScript',     note: 'Type safety is a must' },
   { name: 'NestJS',         note: 'When the team needs structure' },
   { name: 'Python',         note: 'Data stuff' },
@@ -757,6 +813,7 @@ const App = () => {
       <Hero />
       <About />
       <Work />
+      <Education />
       <Skills />
       {/* <Projects /> */}
       <Writing />
