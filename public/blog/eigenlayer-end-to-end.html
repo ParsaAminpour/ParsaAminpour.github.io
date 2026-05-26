@@ -3,8 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>EigenLayer, End to End: How the Pieces Actually Fit — Parsa Amini</title>
+<title>EigenCloud Under the Hood: From Restaking to Verifiable Cloud — Parsa Amini</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});"></script>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
@@ -59,12 +62,6 @@
     margin-bottom: 20px;
   }
 
-  .divider {
-    border: none;
-    border-top: 1px solid rgba(255,255,255,0.08);
-    margin-bottom: 24px;
-  }
-
   .tag {
     display: inline-block;
     font-size: 11px;
@@ -76,44 +73,111 @@
     border-radius: 999px;
     margin-right: 6px;
   }
-
   .tags { margin-bottom: 32px; }
 
-  .coming-soon {
+  /* ── Lead paragraph ── */
+  .lead {
+    font-size: 17px;
+    line-height: 1.8;
+    color: #c8c8cc;
+    margin-bottom: 40px;
+  }
+
+  /* ── Section headings with counter ── */
+  .content h2 {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 80px 24px;
-    text-align: center;
-    gap: 12px;
-  }
-
-  .coming-soon .label {
-    font-size: 13px;
-    font-weight: 600;
-    color: #6b6b75;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-  }
-
-  .coming-soon .title {
-    font-size: 22px;
+    align-items: baseline;
+    gap: 14px;
+    font-size: 21px;
     font-weight: 700;
     color: #ededed;
     letter-spacing: -0.02em;
+    margin: 48px 0 16px;
+  }
+  .content h2 .num {
+    font-size: 11px;
+    font-weight: 700;
+    color: #6b6b75;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    flex-shrink: 0;
+    padding-top: 2px;
   }
 
-  .coming-soon .sub {
-    font-size: 14px;
+  /* ── Body copy ── */
+  .content p {
+    font-size: 15px;
     color: #a1a1a8;
-    max-width: 320px;
-    line-height: 1.6;
+    line-height: 1.8;
+    margin-bottom: 8px;
   }
+  .content p strong { color: #ededed; font-weight: 600; }
+
+  /* ── Inline code ── */
+  .content code {
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: 12.5px;
+    background: rgba(255,255,255,0.07);
+    color: #d0c7b8;
+    padding: 2px 7px;
+    border-radius: 5px;
+    border: 1px solid rgba(255,255,255,0.07);
+  }
+
+  /* ── Callout boxes ── */
+  .callout {
+    margin: 28px 0;
+    padding: 18px 20px;
+    border-radius: 10px;
+    border-left: 3px solid;
+    font-size: 14px;
+    line-height: 1.7;
+  }
+  .callout.insight {
+    background: rgba(99, 102, 241, 0.07);
+    border-color: rgba(99, 102, 241, 0.5);
+    color: #c4c4f0;
+  }
+  .callout.warning {
+    background: rgba(245, 158, 11, 0.07);
+    border-color: rgba(245, 158, 11, 0.5);
+    color: #e8d5a3;
+  }
+  .callout .callout-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+    opacity: 0.7;
+  }
+
+  /* ── Pull quote ── */
+  .pullquote {
+    margin: 36px 0;
+    padding: 0 0 0 24px;
+    border-left: 2px solid rgba(255,255,255,0.15);
+    font-size: 18px;
+    font-weight: 600;
+    color: #ededed;
+    line-height: 1.5;
+    letter-spacing: -0.02em;
+  }
+
+  /* ── Math blocks ── */
+  .math-block {
+    overflow-x: auto;
+    padding: 16px 0;
+    scrollbar-width: none;
+  }
+  .math-block::-webkit-scrollbar { display: none; }
 
   @media (max-width: 600px) {
     h1 { font-size: 26px; }
     .container { padding: 40px 20px 80px; }
+    .lead { font-size: 15px; }
+    .content h2 { font-size: 18px; }
+    .pullquote { font-size: 16px; }
   }
 </style>
 </head>
@@ -128,11 +192,11 @@
   </a>
 
   <div class="meta">
-    <span>2025</span>
-    <span>Coming soon</span>
+    <span>2026</span>
+    <span>15 min read</span>
   </div>
 
-  <h1>EigenLayer, End to End: How the Pieces Actually Fit</h1>
+  <h1>EigenCloud Under the Hood: From Restaking to Verifiable Cloud</h1>
 
   <div class="tags">
     <span class="tag">EigenLayer</span>
@@ -141,17 +205,277 @@
     <span class="tag">Ethereum</span>
   </div>
 
-
-
   <div style="position:relative;margin-bottom:40px;">
     <img src="images/eigenlayer-e2e-header.png" alt="EigenLayer End to End" style="width:100%;display:block;border-radius:12px;">
     <div style="position:absolute;left:0;right:0;top:0;bottom:-2px;background:linear-gradient(to bottom, transparent 40%, hsl(210,11.1%,3.53%) 100%);"></div>
   </div>
 
-  <div class="coming-soon">
-    <div class="label">Coming soon</div>
-    <div class="title">Article in progress</div>
-    <div class="sub">This article is being written. Check back soon or follow me on <a href="https://x.com/megaparsa" target="_blank" style="color:#ededed;text-decoration:underline;text-underline-offset:3px;">X</a> for updates.</div>
+  <div class="content">
+
+    <p class="lead">Sometimes I dive deep into different protocols during my free time. This time, it's EigenCloud or EigenLayer itself. I want to share what I captured and understood during my R&D on this protocol, and how I'm using it in my own protocol. This article is for technical builders who want to explore EigenLayer, understand its architecture, or prepare for audit competitions related to it. Think of it as an EigenCloud / EigenLayer 101.</p>
+
+    <p>Maybe it's a bit late to write about EigenLayer, since most of the hype was around a year ago and only a smaller group in the community is still actively curious about it.</p>
+    <p>But I still think it's worth discussing.</p>
+    <p>By the end, you should have a strong and precise big-picture understanding of the protocol.</p>
+    <p>Covering every component is outside the scope of this article, but the most important parts are included.</p>
+
+    <h2><span class="num">01</span>The Pitch: Renting Trust</h2>
+    <p>Imagine you're building a new oracle. Or a bridge, a data-availability layer, a co-processor, a fast-finality gadget, any service where users have to trust that you'll do the right thing.</p>
+    <p>You have a problem that has nothing to do with your actual product: before anyone can rely on you, you need to be expensive to corrupt.</p>
+    <div class="pullquote">That's what cryptoeconomic security is. It's not a feature you code! it's a pile of money standing behind your promises, arranged so that cheating costs more than it pays.</div>
+    <p>Ethereum has this, roughly $100B of staked ETH making it ruinously expensive to attack. But Ethereum's security doesn't extend to your service. So historically you had two options: launch your own token, beg people to stake billions in it, recruit a network of node operators, and pray your security is real before someone notices it isn't, or don't bother, and ask users to just trust you. Both are terrible.</p>
+    <p>The first takes years and hundreds of millions in capital you don't have.</p>
+    <p>The second isn't trust minimized at all.</p>
+    <p>Now think about how you'd solve the equivalent problem in Web2. Twenty years ago, launching a web app meant buying servers, renting rack space, hiring people to keep them running.</p>
+    <p>Then AWS showed up and said: don't build a datacenter, rent compute by the hour.</p>
+    <p>The infrastructure problem dissolved into an API call, and a decade of software innovation followed because builders could finally focus on their product instead of their plumbing!</p>
+
+    <div class="pullquote">AWS rents compute. EigenLayer rents trust.</div>
+
+    <p>EigenLayer is that move, applied to trust.</p>
+    <p>Instead of bootstrapping your own security from zero, you rent it from the pool of ETH already staked on Ethereum.</p>
+    <p>Stakers who've locked up ETH agree to also put it behind your service; if you misbehave and can be proven to have done so, that stake gets slashed (burn or sth like that).</p>
+    <p>You get Ethereum grade security on day one, as a service, without minting a token or recruiting a single validator.</p>
+    <p>And just as AWS eventually grew from "rent a server" into a full platform, databases, queues, functions, the whole stack.</p>
+    <p>EigenLayer is growing into EigenCloud: not just rented security, but a verifiable cloud where the compute, the data, and the dispute resolution all come with that same cryptoeconomic guarantee baked in.</p>
+    <p>This article walks the whole stack, from the restaking primitive at the bottom to the verifiable cloud at the top, contract by contract, the way it actually fits together :)</p>
+
+    <h2><span class="num">02</span>Restaking, Actually</h2>
+    <p>So what is restaking? Strip away the jargon and it's almost embarrassingly simple: your staked ETH does a second job.</p>
+    <p>You've already locked ETH to help secure Ethereum and earn staking rewards.</p>
+    <p>Restaking says: while it's sitting there anyway, point it at my service too, and earn a bit more for taking on a bit more risk.</p>
+    <p>The same capital, doing double duty.</p>
+    <p>That's the entire trick.</p>
+    <p>Everything else is plumbing built to make that one idea safe.</p>
+    <p>There are two front doors into the protocol.</p>
+    <p>If you hold a liquid staking token, stETH, rETH, that kind of thing you deposit the ERC-20 and you're in.</p>
+    <p>If you stake ETH natively, running your own validator, you route through a little personal contract that proves to EigenLayer your validator actually exists and behaves.</p>
+    <p>Different doors, same hallway: both end up as "stake EigenLayer can account for and, if needed, slash."</p>
+    <p>(We'll name the actual contracts in the next section, for now, just hold the picture)</p>
+    <p>But here's the part people skip: you, the staker, don't run anything. Securing a service means running its software, watching a chain, signing off on data, staying online 24/7.</p>
+    <p>You're not doing that. The operator is.</p>
+    <p>Think of the operator as a bonded contractor: they run the actual node software, and they borrow your stake as the bond that makes their work trustworthy.</p>
+    <p>You delegate to them, they do the labor, your stake is what's on the hook if they cheat.</p>
+    <p>And one operator doesn't serve just one service, they take your stake and put it behind many services at once.</p>
+    <p>That last bit is where intuition usually breaks, so look at it directly:</p>
+    <img src="images/restaking-fan-diagram.png" alt="Restaking fan diagram" style="width:100%;border-radius:10px;margin:16px 0;">
+    <p>Notice what the fan does not mean: it is one pool of 100 ETH, drawn three times, not 300 ETH of security.</p>
+    <p>The same stake stands behind all three services simultaneously.</p>
+    <p>This is why "restaking" is the right word: the stake is reused, not duplicated.</p>
+
+    <div class="callout insight">
+      <div class="callout-label">Key Insight</div>
+      Security is not an amount of money. It's a cost of attack. A service is "secure" only if corrupting it costs the attacker more than they'd gain.
+    </div>
+
+    <p>Your staked ETH isn't a shield that magically deflects attacks,</p>
+    <p>it's a bond, a hostage.</p>
+    <p>It does nothing to prevent an operator from misbehaving.</p>
+    <p>What it does is guarantee that if they're caught, they lose it.</p>
+    <p>The security is the threat of that loss, not the ETH itself.</p>
+    <p>So when you see a headline like "EigenCloud secures ~$20B"</p>
+    <p>be suspicious of the framing.</p>
+    <img src="images/eigenlayer-tvl-diagram.jpeg" alt="EigenLayer TVL diagram" style="width:100%;border-radius:10px;margin:16px 0;">
+    <p>That number is the total stake in the system, but as the diagram showed, the same stake is shared across many services.</p>
+    <p>The honest question is never "how much stake exists?" It's "how much slashable stake is allocated to this specific service, and is that more than what an attacker stands to gain by breaking it?"</p>
+    <p>A service backed by ~$20B of shared stake (at the peak) might have only a sliver actually allocated to it, and if that sliver is worth less than the prize, it isn't secure, no matter how big the headline number is.</p>
+    <p>Even DefiLlama hedges this number: by default they don't fully count restaked ETH, to avoid double-counting it against the staking protocols it came from.</p>
+
+    <h2><span class="num">03</span>The Core Contracts: Three Jobs, One Hub</h2>
+    <p>Everything in the last section, staking, delegating, slashing</p>
+    <p>has to live somewhere onchain.</p>
+    <p>And when you actually open the EigenLayer repo, the thing that surprises people is how few contracts matter.</p>
+    <p>The marketing makes it sound sprawling. The code does not.</p>
+    <p>There are really just three jobs to do, and the contracts group cleanly around them.</p>
+    <p>Job one: hold the money.</p>
+    <p>Someone has to custody the actual staked assets and keep an honest ledger of who owns what.</p>
+    <p>Job two: coordinate trust.</p>
+    <p>track who's delegated to whom, which operator is on the hook for which service, and how much of their stake is slashable.</p>
+    <p>Job three: pay people.</p>
+    <p>distribute rewards to the stakers and operators doing the work. Capital, trust, economics.</p>
+    <p>That's the whole protocol in three words.</p>
+    <p>Here's how those three jobs map onto the system, with the actors plugged in:</p>
+    <img src="images/eigenlayer-core-layers.png" alt="EigenLayer Core Layers" style="width:100%;border-radius:10px;margin:16px 0;">
+    <p>The shape worth noticing: the staker plugs into capital, the operator into trust, the AVS into trust, but none of them reaches directly into anyone else's layer.</p>
+    <p>Everything routes through the middle.</p>
+    <p>That middle layer isn't just a part of the system, it's the part every other part has to talk to.</p>
+    <p>Now let's name names.</p>
+    <p>The capital layer has two halves because, remember, there are two front doors.</p>
+    <p>Liquid staking tokens flow through <code>StrategyManager</code>, which parks each kind of token in its own Strategy contract, a thin vault that just holds the ERC-20 and counts shares.</p>
+    <p>Native ETH flows through <code>EigenPodManager</code>, which spins up an EigenPod for each staker, a personal contract that proves to EigenLayer that your validator on the beacon chain is real and behaving.</p>
+    <p>Two paths, but both produce the same output: shares, an accounting unit the rest of the system understands.</p>
+    <p>The trust layer is where it gets interesting, and it's two contracts. <code>DelegationManager</code> is the hub, the one contract that touches all three layers. It records that you delegated to an operator, it tracks the shares backing that operator, and it holds the slashing accounting. <code>AllocationManager</code> (newer, added in the ELIP-002 upgrade) is where an operator says "I'm putting this much of my stake behind that specific service," and it's where slashing actually fires.</p>
+    <p>The split matters: delegation and allocation are different acts, and keeping them in separate contracts is what lets one operator serve many services with different amounts on the line for each.</p>
+    <p>The economics layer is a single contract, <code>RewardsCoordinator</code>, and it's refreshingly boring: AVSs deposit rewards, it builds a Merkle tree of who's owed what, and stakers and operators claim their slice.</p>
+    <p>No streaming, no per-block accrual, just periodic batches and claims.</p>
+    <p>Wire those five together and you get the actual machine:</p>
+    <img src="images/eigenlayer-contracts-diagram.png" alt="EigenLayer Contracts Diagram" style="width:100%;border-radius:10px;margin:16px 0;">
+    <p>Trace the labels once and the design clicks.</p>
+    <p>Both capital paths push deposit shares up into <code>DelegationManager</code> that single accounting unit is the only thing the hub cares about, regardless of which front door the stake came through.</p>
+    <p>From there the hub forks exactly along the layer boundary: it hands allocatable stake left to <code>AllocationManager</code> (where the operator commits it to specific services) and exposes stake data right to <code>RewardsCoordinator</code> (which uses it to figure out who's owed what).</p>
+    <p>And that red arrow, slashing factor, pointing back up into the hub, is the whole game.</p>
+    <p>When a service slashes a misbehaving operator, the result doesn't get applied service by service or staker by staker.</p>
+    <p><code>AllocationManager</code> writes a single number back into <code>DelegationManager</code>, and every withdrawal afterward silently reads through it.</p>
+    <p>That's how slashing stays cheap no matter how many people delegated.</p>
+    <p>Which is the perfect place to stop, because how that one number deletes the right amount of value, not too much, not too little, across multiple services at once, is its own beautiful piece of math.</p>
+    <p>That's the next section.</p>
+
+    <h2><span class="num">04</span>From Stake to Slash: The Math That Makes It Cheap</h2>
+    <p>Here's a problem that sounds trivial and isn't. An operator misbehaves.</p>
+    <p>They had fifty thousand stakers delegated to them.</p>
+    <p>You need to reduce every one of those stakers' balances by, say, 13%.</p>
+    <p>The obvious way, loop over fifty thousand accounts and subtract, is a non starter.</p>
+    <p>It would cost millions in gas, might not fit in a block at all, and the cost would scale with popularity, so the most used operators would be the most expensive to punish.</p>
+    <p>Slashing has to be O(1): the same cost whether one person delegated or a million did.</p>
+    <p>EigenLayer's answer is the oldest trick in the vault accounting book, the one ERC-4626 uses for share prices.</p>
+
+    <div class="pullquote">Don't touch the stakers. Move the exchange rate.</div>
+
+    <p>Keep one number per operator that represents "how much a share is currently worth," and let every balance be computed through that number on read.</p>
+    <p>Slash once, by lowering the number, and all fifty thousand balances drop in proportion automatically, without a single per staker write.</p>
+    <p>That number is built out of magnitudes.</p>
+    <p>Think of an operator's stake in a given asset as a single bar, their total slashable capacity, which starts at 100%.</p>
+    <p>The operator carves that bar into allocations: this slice backs AVS #1, that slice backs AVS #2, the rest is free. When an AVS slashes, it can only eat into its own slice, and only by the fraction it asks for (wadsToSlash).</p>
+    <p>Here's the picture:</p>
+    <img src="images/eigenlayer-magnitude-slash.png" alt="Magnitude and Slash diagram" style="width:100%;border-radius:10px;margin:16px 0;">
+    <p>Now the math. Everything below uses WAD = 1e18, which is just how Solidity writes the number 1.0 when it has no decimals.</p>
+    <p>so "p / WAD" means "p as a fraction between 0 and 1."</p>
+    <p>Start with the identity that makes slashing free.</p>
+    <p>A staker's actual withdrawable balance is never stored directly, it's computed on read from three numbers:</p>
+    <p>their raw deposit, a personal correction factor, and the operator's current exchange rate:</p>
+    <div class="math-block">$$\text{withdrawable} \;=\; \text{depositShares}\;\times\;\frac{\text{depositScalingFactor}}{\text{WAD}}\;\times\;\frac{\text{slashingFactor}}{\text{WAD}}$$</div>
+    <p>The slashingFactor is the per operator number, and for liquid staked assets it's just the operator's maxMagnitude, the height of that bar.</p>
+    <p>(Native ETH carries one extra multiplier, a beaconChainSlashingFactor, for validators slashed on the beacon chain)</p>
+    <p>Now watch a slash happen.</p>
+    <p>The AVS calls <code>slashOperator</code> with a fraction p, and the magnitude it had allocated, m, loses that fraction</p>
+    <p>which comes straight out of the operator's total, M:</p>
+    <div class="math-block">$$\Delta m \;=\; \frac{m \cdot p}{\text{WAD}}, \qquad m' = m - \Delta m, \qquad M' = M - \Delta m$$</div>
+    <p>That's the only state the slash writes. The new exchange rate is simply the new total magnitude:</p>
+    <div class="math-block">$$\text{slashingFactor}' \;=\; M' \;=\; M\left(1 - \frac{m}{M}\cdot\frac{p}{\text{WAD}}\right)$$</div>
+    <p>And because every staker's balance is computed through that one factor, lowering it scales all of them by the same ratio in a single stroke — this is the O(1) payoff:</p>
+    <div class="math-block">$$\text{withdrawable}' \;=\; \text{withdrawable}\;\times\;\frac{M'}{M}$$</div>
+    <p>Finally, the bound that the diagram was really about. The most any delegator can lose to a single AVS is capped by how much the operator allocated to it — slash everything (p = WAD) and you still only reach that one slice:</p>
+    <div class="math-block">$$\frac{\Delta\,\text{stake}}{\text{stake}} \;=\; \frac{m}{M}\cdot\frac{p}{\text{WAD}} \;\le\; \frac{m}{M}$$</div>
+    <p>Two pieces of bookkeeping make this honest.</p>
+    <p>The first is <code>depositScalingFactor</code>, that per staker correction in the first equation.</p>
+    <p>It exists because stakers deposit at different times, some before a slash, some after.</p>
+    <p>The operator's exchange rate has already fallen for latecomers, so without a correction their fresh deposit would instantly appear "pre-slashed" depositScalingFactor is set on each deposit to cancel that out, so everyone's balance reads correctly off the same shared rate.</p>
+    <p>It's the per account cost basis to the operator's share price.</p>
+    <p>The second is the deallocation queue.</p>
+    <p>If an operator could allocate stake, misbehave, and then yank the stake out before being slashed, the whole bond is theater.</p>
+    <p>So deallocating magnitude isn't instant, it sits in a queue for a delay that mirrors the staker withdrawal delay, staying slashable the whole time.</p>
+    <p>You can stop backing a service, but you can't outrun a slash for something you already did.</p>
+    <p>That's the engine.</p>
+    <p>Capital becomes shares, shares become magnitude, magnitude is what gets deleted, all without ever looping over a staker!</p>
+
+    <h2><span class="num">05</span>Middleware and AVS Design: Where the Trust Actually Lives</h2>
+    <p>Everything so far has been EigenLayer core: the contracts Anthropic, sorry, the contracts EigenLayer ships and maintains. But notice something missing.</p>
+    <p>Nothing in core knows what your AVS does.</p>
+    <p>Core doesn't know your service is an oracle, doesn't know what counts as misbehavior, doesn't know when to call <code>slashOperator</code>.</p>
+    <p>Core is a bank.</p>
+    <p>It holds the bond and executes the slash when told to.</p>
+    <p>It has no opinion on whether you did your job.</p>
+    <p>So who decides? Your middleware.</p>
+    <p>This is the code the AVS team writes and deploys, sitting between the off-chain work your operators actually do and the core contracts that hold their stake.</p>
+    <p>It is the loan officer between the bank and the business: it knows the borrower, judges performance, and is the one who walks into the bank and says "slash this operator"</p>
+
+    <div class="callout warning">
+      <div class="callout-label">Critical</div>
+      The real trust assumptions of any AVS do not live in EigenLayer. They live in middleware nobody audited as carefully.
+    </div>
+
+    <p>Most teams do not write this from scratch.</p>
+    <p>They fork eigenlayer-middleware, a reference implementation, and the same handful of contracts show up almost everywhere:</p>
+    <img src="images/eigenlayer-avs-middleware.jpeg" alt="EigenLayer AVS Middleware: the full flow" style="width:100%;border-radius:10px;margin:16px 0;">
+    <p>Read it as a journey an operator takes.</p>
+    <p>They register through <code>RegistryCoordinator</code>, the front desk that writes them into three record keepers: <code>StakeRegistry</code> (how much stake backs them, snapshotted over time), <code>BLSApkRegistry</code> (their BLS public key, so signatures can be aggregated and checked), and <code>IndexRegistry</code> (their position in the operator ordering, which lets the system refer to operators by cheap bitmaps instead of addresses).</p>
+    <p>Then they go to work. When the service needs a decision signed off, operators sign it, an off-chain aggregator combines those signatures into one, and that aggregate hits <code>BLSSignatureChecker</code>, which verifies it against the keys and stake in the registries.</p>
+    <p><code>ServiceManager</code> is the contract that talks back to core: it registers the OperatorSet, it submits rewards, and it is the hand that pulls the slashing lever.</p>
+    <p>Three things are worth flagging for anyone evaluating an AVS, because they are where the risk actually concentrates.</p>
+    <p>First, that off-chain aggregator is the quiet centralization point of the entire design.</p>
+    <p>Look at the diagram: every operator signature funnels through one box before anything reaches the chain.</p>
+    <p>If that aggregator is a single server run by the AVS team, then no matter how decentralized the operator set looks on paper, liveness depends on one machine, and censorship is one config change away.</p>
+    <p>Most "decentralized" AVSs have a centralized throat to choke right here, and almost no marketing page mentions it!</p>
+    <p>Second, middleware is upgradeable by the AVS team.</p>
+    <p>Core is relatively battle tested and changes slowly through public governance.</p>
+    <p>Your AVS's middleware is a fresh contract that the team can usually upgrade at will.</p>
+    <p>The bond is held by audited code; the rules for losing it are held by code that may have shipped last week.</p>
+    <p>When you assess "is this AVS safe" you are really assessing the AVS's middleware and its upgrade keys, not EigenLayer.</p>
+    <p>Third, not everything should be an AVS.</p>
+    <p>The whole model only works if misbehavior is objectively provable on-chain. A bad signature, a quorum disagreement, a fraudulent state claim, a failed ZK proof: those can trigger a slash, because a contract can verify them.</p>
+    <p>"The operator gave a low quality answer" or "was a bit slow" cannot.</p>
+    <p>If your service's failures are subjective or unattributable, restaking gives you a bond you can never actually collect, which is just expensive theater.</p>
+    <p>Step back and the full shape is visible: core holds the money and runs the math, middleware encodes what your service means and when to punish, and the off-chain layer does the real work.</p>
+    <p>The trust flows down through all three, and it is only as strong as the weakest, which is almost never core.</p>
+
+    <h2><span class="num">06</span>EigenCloud on Top: What You Actually Build</h2>
+    <p>Everything until now was the substrate: rent trust, allocate stake, slash provable misbehavior.</p>
+    <p>Useful, but raw. It is the equivalent of AWS in the year it only rented you bare servers.</p>
+    <p>The reason AWS took over the world was not the servers, it was everything that came after: S3 for storage, Lambda for functions, a catalog of services you could snap together without thinking about the metal underneath. EigenCloud is that same growth applied to trust.</p>
+    <p>It takes the restaking primitive and wraps it in developer products, so you can build a verifiable application without ever touching a magnitude or writing a ServiceManager.</p>
+    <p>There are three of them, and the cleanest way to hold them in your head is as the verifiable mirror of the cloud stack you already know:</p>
+    <img src="images/eigencloud-stack.png" alt="EigenCloud Stack" style="width:100%;border-radius:10px;margin:16px 0;">
+    <p>Read the stack bottom to top and the whole article snaps into one picture. The purple bar is everything from sections 2 through 5: the same rented trust, the same slashing.</p>
+    <p>The three boxes above it are not new security models, they are just specialized ways to spend that trust.</p>
+    <p>And the top row is what people actually ship!</p>
+    <p>EigenDA is storage, the S3 of the stack.</p>
+    <p>Blockchains are terrible places to keep data: every node stores everything forever, so space is absurdly expensive.</p>
+    <p>EigenDA is a high throughput layer whose operators promise the data is available, and lose stake if it is not.</p>
+    <p>The flagship use case is rollups.</p>
+    <p>A rollup processes thousands of transactions off chain but still has to publish the underlying data somewhere cheap and provably available, or users cannot reconstruct their own balances.</p>
+    <p>EigenDA is that somewhere, at a fraction of the cost of posting to Ethereum directly.</p>
+    <p>EigenCompute is execution, the Lambda of the stack.</p>
+    <p>This is the one that breaks the old ceiling.</p>
+    <p>On Ethereum you could only run tiny, deterministic smart contracts; anything heavy, an ML model, a data pipeline, real game logic, was off-limits. EigenCompute lets you ship ordinary code in a Docker container, have a set of operators run it, and have stakers guarantee it ran honestly.</p>
+    <p>Suddenly "off chain but still trustworthy" is a thing you can buy.</p>
+    <p>The use cases here are the loudest part of the EigenCloud pitch: verifiable AI agents that can hold funds and act on their own, off chain DeFi logic too complex for a contract, anything where users need to trust a result without re-running it themselves.</p>
+    <p>EigenAI rides directly on top of this, an LLM inference service with an OpenAI style API, so you can call a model and get a result that comes with a cryptoeconomic guarantee it was not tampered with.</p>
+    <p>EigenVerify is the judge, the piece that has no clean Web2 analog.</p>
+    <p>It is the dispute resolution layer, and its trick is that it handles two kinds of  truth.</p>
+    <p>Objective claims get settled by re-execution or ZK proofs, the usual fraud proof machinery.</p>
+    <p>But it also handles intersubjective claims, the "everyone reasonable would agree, but no formula can prove it" kind, by leaning on the social consensus and token forking ideas you may remember from the minority is right problem. That unlocks a category blockchains have always choked on: prediction markets that need to resolve "what actually happened" governance and content moderation, any service whose correctness is a judgment call rather than a calculation.</p>
+    <p>Here is the conceptual payoff, and it is the sentence to leave the reader with. Each of these are just an AVS.</p>
+    <p>Nothing in this section reinvented security; EigenDA, EigenCompute, and EigenVerify all rent from the same pool, slash through the same machinery, and inherit their guarantees from the substrate.</p>
+    <p>And because they share that substrate, they compose: a developer runs logic on EigenCompute, the results land in EigenDA where anyone can see them, and EigenVerify stands ready to adjudicate if someone cries foul, with the bond from section 4 making the threat real.</p>
+    <p>That loop, run honest code, publish it openly, punish provable lies, is the entire definition of a "verifiable cloud"</p>
+
+    <div class="pullquote">It is AWS, except the platform itself is something you do not have to trust.</div>
+
+    <h2><span class="num">07</span>Why It Matters</h2>
+    <p>Step back from the contracts for a second and look at what actually happened across this article.</p>
+    <p>We started with a pile of staked ETH doing one job, securing Ethereum.</p>
+    <p>We ended with a cloud platform where you can run an AI model, store its output, and have a network of strangers financially guarantee none of it was faked.</p>
+    <p>The thread connecting those two points is a single idea: trust stopped being something each project had to build from scratch and became something you rent by the unit, the way you rent compute.</p>
+    <p>That is a bigger deal than it sounds, because trust was the last expensive thing in crypto that had no marketplace.</p>
+    <p>You could rent servers, bandwidth, storage, and oracles, but if your application needed to be believed, you were on your own.</p>
+    <p>EigenCloud's bet is that "verifiability as a service" unlocks the same explosion of applications that cheap cloud compute did in Web2, and the timing points straight at AI.</p>
+    <p>We are about to hand enormous decisions to models and autonomous agents, and the one question nobody has a clean answer to is "how do I know it actually did what it claimed?"</p>
+    <p>A verifiable cloud is one of the few credible answers: run the agent, and let a bond, not a brand, vouch for the result.</p>
+    <p>But hold onto the skepticism this article was built on, because it is exactly what protects you.</p>
+    <p>Renting trust is not the same as having it.</p>
+    <p>A service is only as secure as the slashable stake actually allocated to it, not the headline TVL.</p>
+    <p>The real risk in any AVS lives in middleware the AVS team wrote and can upgrade, not in the audited core.</p>
+    <p>And the off chain aggregator quietly sitting in the middle of most designs is a centralization point that no marketing page will volunteer.</p>
+    <p>None of these are reasons the model fails btw!</p>
+    <p>They are the questions you ask to tell a real guarantee from a decorative one.</p>
+    <p>That, in the end, is the whole point of reading the contracts instead of the landing page.</p>
+    <p>The pitch is genuinely elegant: AWS rents you compute, EigenCloud rents you trust, and the difference is that the platform itself is something you no longer have to take on faith.</p>
+    <p>Whether any given application on top of it earns that trust is a question you now know how to answer, because you know exactly where the bond is, how it gets allocated, and what it takes to make it disappear.</p>
+    <p>The verifiable cloud is here.</p>
+    <p>The interesting part is no longer how it works.</p>
+    <p>It is what you decide to build on it!</p>
+
+    <div style="margin-top:48px;padding:20px 24px;border:1px solid rgba(255,255,255,0.08);border-radius:12px;display:flex;align-items:center;justify-content:space-between;gap:16px;">
+      <div>
+        <div style="font-size:11px;font-weight:600;color:#6b6b75;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:4px;">Originally published on</div>
+        <div style="font-size:14px;color:#a1a1a8;">Read the full thread on X</div>
+      </div>
+      <a href="https://x.com/megaparsa/status/2059185807072596368" target="_blank" style="display:inline-flex;align-items:center;gap:8px;background:#ededed;color:hsl(210,11.1%,3.53%);font-size:13px;font-weight:600;padding:8px 16px;border-radius:8px;white-space:nowrap;flex-shrink:0;transition:opacity 0.15s;" onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.747l7.73-8.835L1.254 2.25H8.08l4.253 5.622 5.911-5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        View on X
+      </a>
+    </div>
+
   </div>
 
 </div>

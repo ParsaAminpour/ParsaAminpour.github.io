@@ -59,64 +59,6 @@
     margin-bottom: 20px;
   }
 
-  .divider {
-    border: none;
-    border-top: 1px solid rgba(255,255,255,0.08);
-    margin-bottom: 24px;
-  }
-
-  .content h2 {
-    font-size: 20px;
-    font-weight: 700;
-    color: #ededed;
-    letter-spacing: -0.02em;
-    margin: 28px 0 8px;
-  }
-
-  .content p {
-    font-size: 15px;
-    color: #a1a1a8;
-    line-height: 1.75;
-    margin-bottom: 14px;
-  }
-
-  .content p strong { color: #ededed; font-weight: 600; }
-
-  .content ul, .content ol {
-    font-size: 15px;
-    color: #a1a1a8;
-    line-height: 1.75;
-    margin: 0 0 14px 20px;
-  }
-
-  .content li { margin-bottom: 6px; }
-
-  .content code {
-    font-family: 'SF Mono', 'Fira Code', 'Fira Mono', monospace;
-    font-size: 13px;
-    background: rgba(255,255,255,0.06);
-    color: #ededed;
-    padding: 2px 6px;
-    border-radius: 4px;
-  }
-
-  .content pre {
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 10px;
-    padding: 20px 24px;
-    overflow-x: auto;
-    margin: 20px 0;
-  }
-
-  .content pre code {
-    background: none;
-    padding: 0;
-    font-size: 13px;
-    color: #ededed;
-    line-height: 1.7;
-  }
-
   .tag {
     display: inline-block;
     font-size: 11px;
@@ -128,12 +70,171 @@
     border-radius: 999px;
     margin-right: 6px;
   }
-
   .tags { margin-bottom: 32px; }
+
+  /* ── Lead paragraph ── */
+  .lead {
+    font-size: 17px;
+    line-height: 1.8;
+    color: #c8c8cc;
+    margin-bottom: 40px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+  }
+
+  /* ── Section headings with counter ── */
+  .content h2 {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    font-size: 21px;
+    font-weight: 700;
+    color: #ededed;
+    letter-spacing: -0.02em;
+    margin: 48px 0 16px;
+  }
+  .content h2 .num {
+    font-size: 11px;
+    font-weight: 700;
+    color: #6b6b75;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    flex-shrink: 0;
+    padding-top: 2px;
+  }
+
+  /* ── Body copy ── */
+  .content p {
+    font-size: 15px;
+    color: #a1a1a8;
+    line-height: 1.8;
+    margin-bottom: 16px;
+  }
+  .content p strong { color: #ededed; font-weight: 600; }
+
+  /* ── Lists ── */
+  .content ul, .content ol {
+    font-size: 15px;
+    color: #a1a1a8;
+    line-height: 1.8;
+    margin: 0 0 16px 0;
+    padding-left: 0;
+    list-style: none;
+  }
+  .content li {
+    padding-left: 20px;
+    position: relative;
+    margin-bottom: 8px;
+  }
+  .content ul li::before {
+    content: '›';
+    position: absolute;
+    left: 0;
+    color: #6b6b75;
+    font-weight: 700;
+  }
+  .content ol { counter-reset: ol-counter; }
+  .content ol li { counter-increment: ol-counter; }
+  .content ol li::before {
+    content: counter(ol-counter) '.';
+    position: absolute;
+    left: 0;
+    color: #6b6b75;
+    font-weight: 600;
+    font-size: 13px;
+  }
+
+  /* ── Inline code ── */
+  .content code {
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: 12.5px;
+    background: rgba(255,255,255,0.07);
+    color: #d0c7b8;
+    padding: 2px 7px;
+    border-radius: 5px;
+    border: 1px solid rgba(255,255,255,0.07);
+  }
+
+  /* ── Code blocks ── */
+  .code-block {
+    margin: 24px 0;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+  .code-block .code-header {
+    background: rgba(255,255,255,0.04);
+    padding: 10px 18px;
+    font-size: 11px;
+    font-weight: 600;
+    color: #6b6b75;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .code-block pre {
+    background: rgba(255,255,255,0.02);
+    padding: 20px 24px;
+    overflow-x: auto;
+    margin: 0;
+    scrollbar-width: none;
+  }
+  .code-block pre::-webkit-scrollbar { display: none; }
+  .code-block pre code {
+    background: none;
+    border: none;
+    padding: 0;
+    font-size: 13px;
+    color: #ededed;
+    line-height: 1.75;
+  }
+
+  /* ── Callout boxes ── */
+  .callout {
+    margin: 28px 0;
+    padding: 18px 20px;
+    border-radius: 10px;
+    border-left: 3px solid;
+    font-size: 14px;
+    line-height: 1.7;
+  }
+  .callout.insight {
+    background: rgba(99, 102, 241, 0.07);
+    border-color: rgba(99, 102, 241, 0.5);
+    color: #c4c4f0;
+  }
+  .callout.warning {
+    background: rgba(245, 158, 11, 0.07);
+    border-color: rgba(245, 158, 11, 0.5);
+    color: #e8d5a3;
+  }
+  .callout .callout-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+    opacity: 0.7;
+  }
+
+  /* ── Pull quote ── */
+  .pullquote {
+    margin: 36px 0;
+    padding: 0 0 0 24px;
+    border-left: 2px solid rgba(255,255,255,0.15);
+    font-size: 18px;
+    font-weight: 600;
+    color: #ededed;
+    line-height: 1.5;
+    letter-spacing: -0.02em;
+  }
 
   @media (max-width: 600px) {
     h1 { font-size: 26px; }
     .container { padding: 40px 20px 80px; }
+    .lead { font-size: 15px; }
+    .content h2 { font-size: 18px; }
+    .pullquote { font-size: 16px; }
   }
 </style>
 </head>
@@ -149,7 +250,7 @@
 
   <div class="meta">
     <span>2025</span>
-    <span>10 min read</span>
+    <span>6 min read</span>
   </div>
 
   <h1>LayerZero V2: The DVN Model from a Solidity Engineer's Lens</h1>
@@ -161,8 +262,6 @@
     <span class="tag">DVN</span>
   </div>
 
-
-
   <div style="position:relative;margin-bottom:40px;">
     <img src="images/layerzero-header.png" alt="LayerZero V2 DVN Model" style="width:100%;display:block;border-radius:12px;">
     <div style="position:absolute;left:0;right:0;top:0;bottom:-2px;background:linear-gradient(to bottom, transparent 40%, hsl(210,11.1%,3.53%) 100%);"></div>
@@ -170,19 +269,24 @@
 
   <div class="content">
 
-    <p>Cross-chain messaging has gone through several generations of design. The first generation relied on trusted relayers and multisig bridges — simple to build, dangerous to use. The second leaned into optimistic or ZK fraud proofs. LayerZero V2 takes a different path: it decouples the verification layer entirely and lets applications choose their own security model through Decentralized Verifier Networks, or DVNs.</p>
+    <p class="lead">Cross-chain messaging has gone through several generations of design. The first generation relied on trusted relayers and multisig bridges: simple to build, dangerous to use. The second leaned into optimistic or ZK fraud proofs. LayerZero V2 takes a different path: it decouples the verification layer entirely and lets applications choose their own security model through Decentralized Verifier Networks, or DVNs.</p>
 
-    <p>This article looks at how the DVN model works at the contract level — what a Solidity engineer actually needs to understand when building on or integrating with LayerZero V2.</p>
+    <p>This article looks at how the DVN model works at the contract level. What a Solidity engineer actually needs to understand when building on or integrating with LayerZero V2.</p>
 
-    <h2>The problem V2 is solving</h2>
+    <h2><span class="num">01</span>The Problem V2 Is Solving</h2>
 
-    <p>In LayerZero V1, every cross-chain message was verified by two parties: an Oracle and a Relayer. The Oracle delivered the block header, the Relayer delivered the transaction proof, and the endpoint checked they matched. It worked, but the trust model was fixed — you always trusted exactly those two roles, and the protocol defined how they interacted.</p>
+    <p>In LayerZero V1, every cross-chain message was verified by two parties: an Oracle and a Relayer. The Oracle delivered the block header, the Relayer delivered the transaction proof, and the endpoint checked they matched. It worked, but the trust model was fixed. You always trusted exactly those two roles, and the protocol defined how they interacted.</p>
 
     <p>V2 replaces this with a configurable stack. Instead of a hardcoded two-party check, each <code>OApp</code> (Omnichain Application) selects a set of DVNs it trusts to verify messages. The endpoint enforces that the required DVNs have signed off before delivering any message. The application decides the quorum, the DVN set, and the security threshold.</p>
 
-    <h2>The endpoint and message flow</h2>
+    <div class="callout insight">
+      <div class="callout-label">Key Insight</div>
+      V1 forced a single trust model on every application. V2 makes trust a parameter your protocol controls, not a constraint it inherits.
+    </div>
 
-    <p>Every LayerZero V2 message passes through the <strong>Endpoint</strong> contract on both the source and destination chain. The source-side flow looks like this:</p>
+    <h2><span class="num">02</span>The Endpoint and Message Flow</h2>
+
+    <p>Every LayerZero V2 message passes through the <strong>Endpoint</strong> contract on both the source and destination chain. The source-side flow works like this:</p>
 
     <ul>
       <li>Your <code>OApp</code> calls <code>_lzSend()</code>, which encodes the message into a <code>Packet</code> struct</li>
@@ -191,17 +295,17 @@
       <li>Once the required DVN threshold is met, an Executor calls <code>commitVerification()</code> and then <code>lzReceive()</code> on the destination <code>OApp</code></li>
     </ul>
 
-    <p>Crucially, no single party can forge a message delivery. The Executor can only call <code>lzReceive()</code> after verification is committed, and verification only commits once the required DVN signatures are on-chain.</p>
+    <p>No single party can forge a message delivery. The Executor can only call <code>lzReceive()</code> after verification is committed, and verification only commits once the required DVN signatures are on-chain.</p>
 
-    <h2>What a DVN actually does</h2>
+    <h2><span class="num">03</span>What a DVN Actually Does</h2>
 
-    <p>A DVN is any entity — a single node, a threshold committee, a ZK proof system, a decentralized oracle network — that implements the <code>IDVN</code> interface and can call <code>verify()</code> on the Endpoint. That's the whole interface requirement from LayerZero's perspective.</p>
+    <p>A DVN is any entity — a single node, a threshold committee, a ZK proof system, a decentralized oracle network — that implements the <code>IDVN</code> interface and can call <code>verify()</code> on the Endpoint. That is the whole interface requirement from LayerZero's perspective.</p>
 
-    <p>In practice, a DVN watches source chain events, validates that a <code>PacketSent</code> event is genuinely included in a finalized block, and then submits that attestation on the destination chain. How it does the verification internally is entirely up to the DVN — it can use a light client, a committee of signers, a ZK proof, or any other mechanism.</p>
+    <p>In practice, a DVN watches source chain events, validates that a <code>PacketSent</code> event is genuinely included in a finalized block, and then submits that attestation on the destination chain. How it does the verification internally is entirely up to the DVN. It can use a light client, a committee of signers, a ZK proof, or any other mechanism.</p>
 
-    <p>This is the key architectural insight of V2: <strong>LayerZero defines the interface for plugging in verifiers, not the verification logic itself.</strong></p>
+    <div class="pullquote">LayerZero defines the interface for plugging in verifiers, not the verification logic itself.</div>
 
-    <h2>OApp configuration from a Solidity perspective</h2>
+    <h2><span class="num">04</span>OApp Configuration from a Solidity Perspective</h2>
 
     <p>When you build an OApp, you inherit from LayerZero's <code>OApp</code> base contract and configure your security stack via the Endpoint's <code>setConfig()</code> function. The config specifies, per destination chain:</p>
 
@@ -212,13 +316,15 @@
       <li>Block confirmation requirements on the source chain</li>
     </ul>
 
-    <p>This config is stored in the Endpoint and enforced at the protocol level. Your OApp doesn't need to re-implement any of this logic — it just needs to trust that <code>lzReceive()</code> will only be called after the configured security threshold is met.</p>
+    <p>This config is stored in the Endpoint and enforced at the protocol level. Your OApp does not need to re-implement any of this logic. It just needs to trust that <code>lzReceive()</code> will only be called after the configured security threshold is met.</p>
 
-    <h2>The receive path and reentrancy considerations</h2>
+    <h2><span class="num">05</span>The Receive Path and Reentrancy Considerations</h2>
 
     <p>The destination-side entry point for your OApp is <code>_lzReceive()</code>, which you override to handle incoming messages:</p>
 
-<pre><code>function _lzReceive(
+    <div class="code-block">
+      <div class="code-header">Solidity</div>
+      <pre><code>function _lzReceive(
     Origin calldata _origin,
     bytes32 _guid,
     bytes calldata _message,
@@ -227,12 +333,13 @@
 ) internal override {
     // decode and handle _message
 }</code></pre>
+    </div>
 
-    <p>The <code>Origin</code> struct contains the source endpoint ID, the sender's bytes32-encoded address, and the nonce. Always validate <code>_origin.srcEid</code> and <code>_origin.sender</code> inside <code>_lzReceive()</code> — the Endpoint guarantees delivery integrity, but your business logic should still verify that the message came from the expected peer OApp on the expected chain.</p>
+    <p>The <code>Origin</code> struct contains the source endpoint ID, the sender's bytes32-encoded address, and the nonce. Always validate <code>_origin.srcEid</code> and <code>_origin.sender</code> inside <code>_lzReceive()</code>. The Endpoint guarantees delivery integrity, but your business logic should still verify that the message came from the expected peer OApp on the expected chain.</p>
 
-    <p>The Endpoint calls <code>lzReceive()</code> with a specific gas limit passed by the Executor. If your handler reverts, the message is marked as failed and can be retried via <code>retryMessage()</code>. Design your receive logic to be idempotent where possible, and guard against reentrancy if you're making external calls inside the handler.</p>
+    <p>The Endpoint calls <code>lzReceive()</code> with a specific gas limit passed by the Executor. If your handler reverts, the message is marked as failed and can be retried via <code>retryMessage()</code>. Design your receive logic to be idempotent where possible, and guard against reentrancy if you are making external calls inside the handler.</p>
 
-    <h2>What this means for security audits</h2>
+    <h2><span class="num">06</span>What This Means for Security Audits</h2>
 
     <p>When auditing an OApp, the DVN configuration is as important as the contract logic itself. A well-written OApp with a weak DVN set — say, a single centralized DVN — offers far weaker guarantees than the code might suggest. Auditors should check:</p>
 
@@ -243,7 +350,12 @@
       <li>Whether the message nonce is being used to prevent replay across chains</li>
     </ul>
 
-    <h2>Closing thoughts</h2>
+    <div class="callout warning">
+      <div class="callout-label">Audit Flag</div>
+      A well-written OApp with a single centralized DVN is not a well-secured OApp. The security of the messaging layer lives in the DVN config, not the contract code.
+    </div>
+
+    <h2><span class="num">07</span>Closing Thoughts</h2>
 
     <p>LayerZero V2's DVN model is an honest acknowledgment that there is no universally correct cross-chain security model. Different applications have different threat models, different budgets, and different latency requirements. By making the verification layer modular and configurable at the application layer, V2 gives Solidity engineers real control over the trust assumptions their protocol makes — and real responsibility for getting that configuration right.</p>
 
