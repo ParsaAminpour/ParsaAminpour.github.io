@@ -144,6 +144,14 @@
     #top p  { font-size: 14px !important; }
     #top img { width: 72px !important; height: 72px !important; }
   }
+  @media (max-width: 560px) {
+    .posts-grid { grid-template-columns: 1fr !important; }
+  }
+  @keyframes breathe {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.35; }
+  }
+  .status-dot { animation: breathe 2.6s ease-in-out infinite; }
 </style>
 </head>
 <body>
@@ -274,11 +282,11 @@ const Hero = () => (
           Hi, I'm Parsa <span style={{display:'inline-block', transformOrigin:'70% 70%', animation:'wave 2.5s ease-in-out infinite', animationDelay:'1s'}}>👋</span>
         </h1>
         <p style={{fontSize:'16px', color:C.inkMute, lineHeight:1.6, fontWeight:400, maxWidth:'480px'}}>
-          Blockchain &amp; backend engineer. I love building serious infrastructure — not demos.
+          Blockchain &amp; backend engineer. I love building serious infrastructure.
         </p>
       </div>
       <img src="/images/avatar.jpg" alt="Parsa Amini" style={{
-        width:'104px', height:'104px', borderRadius:'50%',
+        width:'124px', height:'124px', borderRadius:'50%',
         objectFit:'cover', flexShrink:0,
       }} />
     </div>
@@ -303,7 +311,7 @@ const About = () => (
   <Section id="about" delay={80}>
     <h2 style={{fontSize:'20px', fontWeight:700, color:C.ink, letterSpacing:'-0.015em', marginBottom:'10px'}}>About</h2>
     <p style={{fontSize:'14px', color:C.inkMute, lineHeight:1.75, fontWeight:400}}>
-      I've been writing code for 6 years, starting at 15. I went through a lot of areas — backend, frontend, blockchain, embedded — which gave me a decent sense of how things connect. These days I'm focused on backend and blockchain engineering, about 4 years in. I like digging into architecture and system design more than anything else. Currently building <strong style={{color:C.ink, fontWeight:500}}>Axon</strong>, a payment service AI agent with crypto integration.
+      I've been writing code for 6 years, starting at 15. I went through a lot of areas (backend, frontend, blockchain, embedded) which gave me a decent sense of how things connect. These days I'm focused on backend and blockchain engineering, about 4 years in. I like digging into architecture and system design more than anything else. Currently building <strong style={{color:C.ink, fontWeight:500}}>Axon</strong>, a payment service AI agent with crypto integration.
     </p>
   </Section>
 );
@@ -313,24 +321,24 @@ const inlineLink = {color:C.ink, fontWeight:600, textDecoration:'underline', tex
 
 /* ─────────────────── WORK EXPERIENCE ─────────────────── */
 const experience = [
-  { logo:'/images/logo-skatefi.png', cover:false, bg:'#ffffff', name:'SkateFi', dates:'2024 - 2025', role:'Smart Contract Engineer',
+  { logo:'/images/logo-skatefi.png', cover:false, bg:'#ffffff', name:'SkateFi', dates:'2024 - 2025', role:'Smart Contract Engineer', status:'Active',
     desc:'Worked on the blockchain layer of an institutional staking platform. Wrote staking contracts for both EVM and SVM, and built the tooling around them — wallet integrations, validator monitoring, and the reward distribution logic. Spent a good amount of time coordinating with the backend and product teams to make sure on-chain data surfaced correctly in the dashboards and reporting tools the clients relied on.',
     url:'https://stakefi.network' },
-  { logo:'/images/logo-accelerate.png', cover:true, name:'Accelerate Foundation', dates:'2024 - 2025', role:'Lead Blockchain Engineer',
+  { logo:'/images/logo-accelerate.png', cover:true, name:'Accelerate Foundation', dates:'2024 - 2025', role:'Lead Blockchain Engineer', status:'Paused',
     desc:'Designed and built the full product — a DeSci launchpad running on both Solana (SVM) and Base (EVM), across smart contracts and backend. The protocol gives researchers a structured fundraising path: a private phase, an accelerate phase, and a public phase before the token graduates to a DEX, with each phase directly linking investors to the research output. The tricky parts were verifying IP ownership without a trusted third party, building a verifiable mechanism to confirm a milestone had been reached before the next phase unlocked, and getting the graduation valuation right so projects didn\'t crater on their first day of public trading.',
     url:'https://acc.foundation' },
-  { logo:'/images/logo-prc.png', cover:false, bg:'#ebebeb', name:'PixelRaceClub', dates:'2025', role:'Smart Contract & Software Engineer',
+  { logo:'/images/logo-prc.png', cover:false, bg:'#ebebeb', name:'PixelRaceClub', dates:'2025', role:'Smart Contract & Software Engineer', status:'Active',
     desc:'Built the account abstraction layer for a racing game on Abstract network — fully on-chain, based on Abstract\'s AA architecture with a customized paymaster so users never have to touch a wallet while playing. Also maintained both NFT collections tied to the game (PRCSR and PRCH) on Abstract. On the backend side, I was part of the team building the matchmaking engine and the points dashboard that tracked racer standings.',
     url:'https://x.com/PixelRaceClub' },
-  { logo:'/images/logo-allinhype.png', cover:true, name:'AllinHype', dates:'2022 - 2023', role:'Software & Blockchain Engineer',
+  { logo:'/images/logo-allinhype.png', cover:true, name:'AllinHype', dates:'2022 - 2023', role:'Software & Blockchain Engineer', status:'Killed',
     desc:'An application layer on top of HyperLiquid — a mini app that simplified trading interactions with the protocol for regular users. I designed the system architecture and wrote the core backend in Go (Gin), with Kafka handling the messaging layer and asynq powering the background workers. Integrated Privy with HyperCore so users could trade without ever touching a wallet. Also handled caching for the market data and PnL panels to keep those views snappy. The product didn\'t make it, but it was a solid engineering exercise.',
     url:'https://allinhype.com' },
-  { logo:'/images/logo-8ballmagic.png', cover:false, bg:'#000000', name:'8BallMagic', dates:'2024', role:'Web3 Developer',
+  { logo:'/images/logo-8ballmagic.png', cover:false, bg:'#000000', name:'8BallMagic', dates:'2024', role:'Web3 Developer', status:'Active',
     desc:'Sole blockchain engineer on a Solana-native gaming protocol. Designed and implemented the game\'s SPL token from the ground up, then built the full staking program — emission schedule, lock-up mechanics, and on-chain reward distribution. Owned the entire smart contract surface end-to-end: architecture, implementation, and mainnet deployment.',
     url:'https://play.google.com/store/apps/details?id=com.ita.eightballmagic' },
-  { logo:'/images/logo-imaginefun.png', cover:false, bg:'transparent', pad:'0', fit:'cover', name:'ImagineFun', dates:'2025', role:'Smart Contract & Software Engineer',
+  { logo:'/images/logo-imaginefun.png', cover:false, bg:'transparent', pad:'0', fit:'cover', name:'ImagineFun', dates:'2025', role:'Smart Contract & Software Engineer', status:'Killed',
     desc:'Worked on a no-code token launcher on Monad — anyone can deploy a meme coin without writing a line of code. Pricing runs on a bonding curve so the token price rises with demand, and once a market cap threshold is hit the token moves automatically into a DEX liquidity pool. My piece was the smart contracts and bonding curve logic. The project didn\'t survive — the meme coin hype cycle moved on faster than the product could.' },
-  { logo:'/images/logo-fira.jpg', cover:false, bg:'#ffffff', name:'Fira Academy', dates:'2022', role:'Junior Backend Developer',
+  { logo:'/images/logo-fira.jpg', cover:false, bg:'#ffffff', name:'Fira Academy', dates:'2022', role:'Junior Backend Developer', status:'Active',
     desc:'Built the real-time communication layer for an online education platform. Engineered chatrooms with persistent message history and integrated WebRTC-based video calls to power live class sessions — giving students and instructors a seamless, low-latency attendance experience entirely in the browser.',
   },
 ];
@@ -381,7 +389,23 @@ const WorkCard = ({item}) => {
       </div>
       <div style={{flex:1, minWidth:0}}>
         <div style={{display:'flex', justifyContent:'space-between', alignItems:'baseline', gap:'12px', flexWrap:'wrap', marginBottom:'4px'}}>
-          <span style={{fontSize:'16px', fontWeight:600, color:C.ink}}>{item.name}</span>
+          <div style={{display:'flex', alignItems:'center', gap:'8px'}}>
+            <span style={{fontSize:'16px', fontWeight:600, color:C.ink}}>{item.name}</span>
+            {item.status && (() => {
+              const s = {
+                Active: {bg:'rgba(34,197,94,0.1)', color:'#4ade80', dot:'#22c55e'},
+                Paused: {bg:'rgba(245,158,11,0.1)', color:'#fbbf24', dot:'#f59e0b'},
+                Failed: {bg:'rgba(239,68,68,0.1)', color:'#f87171', dot:'#ef4444'},
+                Killed: {bg:'rgba(239,68,68,0.1)', color:'#f87171', dot:'#ef4444'},
+              }[item.status] || {};
+              return (
+                <span style={{display:'inline-flex', alignItems:'center', gap:'5px', fontSize:'11px', fontWeight:600, color:s.color, background:s.bg, padding:'2px 8px', borderRadius:'999px', letterSpacing:'0.03em'}}>
+                  <span className="status-dot" style={{width:'5px', height:'5px', borderRadius:'50%', background:s.dot, flexShrink:0}}></span>
+                  {item.status}
+                </span>
+              );
+            })()}
+          </div>
         </div>
         <div style={{fontSize:'14px', color:C.inkMute, fontWeight:500, marginBottom:'8px'}}>{item.role}</div>
         <div style={{fontSize:'14px', color:C.inkMute, lineHeight:1.6}}>{item.desc}</div>
@@ -450,10 +474,10 @@ const skills = [
   { name: 'Kafka',       note: 'Event log, not just a queue' },
   { name: 'Redis',       note: 'Deep into caching' },
   { name: 'PostgreSQL',  note: 'Love Supabase' },
-  { name: 'Docker',      note: '' },
+  { name: 'Docker',      note: 'No more "works on my machine"' },
   { name: 'Kubernetes',  note: 'When Vercel isn\'t cutting it' },
-  { name: 'gRPC',        note: '' },
-  { name: 'RabbitMQ',    note: '' },
+  { name: 'gRPC',        note: 'When things get complicated' },
+  { name: 'RabbitMQ',    note: 'Task queues done right' },
   { name: 'Privy',       note: 'No wallet signing pop-up' },
   { name: 'TypeScript',     note: 'Type safety is a must' },
   { name: 'NestJS',         note: 'When the team needs structure' },
@@ -604,45 +628,72 @@ const OpenSource = () => (
 
 /* ─────────────────── WRITING ─────────────────── */
 const posts = [
-  {title:'EigenCloud Under the Hood: From Restaking to Verifiable Cloud', read:'15 min read', url:'blog/eigenlayer-end-to-end.html'},
-  {title:"LayerZero V2: The DVN Model from a Solidity Engineer's Lens", read:'6 min read', url:'blog/layerzero-v2-dvn.html'},
-  {title:'What does "secure" mean in the context of EigenLayer AVS?', read:'5 min read', url:'blog/eigenlayer-avs-security.html'},
-  {title:'How swap fees work in UniswapV3', read:'7 min read', url:'blog/uniswapv3-swap-fees.html'},
-  {title:'Soft Resolution: A Prediction Market for Subjective Outcomes', read:'Coming soon', url:'blog/soft-resolution-prediction-market.html'},
-  {title:"I Built an Agentic Stablecoin Payment Service. Here's What Broke", read:'Coming soon', url:'blog/agentic-stablecoin-payment.html'},
+  {title:'EigenCloud Under the Hood: From Restaking to Verifiable Cloud', read:'15 min read', url:'blog/eigenlayer-end-to-end.html', image:'blog/images/eigenlayer-e2e-header.png', tags:['EigenLayer','Restaking','AVS']},
+  {title:"LayerZero V2: The DVN Model from a Solidity Engineer's Lens", read:'6 min read', url:'blog/layerzero-v2-dvn.html', image:'blog/images/layerzero-header.png', tags:['LayerZero','Cross-chain','DVN']},
+  {title:'What does "secure" mean in the context of EigenLayer AVS?', read:'5 min read', url:'blog/eigenlayer-avs-security.html', image:'blog/images/eigenlayer-header.png', tags:['EigenLayer','AVS','Ethereum']},
+  {title:'How swap fees work in UniswapV3', read:'7 min read', url:'blog/uniswapv3-swap-fees.html', image:'blog/images/uniswapv3-header.webp', tags:['Uniswap','DeFi','Solidity']},
+  {title:'Soft Resolution: A Prediction Market for Subjective Outcomes', read:'Coming soon', url:'blog/soft-resolution-prediction-market.html', image:'blog/images/soft-resolution-header.jpg', tags:['Prediction Markets','DeFi','Governance']},
+  {title:"I Built an Agentic Stablecoin Payment Service. Here's What Broke", read:'Coming soon', url:'blog/agentic-stablecoin-payment.html', image:'blog/images/agentic-stablecoin-header.jpg', tags:['AI Agents','Stablecoin','Payments']},
 ];
 
 const Writing = () => (
   <Section id="writing" delay={480}>
     <div style={{fontSize:'13px', color:C.inkMute, fontWeight:500, marginBottom:'4px'}}>Writing</div>
     <H2>Publications</H2>
-    <p style={{...pStyle, marginBottom:'24px', color:C.inkMute, fontSize:'15px'}}>
+    <p style={{...pStyle, marginBottom:'14px', color:C.inkMute, fontSize:'15px'}}>
       Technical articles on architecture, web3 systems, and engineering decisions. Practical and opinionated.
     </p>
-    <div style={{display:'flex', flexDirection:'column'}}>
-      {posts.map((p, i) => <PostRow key={i} p={p} />)}
+    <div className="posts-grid" style={{display:'grid', gridTemplateColumns:'repeat(2, 1fr)', gap:'12px'}}>
+      {posts.map((p, i) => <FeaturedPostCard key={i} p={p} />)}
     </div>
   </Section>
 );
 
-const PostRow = ({p}) => {
+const FeaturedPostCard = ({p}) => {
   const [h, setH] = React.useState(false);
   return (
-    <a href={p.url || '#'} onMouseEnter={()=>setH(true)} onMouseLeave={()=>setH(false)}
+    <a href={p.url || '#'}
+      onMouseEnter={()=>setH(true)} onMouseLeave={()=>setH(false)}
       style={{
-        display:'flex', justifyContent:'space-between', alignItems:'baseline',
-        padding:'16px 4px', borderBottom:`1px solid ${C.border}`,
-        gap:'16px',
+        display:'block', position:'relative', borderRadius:'16px',
+        overflow:'hidden', marginBottom:'10px', textDecoration:'none',
+        height:'220px',
+        transform: h ? 'translateY(-2px)' : 'translateY(0)',
+        boxShadow: h ? '0 20px 40px rgba(0,0,0,0.3)' : '0 6px 20px rgba(0,0,0,0.15)',
+        transition:'transform 0.25s ease, box-shadow 0.25s ease',
+        border:`1px solid ${h ? C.borderStrong : C.border}`,
       }}>
-      <span style={{fontSize:'16px', fontWeight: h?600:500, color:C.ink, transition:'all 0.15s', flex:1}}>
-        {p.title}
-      </span>
-      <span style={{fontSize:'12px', color:C.inkSubtle, whiteSpace:'nowrap'}}>
-        {p.read}
-      </span>
+      <div style={{
+        position:'absolute', inset:0,
+        backgroundImage:`url(${p.image})`,
+        backgroundSize:'cover', backgroundPosition:'center',
+        transform: h ? 'scale(1.03)' : 'scale(1)',
+        transition:'transform 0.4s ease',
+      }}/>
+      <div style={{
+        position:'absolute', inset:0,
+        background:'linear-gradient(to top, rgba(8,9,11,0.97) 0%, rgba(8,9,11,0.65) 55%, rgba(8,9,11,0.2) 100%)',
+      }}/>
+      <div style={{
+        position:'absolute', inset:0,
+        display:'flex', flexDirection:'column', justifyContent:'flex-end',
+        padding:'20px 22px',
+      }}>
+        <div style={{fontSize:'18px', fontWeight:700, color:'#ededed', lineHeight:1.3, letterSpacing:'-0.02em', marginBottom:'10px'}}>
+          {p.title}
+        </div>
+        <div style={{display:'flex', alignItems:'center', justifyContent:'space-between'}}>
+          <span style={{fontSize:'12px', color:'rgba(255,255,255,0.4)', fontWeight:500}}>{p.read}</span>
+          <span style={{fontSize:'12px', color:'rgba(255,255,255,0.4)', fontWeight:500, display:'flex', alignItems:'center', gap:'4px'}}>
+            Read article
+            <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2"><path d="M4 8h8M9 5l3 3-3 3" strokeLinecap="round" strokeLinejoin="round"/></svg>
+          </span>
+        </div>
+      </div>
     </a>
   );
 };
+
 
 /* ─────────────────── CONTACT ─────────────────── */
 const socialLinks = [
@@ -657,11 +708,11 @@ const Contact = () => (
     <div style={{
       display:'inline-block', fontSize:'14px', fontWeight:500,
       color:C.bg, background:C.ink,
-      borderRadius:'8px', padding:'4px 12px', marginBottom:'20px',
+      borderRadius:'8px', padding:'4px 12px', marginBottom:'12px',
     }}>Contact</div>
-    <h2 style={{fontSize:'48px', fontWeight:700, color:C.ink, letterSpacing:'-0.03em', lineHeight:1.1, marginBottom:'24px'}}>Get in Touch</h2>
-    <p style={{fontSize:'16px', color:C.inkMute, lineHeight:1.75, maxWidth:'600px', margin:'0 auto 32px'}}>
-      Want to chat? Shoot me a DM <a href="https://x.com/megaparsa" target="_blank" rel="noreferrer" style={inlineLink}>with a direct question on Twitter</a> and I'll respond whenever I can. I will ignore all soliciting.
+    <h2 style={{fontSize:'48px', fontWeight:700, color:C.ink, letterSpacing:'-0.03em', lineHeight:1.1, marginBottom:'12px'}}>Get in Touch</h2>
+    <p style={{fontSize:'16px', color:C.inkMute, lineHeight:1.75, maxWidth:'600px', margin:'0 auto 20px'}}>
+      Want to chat? Shoot me a DM <a href="https://x.com/megaparsa" target="_blank" rel="noreferrer" style={inlineLink}>on Twitter</a> and I'll get back to you.
     </p>
     <div style={{display:'flex', justifyContent:'center', gap:'8px'}}>
       {socialLinks.map(s => <SocialIcon key={s.label} s={s} />)}
@@ -807,7 +858,6 @@ const App = () => {
         <div className="hero-spotlight"></div>
         <div className="hero-vignette"></div>
         <div className="hero-grain"></div>
-        <div className="hero-horizon"></div>
       </div>
       <Nav />
       <Hero />
