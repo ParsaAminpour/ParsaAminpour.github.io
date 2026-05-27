@@ -148,10 +148,15 @@
     .posts-grid { grid-template-columns: 1fr !important; }
   }
   @keyframes breathe {
-    0%, 100% { opacity: 1; }
-    50%       { opacity: 0.35; }
+    0%, 100% { opacity: 1; transform: scale(1); box-shadow: 0 0 0 0 rgba(34,197,94,0.7); }
+    50%       { opacity: 0.5; transform: scale(0.75); box-shadow: 0 0 0 5px rgba(34,197,94,0); }
   }
-  .status-dot { animation: breathe 2.6s ease-in-out infinite; }
+  @keyframes breathe-slow {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.25; }
+  }
+  .status-dot-live   { animation: breathe 1.8s ease-in-out infinite; }
+  .status-dot-paused { animation: breathe-slow 3.5s ease-in-out infinite; }
 </style>
 </head>
 <body>
@@ -309,8 +314,8 @@ const Section = ({id, children, style, delay=0}) => (
 /* ─────────────────── ABOUT ─────────────────── */
 const About = () => (
   <Section id="about" delay={80}>
-    <h2 style={{fontSize:'20px', fontWeight:700, color:C.ink, letterSpacing:'-0.015em', marginBottom:'10px'}}>About</h2>
-    <p style={{fontSize:'14px', color:C.inkMute, lineHeight:1.75, fontWeight:400}}>
+    <h2 style={{fontSize:'26px', fontWeight:700, color:C.ink, letterSpacing:'-0.02em', marginBottom:'12px'}}>About</h2>
+    <p style={{fontSize:'15px', color:C.inkMute, lineHeight:1.8, fontWeight:400}}>
       I've been writing code for 6 years, starting at 15. I went through a lot of areas (backend, frontend, blockchain, embedded) which gave me a decent sense of how things connect. These days I'm focused on backend and blockchain engineering, about 4 years in. I like digging into architecture and system design more than anything else. Currently building <strong style={{color:C.ink, fontWeight:500}}>Axon</strong>, a payment service AI agent with crypto integration.
     </p>
   </Section>
@@ -321,24 +326,24 @@ const inlineLink = {color:C.ink, fontWeight:600, textDecoration:'underline', tex
 
 /* ─────────────────── WORK EXPERIENCE ─────────────────── */
 const experience = [
-  { logo:'/images/logo-skatefi.png', cover:false, bg:'#ffffff', name:'SkateFi', dates:'2024 - 2025', role:'Smart Contract Engineer', status:'Active',
+  { logo:'/images/logo-skatefi.png', cover:false, bg:'#ffffff', name:'SkateFi', dates:'2024 - 2025', role:'Smart Contract Engineer', status:'Live',
     desc:'Worked on the blockchain layer of an institutional staking platform. Wrote staking contracts for both EVM and SVM, and built the tooling around them — wallet integrations, validator monitoring, and the reward distribution logic. Spent a good amount of time coordinating with the backend and product teams to make sure on-chain data surfaced correctly in the dashboards and reporting tools the clients relied on.',
     url:'https://stakefi.network' },
   { logo:'/images/logo-accelerate.png', cover:true, name:'Accelerate Foundation', dates:'2024 - 2025', role:'Lead Blockchain Engineer', status:'Paused',
     desc:'Designed and built the full product — a DeSci launchpad running on both Solana (SVM) and Base (EVM), across smart contracts and backend. The protocol gives researchers a structured fundraising path: a private phase, an accelerate phase, and a public phase before the token graduates to a DEX, with each phase directly linking investors to the research output. The tricky parts were verifying IP ownership without a trusted third party, building a verifiable mechanism to confirm a milestone had been reached before the next phase unlocked, and getting the graduation valuation right so projects didn\'t crater on their first day of public trading.',
     url:'https://acc.foundation' },
-  { logo:'/images/logo-prc.png', cover:false, bg:'#ebebeb', name:'PixelRaceClub', dates:'2025', role:'Smart Contract & Software Engineer', status:'Active',
+  { logo:'/images/logo-prc.png', cover:false, bg:'#ebebeb', name:'PixelRaceClub', dates:'2025', role:'Smart Contract & Software Engineer', status:'Live',
     desc:'Built the account abstraction layer for a racing game on Abstract network — fully on-chain, based on Abstract\'s AA architecture with a customized paymaster so users never have to touch a wallet while playing. Also maintained both NFT collections tied to the game (PRCSR and PRCH) on Abstract. On the backend side, I was part of the team building the matchmaking engine and the points dashboard that tracked racer standings.',
     url:'https://x.com/PixelRaceClub' },
   { logo:'/images/logo-allinhype.png', cover:true, name:'AllinHype', dates:'2022 - 2023', role:'Software & Blockchain Engineer', status:'Killed',
     desc:'An application layer on top of HyperLiquid — a mini app that simplified trading interactions with the protocol for regular users. I designed the system architecture and wrote the core backend in Go (Gin), with Kafka handling the messaging layer and asynq powering the background workers. Integrated Privy with HyperCore so users could trade without ever touching a wallet. Also handled caching for the market data and PnL panels to keep those views snappy. The product didn\'t make it, but it was a solid engineering exercise.',
     url:'https://allinhype.com' },
-  { logo:'/images/logo-8ballmagic.png', cover:false, bg:'#000000', name:'8BallMagic', dates:'2024', role:'Web3 Developer', status:'Active',
+  { logo:'/images/logo-8ballmagic.png', cover:false, bg:'#000000', name:'8BallMagic', dates:'2024', role:'Web3 Developer', status:'Live',
     desc:'Sole blockchain engineer on a Solana-native gaming protocol. Designed and implemented the game\'s SPL token from the ground up, then built the full staking program — emission schedule, lock-up mechanics, and on-chain reward distribution. Owned the entire smart contract surface end-to-end: architecture, implementation, and mainnet deployment.',
     url:'https://play.google.com/store/apps/details?id=com.ita.eightballmagic' },
   { logo:'/images/logo-imaginefun.png', cover:false, bg:'transparent', pad:'0', fit:'cover', name:'ImagineFun', dates:'2025', role:'Smart Contract & Software Engineer', status:'Killed',
     desc:'Worked on a no-code token launcher on Monad — anyone can deploy a meme coin without writing a line of code. Pricing runs on a bonding curve so the token price rises with demand, and once a market cap threshold is hit the token moves automatically into a DEX liquidity pool. My piece was the smart contracts and bonding curve logic. The project didn\'t survive — the meme coin hype cycle moved on faster than the product could.' },
-  { logo:'/images/logo-fira.jpg', cover:false, bg:'#ffffff', name:'Fira Academy', dates:'2022', role:'Junior Backend Developer', status:'Active',
+  { logo:'/images/logo-fira.jpg', cover:false, bg:'#ffffff', name:'Fira Academy', dates:'2022', role:'Junior Backend Developer', status:'Live',
     desc:'Built the real-time communication layer for an online education platform. Engineered chatrooms with persistent message history and integrated WebRTC-based video calls to power live class sessions — giving students and instructors a seamless, low-latency attendance experience entirely in the browser.',
   },
 ];
@@ -393,14 +398,14 @@ const WorkCard = ({item}) => {
             <span style={{fontSize:'16px', fontWeight:600, color:C.ink}}>{item.name}</span>
             {item.status && (() => {
               const s = {
-                Active: {bg:'rgba(34,197,94,0.1)', color:'#4ade80', dot:'#22c55e'},
+                Live: {bg:'rgba(34,197,94,0.1)', color:'#4ade80', dot:'#22c55e'},
                 Paused: {bg:'rgba(245,158,11,0.1)', color:'#fbbf24', dot:'#f59e0b'},
                 Failed: {bg:'rgba(239,68,68,0.1)', color:'#f87171', dot:'#ef4444'},
                 Killed: {bg:'rgba(239,68,68,0.1)', color:'#f87171', dot:'#ef4444'},
               }[item.status] || {};
               return (
                 <span style={{display:'inline-flex', alignItems:'center', gap:'5px', fontSize:'11px', fontWeight:600, color:s.color, background:s.bg, padding:'2px 8px', borderRadius:'999px', letterSpacing:'0.03em'}}>
-                  <span className="status-dot" style={{width:'5px', height:'5px', borderRadius:'50%', background:s.dot, flexShrink:0}}></span>
+                  <span className={item.status==='Live' ? 'status-dot-live' : item.status==='Paused' ? 'status-dot-paused' : ''} style={{width:'5px', height:'5px', borderRadius:'50%', background:s.dot, flexShrink:0}}></span>
                   {item.status}
                 </span>
               );
@@ -416,7 +421,7 @@ const WorkCard = ({item}) => {
 
 /* ─────────────────── EDUCATION ─────────────────── */
 const education = [
-  { logo:'/images/logo-iut.png', cover:false, bg:'#ffffff', name:'Isfahan University of Technology', degree:'Bachelor\'s degree, Mathematics', dates:'2021 - 2025', url:'https://www.iut.ac.ir' },
+  { logo:'/images/logo-polito.png', cover:false, bg:'#ffffff', name:'Politecnico di Torino', degree:'Bachelor\'s degree, Mathematics', dates:'2021 - 2025', url:'https://www.polito.it' },
 ];
 
 const Education = () => (
