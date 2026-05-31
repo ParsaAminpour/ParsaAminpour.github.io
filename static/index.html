@@ -147,6 +147,73 @@
   @media (max-width: 560px) {
     .posts-grid { grid-template-columns: 1fr !important; }
   }
+  /* ── Newsletter widget ── */
+  #newsletter-widget {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    width: 280px;
+    background: hsl(210, 11.1%, 7%);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.6);
+    z-index: 9999;
+    transform: translateY(20px);
+    opacity: 0;
+    transition: transform 0.4s ease, opacity 0.4s ease;
+  }
+  #newsletter-widget.visible { transform: translateY(0); opacity: 1; }
+  #newsletter-widget.hidden { display: none; }
+  #newsletter-widget .nw-close {
+    position: absolute; top: 14px; right: 14px;
+    background: none; border: none;
+    color: rgba(255,255,255,0.25); font-size: 14px;
+    cursor: pointer; line-height: 1; transition: color 0.15s;
+  }
+  #newsletter-widget .nw-close:hover { color: #ededed; }
+  #newsletter-widget .nw-icon {
+    width: 36px; height: 36px; border-radius: 10px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.08);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; margin-bottom: 12px;
+  }
+  #newsletter-widget .nw-title {
+    font-size: 14px; font-weight: 700;
+    color: #ededed; line-height: 1.35;
+    letter-spacing: -0.01em; margin-bottom: 4px;
+  }
+  #newsletter-widget .nw-sub {
+    font-size: 12px; color: #6b6b75;
+    line-height: 1.55; margin-bottom: 14px;
+  }
+  #newsletter-widget input[type="email"] {
+    width: 100%; background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 8px; padding: 9px 12px;
+    font-size: 13px; color: #ededed;
+    outline: none; font-family: inherit;
+    transition: border-color 0.15s;
+    margin-bottom: 8px; box-sizing: border-box;
+  }
+  #newsletter-widget input[type="email"]:focus { border-color: rgba(255,255,255,0.3); }
+  #newsletter-widget input[type="email"]::placeholder { color: #4b4b55; }
+  #newsletter-widget button[type="submit"] {
+    width: 100%; background: #ededed; color: hsl(210,11.1%,3.53%);
+    border: none; border-radius: 8px; padding: 9px;
+    font-size: 13px; font-weight: 600; cursor: pointer;
+    font-family: inherit; transition: opacity 0.15s;
+  }
+  #newsletter-widget button[type="submit"]:hover { opacity: 0.85; }
+  #newsletter-widget .nw-success {
+    font-size: 13px; color: #4ade80;
+    text-align: center; line-height: 1.5; display: none;
+  }
+  @media (max-width: 480px) {
+    #newsletter-widget { right: 16px; left: 16px; width: auto; bottom: 20px; }
+  }
+
   @keyframes breathe {
     0%, 100% { opacity: 1; transform: scale(1); box-shadow: 0 0 0 0 rgba(34,197,94,0.7); }
     50%       { opacity: 0.5; transform: scale(0.75); box-shadow: 0 0 0 5px rgba(34,197,94,0); }
@@ -328,13 +395,16 @@ const inlineLink = {color:C.ink, fontWeight:600, textDecoration:'underline', tex
 const experience = [
   { logo:'/images/logo-skatefi.png', cover:false, bg:'#ffffff', name:'SkateFi', dates:'2024 - 2025', role:'Smart Contract Engineer', status:'Live',
     desc:'Worked on the blockchain layer of an institutional staking platform. Wrote staking contracts for both EVM and SVM, and built the tooling around them — wallet integrations, validator monitoring, and the reward distribution logic. Spent a good amount of time coordinating with the backend and product teams to make sure on-chain data surfaced correctly in the dashboards and reporting tools the clients relied on.',
-    url:'https://stakefi.network' },
+    url:'https://skatefi.network' },
   { logo:'/images/logo-accelerate.png', cover:true, name:'Accelerate Foundation', dates:'2024 - 2025', role:'Lead Blockchain Engineer', status:'Paused',
     desc:'Designed and built the full product — a DeSci launchpad running on both Solana (SVM) and Base (EVM), across smart contracts and backend. The protocol gives researchers a structured fundraising path: a private phase, an accelerate phase, and a public phase before the token graduates to a DEX, with each phase directly linking investors to the research output. The tricky parts were verifying IP ownership without a trusted third party, building a verifiable mechanism to confirm a milestone had been reached before the next phase unlocked, and getting the graduation valuation right so projects didn\'t crater on their first day of public trading.',
     url:'https://acc.foundation' },
   { logo:'/images/logo-prc.png', cover:false, bg:'#ebebeb', name:'PixelRaceClub', dates:'2025', role:'Smart Contract & Software Engineer', status:'Live',
     desc:'Built the account abstraction layer for a racing game on Abstract network — fully on-chain, based on Abstract\'s AA architecture with a customized paymaster so users never have to touch a wallet while playing. Also maintained both NFT collections tied to the game (PRCSR and PRCH) on Abstract. On the backend side, I was part of the team building the matchmaking engine and the points dashboard that tracked racer standings.',
     url:'https://x.com/PixelRaceClub' },
+  { logo:'/images/logo-yologames.jpg', cover:true, name:'YoloGames', dates:'2024 - 2025', role:'Smart Contract Engineer', status:'Live',
+    desc:'Smart contract engineer on a degen gaming protocol on Blast L2 — built the on-chain logic behind games like YOLO (winner-takes-all wheel), MOON or DOOM (price prediction), and LaserBlast (PvE shooter). Wrote the core contracts handling deposits, prize pools, and payout distribution. Also worked on the liquidity layer that let users supply ETH and YOLO to single-player game pools to earn yield. Was involved in integrating Blast Points and Blast Gold distribution into the protocol, so users earned points passively just by interacting with the platform.',
+    url:'https://yologames.io' },
   { logo:'/images/logo-allinhype.png', cover:true, name:'AllinHype', dates:'2022 - 2023', role:'Software & Blockchain Engineer', status:'Killed',
     desc:'An application layer on top of HyperLiquid — a mini app that simplified trading interactions with the protocol for regular users. I designed the system architecture and wrote the core backend in Go (Gin), with Kafka handling the messaging layer and asynq powering the background workers. Integrated Privy with HyperCore so users could trade without ever touching a wallet. Also handled caching for the market data and PnL panels to keep those views snappy. The product didn\'t make it, but it was a solid engineering exercise.',
     url:'https://allinhype.com' },
@@ -421,7 +491,7 @@ const WorkCard = ({item}) => {
 
 /* ─────────────────── EDUCATION ─────────────────── */
 const education = [
-  { logo:'/images/logo-polito.png', cover:false, bg:'#ffffff', name:'Politecnico di Torino', degree:'Bachelor\'s degree, Mathematics', dates:'2021 - 2025', url:'https://www.polito.it' },
+  { logo:'/images/logo-polito.png', cover:false, bg:'#ffffff', name:'Politecnico di Torino', degree:'Bachelor\'s degree, Computer Science', dates:'2021 - 2025', url:'https://www.polito.it' },
 ];
 
 const Education = () => (
@@ -880,6 +950,68 @@ const App = () => {
 };
 
 ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+
+<!-- Newsletter widget -->
+<div id="newsletter-widget">
+  <button class="nw-close" onclick="document.getElementById('newsletter-widget').classList.add('hidden');localStorage.setItem('nw-dismissed','1');">✕</button>
+  <div class="nw-icon">✉️</div>
+  <div class="nw-title">Get new articles in your inbox</div>
+  <div class="nw-sub">Technical deep-dives on web3, architecture, and engineering. No spam.</div>
+  <form id="nw-form" onsubmit="nwSubmit(event)">
+    <input type="hidden" name="u" value="48e0169bdbb1c881a28632343">
+    <input type="hidden" name="id" value="92ef179938">
+    <input type="email" name="EMAIL" placeholder="your@email.com" required>
+    <button type="submit">Subscribe</button>
+  </form>
+  <div id="nw-success" class="nw-success">You're in! New articles will land in your inbox.</div>
+</div>
+<script>
+  function nwSubmit(e) {
+    e.preventDefault();
+    const form = document.getElementById('nw-form');
+    const email = form.querySelector('input[name="EMAIL"]').value;
+    // Send to Mailchimp via hidden iframe to avoid page navigation
+    const params = new URLSearchParams({
+      u: '48e0169bdbb1c881a28632343',
+      id: '92ef179938',
+      EMAIL: email
+    });
+    const iframe = document.createElement('iframe');
+    iframe.style.display = 'none';
+    iframe.name = 'nw-iframe';
+    document.body.appendChild(iframe);
+    const f = document.createElement('form');
+    f.action = 'https://github.us9.list-manage.com/subscribe/post';
+    f.method = 'post';
+    f.target = 'nw-iframe';
+    params.forEach((v, k) => {
+      const inp = document.createElement('input');
+      inp.type = 'hidden'; inp.name = k; inp.value = v;
+      f.appendChild(inp);
+    });
+    document.body.appendChild(f);
+    f.submit();
+    // Show success, hide form
+    form.style.display = 'none';
+    document.getElementById('nw-success').style.display = 'block';
+    localStorage.setItem('nw-dismissed', '1');
+  }
+
+  (function() {
+    const w = document.getElementById('newsletter-widget');
+    if (localStorage.getItem('nw-dismissed')) { w.classList.add('hidden'); return; }
+    let shown = false;
+    window.addEventListener('scroll', function() {
+      if (shown) return;
+      const scrolled = window.scrollY + window.innerHeight;
+      const total = document.body.scrollHeight;
+      if (scrolled / total > 0.7) {
+        shown = true;
+        w.classList.add('visible');
+      }
+    });
+  })();
 </script>
 </body>
 </html>
