@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta name="generator" content="Hugo 0.160.1"><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Parsa Amini</title>
@@ -394,9 +393,9 @@ const inlineLink = {color:C.ink, fontWeight:600, textDecoration:'underline', tex
 
 /* ─────────────────── WORK EXPERIENCE ─────────────────── */
 const experience = [
-  { logo:'/images/logo-skatefi.png', cover:false, bg:'#ffffff', name:'SkateFi', dates:'2024 - 2025', role:'Smart Contract Engineer', status:'Live',
+  { logo:'/images/logo-stakefi.png', cover:false, bg:'#ffffff', name:'StakeFi', dates:'2024 - 2025', role:'Smart Contract Engineer', status:'Live',
     desc:'Worked on the blockchain layer of an institutional staking platform. Wrote staking contracts for both EVM and SVM, and built the tooling around them — wallet integrations, validator monitoring, and the reward distribution logic. Spent a good amount of time coordinating with the backend and product teams to make sure on-chain data surfaced correctly in the dashboards and reporting tools the clients relied on.',
-    url:'https://skatefi.network' },
+    url:'https://stakefi.network' },
   { logo:'/images/logo-accelerate.png', cover:true, name:'Accelerate Foundation', dates:'2024 - 2025', role:'Lead Blockchain Engineer', status:'Paused',
     desc:'Designed and built the full product — a DeSci launchpad running on both Solana (SVM) and Base (EVM), across smart contracts and backend. The protocol gives researchers a structured fundraising path: a private phase, an accelerate phase, and a public phase before the token graduates to a DEX, with each phase directly linking investors to the research output. The tricky parts were verifying IP ownership without a trusted third party, building a verifiable mechanism to confirm a milestone had been reached before the next phase unlocked, and getting the graduation valuation right so projects didn\'t crater on their first day of public trading.',
     url:'https://acc.foundation' },
@@ -487,56 +486,6 @@ const WorkCard = ({item}) => {
         <div style={{fontSize:'14px', color:C.inkMute, lineHeight:1.6}}>{item.desc}</div>
       </div>
     </Tag>
-  );
-};
-
-/* ─────────────────── EDUCATION ─────────────────── */
-const education = [
-  { logo:'/images/logo-polito.png', cover:false, bg:'#ffffff', name:'Politecnico di Torino', degree:'Bachelor\'s degree, Computer Science', dates:'2021 - 2025', url:'https://www.polito.it' },
-];
-
-const Education = () => (
-  <Section id="education" delay={200}>
-    <H2>Education</H2>
-    <div style={{display:'flex', flexDirection:'column', gap:'10px'}}>
-      {education.map((e, i) => (
-        <EduCard key={i} item={e} />
-      ))}
-    </div>
-  </Section>
-);
-
-const EduCard = ({item}) => {
-  const [h, setH] = React.useState(false);
-  return (
-    <div onMouseEnter={()=>setH(true)} onMouseLeave={()=>setH(false)}
-      style={{
-        display:'flex', gap:'16px', alignItems:'center',
-        padding:'16px 20px',
-        background: h ? C.cardHover : C.card,
-        border:`1px solid ${h?C.borderStrong:C.border}`,
-        borderRadius:'14px',
-        transition:'all 0.18s ease',
-      }}>
-      <div style={{
-        width:'48px', height:'48px', borderRadius:'10px',
-        background: item.bg || C.bgAlt,
-        display:'flex', alignItems:'center', justifyContent:'center',
-        flexShrink:0, overflow:'hidden',
-        border:'1px solid rgba(255,255,255,0.08)',
-      }}>
-        {item.logo
-          ? <img src={item.logo} alt={item.name} style={{width:'100%', height:'100%', objectFit:'contain', padding:'5px'}}/>
-          : <span style={{color:'#fff', fontWeight:700, fontSize:'18px'}}>{item.letter}</span>
-        }
-      </div>
-      <div style={{flex:1, minWidth:0}}>
-        <div style={{display:'flex', justifyContent:'space-between', alignItems:'baseline', gap:'12px', flexWrap:'wrap', marginBottom:'2px'}}>
-          <span style={{fontSize:'15px', fontWeight:600, color:C.ink}}>{item.name}</span>
-        </div>
-        <div style={{fontSize:'13px', color:C.inkMute}}>{item.degree}</div>
-      </div>
-    </div>
   );
 };
 
@@ -706,10 +655,11 @@ const OpenSource = () => (
 const posts = [
   {title:'EigenCloud Under the Hood: From Restaking to Verifiable Cloud', read:'15 min read', url:'blog/eigenlayer-end-to-end.html', image:'blog/images/eigenlayer-e2e-header.png', tags:['EigenLayer','Restaking','AVS']},
   {title:"LayerZero V2: The DVN Model from a Solidity Engineer's Lens", read:'6 min read', url:'blog/layerzero-v2-dvn.html', image:'blog/images/layerzero-header.png', tags:['LayerZero','Cross-chain','DVN']},
-  {title:'What does "secure" mean in the context of EigenLayer AVS?', read:'5 min read', url:'blog/eigenlayer-avs-security.html', image:'blog/images/eigenlayer-header.png', tags:['EigenLayer','AVS','Ethereum']},
+  {title:'Beneath the EVM: Opcodes, Stack, and the Execution Layer You Never See', read:'Coming soon', url:'blog/evm-low-level-architecture.html', image:'blog/images/evm-architecture-header.jpg', tags:['EVM','Ethereum','Low-Level']},
   {title:'How swap fees work in UniswapV3', read:'7 min read', url:'blog/uniswapv3-swap-fees.html', image:'blog/images/uniswapv3-header.webp', tags:['Uniswap','DeFi','Solidity']},
   {title:'Soft Resolution: A Prediction Market for Subjective Outcomes', read:'Coming soon', url:'blog/soft-resolution-prediction-market.html', image:'blog/images/soft-resolution-header.jpg', tags:['Prediction Markets','DeFi','Governance']},
   {title:"I Built an Agentic Stablecoin Payment Service. Here's What Broke", read:'Coming soon', url:'blog/agentic-stablecoin-payment.html', image:'blog/images/agentic-stablecoin-header.jpg', tags:['AI Agents','Stablecoin','Payments']},
+  {title:'What does "secure" mean in the context of EigenLayer AVS?', read:'5 min read', url:'blog/eigenlayer-avs-security.html', image:'blog/images/eigenlayer-header.png', tags:['EigenLayer','AVS','Ethereum']},
 ];
 
 const Writing = () => (
@@ -939,7 +889,6 @@ const App = () => {
       <Hero />
       <About />
       <Work />
-      <Education />
       <Skills />
       {/* <Projects /> */}
       <Writing />
@@ -1016,4 +965,3 @@ ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
 </script>
 </body>
 </html>
-

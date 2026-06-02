@@ -1,209 +1,162 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
-  <title>Tony Blake</title>
-  <meta charset="utf-8">
+<head>
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="color-scheme" content="light dark">
+<title>404 — Parsa Amini</title>
+<meta name="author" content="Parsa Amini">
+<meta name="description" content="Page not found">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: hsl(210, 11.1%, 3.53%);
+    color: #ededed;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  a { color: inherit; text-decoration: none; }
+  ::selection { background: #ededed; color: hsl(210,11.1%,3.53%); }
 
+  .wrapper {
+    text-align: center;
+    padding: 40px 24px;
+    max-width: 480px;
+  }
 
+  .code {
+    font-size: 120px;
+    font-weight: 800;
+    letter-spacing: -0.05em;
+    line-height: 1;
+    color: #ededed;
+    margin-bottom: 8px;
+    position: relative;
+    display: inline-block;
+  }
 
+  .code::after {
+    content: '';
+    position: absolute;
+    bottom: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60%;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+    border-radius: 2px;
+  }
 
-<meta name="author" content="Tony Blake">
-<meta name="description" content="Tony Blake&#39;s personal website">
-<meta name="keywords" content="blog,blockchain,software,engineer">
+  .glitch {
+    animation: glitch 3s ease-in-out infinite;
+  }
 
+  @keyframes glitch {
+    0%, 93%, 100% { opacity: 1; transform: translate(0); }
+    94% { opacity: 0.8; transform: translate(-2px, 1px); }
+    95% { opacity: 0.8; transform: translate(2px, -1px); }
+    96% { opacity: 1; transform: translate(0); }
+  }
 
+  .title {
+    font-size: 20px;
+    font-weight: 600;
+    color: #a1a1a8;
+    margin-bottom: 12px;
+    letter-spacing: -0.01em;
+  }
 
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="404 Page not found">
-  <meta name="twitter:description" content="Tony Blake&#39;s personal website">
+  .desc {
+    font-size: 15px;
+    color: #6b6b75;
+    line-height: 1.65;
+    margin-bottom: 36px;
+  }
 
-<meta property="og:url" content="http://localhost:1313/404.html">
-  <meta property="og:site_name" content="Tony Blake">
-  <meta property="og:title" content="404 Page not found">
-  <meta property="og:description" content="Tony Blake&#39;s personal website">
-  <meta property="og:locale" content="en">
-  <meta property="og:type" content="website">
+  .home-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    color: hsl(210, 11.1%, 3.53%);
+    background: #ededed;
+    padding: 11px 28px;
+    border-radius: 10px;
+    transition: opacity 0.15s, transform 0.15s;
+  }
+  .home-btn:hover {
+    opacity: 0.88;
+    transform: translateY(-1px);
+  }
+  .home-btn svg {
+    width: 15px;
+    height: 15px;
+  }
 
+  .orbit {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 500px;
+    height: 500px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.03);
+    pointer-events: none;
+    animation: spin 40s linear infinite;
+  }
+  .orbit:nth-child(2) {
+    width: 700px;
+    height: 700px;
+    animation-duration: 60s;
+    animation-direction: reverse;
+  }
 
+  @keyframes spin {
+    from { transform: translate(-50%, -50%) rotate(0deg); }
+    to   { transform: translate(-50%, -50%) rotate(360deg); }
+  }
 
+  .dot {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.08);
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+  }
 
-<link rel="canonical" href="http://localhost:1313/404.html">
-
-
-<link rel="preload" href="/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="/fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
-
-
-  
-  
-  <link rel="stylesheet" href="/css/coder.css" media="screen">
-
-
-
-
-
-
-  
-    
-    
-    <link rel="stylesheet" href="/css/coder-dark.css" media="screen">
-  
-
-
-
- 
-  
-    
-    <link rel="stylesheet" href="/css/custom.css" media="screen">
-  
-
-
-
-
-
-<link rel="icon" type="image/svg+xml" href="/images/favicon.svg" sizes="any">
-<link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
-<link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
-
-<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
-<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
-
-<link rel="manifest" href="/site.webmanifest">
-<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
-
-
-
-
-
-
-
-
-
-
+  @media (max-width: 500px) {
+    .code { font-size: 80px; }
+    .title { font-size: 17px; }
+    .orbit { display: none; }
+  }
+</style>
 </head>
+<body>
 
+<div class="orbit"><div class="dot"></div></div>
+<div class="orbit"><div class="dot"></div></div>
 
-
-
-
-
-<body class="preload-transitions colorscheme-auto">
-  
-<div class="float-container">
-    <a id="dark-mode-toggle" class="colorscheme-toggle">
-        <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
-    </a>
+<div class="wrapper">
+  <div class="code glitch">404</div>
+  <div class="title">Nothing here</div>
+  <div class="desc">This page doesn't exist, was moved, or never made it out of draft.</div>
+  <a href="/index.html" class="home-btn">
+    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8">
+      <path d="M10 12L6 8l4-4" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    Back home
+  </a>
 </div>
 
-
-  <main class="wrapper">
-    <nav class="navigation">
-  <section class="container">
-    
-    <a class="navigation-title" href="http://localhost:1313/">
-      Tony Blake
-    </a>
-    
-    
-      <input type="checkbox" id="menu-toggle" />
-      <label class="menu-button float-right" for="menu-toggle">
-        <i class="fa-solid fa-bars fa-fw" aria-hidden="true"></i>
-      </label>
-      <ul class="navigation-list">
-        
-          
-            <li class="navigation-item">
-              <a class="navigation-link " href="/posts/">Blog</a>
-            </li>
-          
-            <li class="navigation-item">
-              <a class="navigation-link " href="/about/">About</a>
-            </li>
-          
-        
-        
-      </ul>
-    
-  </section>
-</nav>
-
-
-    <div class="content">
-      
-  <section class="container centered">
-  <div class="error">
-    <h1>404</h1>
-    <h2>Page Not Found</h2>
-    <p>Sorry, this page does not exist.<br />You can head back to the <a href="http://localhost:1313/">homepage</a>.</p>
-  </div>
-</section>
-
-
-    </div>
-
-    <footer class="footer">
-  <section class="container">
-    ©
-    
-      2024 -
-    
-    2026
-     Tony Blake 
-  </section>
-</footer>
-
-  </main>
-
-  
-
-  
-  
-  <script src="/js/coder.js"></script>
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
 </body>
-
 </html>
