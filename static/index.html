@@ -222,8 +222,30 @@
     0%, 100% { opacity: 1; }
     50%       { opacity: 0.25; }
   }
+  @keyframes building-dot {
+    0%   { opacity: 1; transform: scale(1); box-shadow: 0 0 0 0 rgba(59,130,246,0.6); }
+    40%  { opacity: 0.5; transform: scale(0.6); box-shadow: 0 0 0 8px rgba(59,130,246,0); }
+    100% { opacity: 1; transform: scale(1); box-shadow: 0 0 0 0 rgba(59,130,246,0.6); }
+  }
+  @keyframes building-shimmer {
+    0%   { background-position: -100% 0; }
+    100% { background-position: 200% 0; }
+  }
+  @keyframes building-glow {
+    0%, 100% { box-shadow: 0 0 4px rgba(59,130,246,0.15), 0 0 12px rgba(59,130,246,0); border-color: rgba(59,130,246,0.25); }
+    50%      { box-shadow: 0 0 6px rgba(59,130,246,0.3), 0 0 18px rgba(59,130,246,0.1); border-color: rgba(96,165,250,0.45); }
+  }
   .status-dot-live   { animation: breathe 1.8s ease-in-out infinite; }
-  .status-dot-building { animation: breathe 1.8s ease-in-out infinite; }
+  .status-dot-building { animation: building-dot 1.2s ease-in-out infinite; }
+  .status-badge-building {
+    background: linear-gradient(90deg, rgba(59,130,246,0.08) 0%, rgba(96,165,250,0.3) 50%, rgba(59,130,246,0.08) 100%) !important;
+    background-size: 200% 100% !important;
+    animation: building-shimmer 2s ease-in-out infinite;
+    border: 1px solid rgba(59,130,246,0.25);
+  }
+  .building-card-glow {
+    animation: building-glow 2.5s ease-in-out infinite;
+  }
   .status-dot-paused { animation: breathe-slow 3.5s ease-in-out infinite; }
 </style>
 </head>
@@ -436,6 +458,7 @@ const WorkCard = ({item}) => {
   const linkProps = item.url ? {href:item.url, target:'_blank', rel:'noreferrer'} : {};
   return (
     <Tag {...linkProps}
+      className={item.status==='Building' ? 'building-card-glow' : ''}
       onMouseEnter={()=>setH(true)} onMouseLeave={()=>setH(false)}
       style={{
         display:'flex', gap:'16px', alignItems:'flex-start',
@@ -478,7 +501,7 @@ const WorkCard = ({item}) => {
                 Killed: {bg:'rgba(239,68,68,0.1)', color:'#f87171', dot:'#ef4444'},
               }[item.status] || {};
               return (
-                <span style={{display:'inline-flex', alignItems:'center', gap:'5px', fontSize:'11px', fontWeight:600, color:s.color, background:s.bg, padding:'2px 8px', borderRadius:'999px', letterSpacing:'0.03em'}}>
+                <span className={item.status==='Building' ? 'status-badge-building' : ''} style={{display:'inline-flex', alignItems:'center', gap:'5px', fontSize:'11px', fontWeight:600, color:s.color, background:s.bg, padding:'2px 8px', borderRadius:'999px', letterSpacing:'0.03em'}}>
                   <span className={item.status==='Live' ? 'status-dot-live' : item.status==='Building' ? 'status-dot-building' : item.status==='Paused' ? 'status-dot-paused' : ''} style={{width:'5px', height:'5px', borderRadius:'50%', background:s.dot, flexShrink:0}}></span>
                   {item.status}
                 </span>
