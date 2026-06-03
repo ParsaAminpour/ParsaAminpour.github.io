@@ -223,6 +223,7 @@
     50%       { opacity: 0.25; }
   }
   .status-dot-live   { animation: breathe 1.8s ease-in-out infinite; }
+  .status-dot-building { animation: breathe 1.8s ease-in-out infinite; }
   .status-dot-paused { animation: breathe-slow 3.5s ease-in-out infinite; }
 </style>
 </head>
@@ -393,6 +394,8 @@ const inlineLink = {color:C.ink, fontWeight:600, textDecoration:'underline', tex
 
 /* ─────────────────── WORK EXPERIENCE ─────────────────── */
 const experience = [
+  { logo:'/images/logo-wisp.jpeg', cover:false, bg:'#ffffff', name:'Wisp', dates:'2025 - Present', role:'Blockchain & Software Engineer', status:'Building',
+    desc:'Working on a privacy-first payment gateway that bridges crypto off-ramps with fiat coverage, letting users settle payments in local currency without exposing wallet addresses, transaction history, or personal financial data. The protocol layers zero-knowledge proofs over the off-ramp pipeline so merchants receive clean fiat settlements while payers retain full on-chain privacy. Building the ZK circuit for proof-of-payment, the settlement engine that coordinates between liquidity providers and fiat rails, and the merchant integration SDK.' },
   { logo:'/images/logo-stakefi.png', cover:false, bg:'#ffffff', name:'StakeFi', dates:'2024 - 2025', role:'Smart Contract Engineer', status:'Live',
     desc:'Worked on the blockchain layer of an institutional staking platform. Wrote staking contracts for both EVM and SVM, and built the tooling around them — wallet integrations, validator monitoring, and the reward distribution logic. Spent a good amount of time coordinating with the backend and product teams to make sure on-chain data surfaced correctly in the dashboards and reporting tools the clients relied on.',
     url:'https://stakefi.network' },
@@ -469,13 +472,14 @@ const WorkCard = ({item}) => {
             {item.status && (() => {
               const s = {
                 Live: {bg:'rgba(34,197,94,0.1)', color:'#4ade80', dot:'#22c55e'},
+                Building: {bg:'rgba(59,130,246,0.1)', color:'#60a5fa', dot:'#3b82f6'},
                 Paused: {bg:'rgba(245,158,11,0.1)', color:'#fbbf24', dot:'#f59e0b'},
                 Failed: {bg:'rgba(239,68,68,0.1)', color:'#f87171', dot:'#ef4444'},
                 Killed: {bg:'rgba(239,68,68,0.1)', color:'#f87171', dot:'#ef4444'},
               }[item.status] || {};
               return (
                 <span style={{display:'inline-flex', alignItems:'center', gap:'5px', fontSize:'11px', fontWeight:600, color:s.color, background:s.bg, padding:'2px 8px', borderRadius:'999px', letterSpacing:'0.03em'}}>
-                  <span className={item.status==='Live' ? 'status-dot-live' : item.status==='Paused' ? 'status-dot-paused' : ''} style={{width:'5px', height:'5px', borderRadius:'50%', background:s.dot, flexShrink:0}}></span>
+                  <span className={item.status==='Live' ? 'status-dot-live' : item.status==='Building' ? 'status-dot-building' : item.status==='Paused' ? 'status-dot-paused' : ''} style={{width:'5px', height:'5px', borderRadius:'50%', background:s.dot, flexShrink:0}}></span>
                   {item.status}
                 </span>
               );
