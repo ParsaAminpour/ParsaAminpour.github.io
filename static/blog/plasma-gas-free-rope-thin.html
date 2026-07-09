@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plasma - The Gas Is Free, The Rope Is Thin — Parsa Amini</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: hsl(210, 11.1%, 3.53%);
+    color: #ededed;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+  }
+  a { color: inherit; text-decoration: none; }
+  ::selection { background: #ededed; color: hsl(210,11.1%,3.53%); }
+  ::-webkit-scrollbar { width: 8px; }
+  ::-webkit-scrollbar-track { background: hsl(210,11.1%,3.53%); }
+  ::-webkit-scrollbar-thumb { background: #d0c7b8; border-radius: 4px; }
+
+  .container {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 64px 24px 120px;
+  }
+
+  .back {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: #a1a1a8;
+    font-weight: 500;
+    margin-bottom: 28px;
+    transition: color 0.15s;
+  }
+  .back:hover { color: #ededed; }
+  .back svg { width: 14px; height: 14px; }
+
+  .meta {
+    font-size: 13px;
+    color: #6b6b75;
+    margin-bottom: 16px;
+    display: flex;
+    gap: 12px;
+  }
+  .meta span::after { content: '·'; margin-left: 12px; }
+  .meta span:last-child::after { content: ''; }
+
+  h1 {
+    font-size: 36px;
+    font-weight: 800;
+    line-height: 1.15;
+    letter-spacing: -0.03em;
+    color: #ededed;
+    margin-bottom: 20px;
+  }
+
+  .tag {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    color: #a1a1a8;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+    padding: 3px 10px;
+    border-radius: 999px;
+    margin-right: 6px;
+  }
+  .tags { margin-bottom: 32px; }
+
+  /* ── Section headings ── */
+  .content h2 {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    font-size: 21px;
+    font-weight: 700;
+    color: #ededed;
+    letter-spacing: -0.02em;
+    margin: 56px 0 20px;
+  }
+  /* ── Body copy ── */
+  .content p {
+    font-size: 15px;
+    color: #a1a1a8;
+    line-height: 1.85;
+    margin-bottom: 20px;
+  }
+  .content p:last-child { margin-bottom: 0; }
+  .content p strong { color: #ededed; font-weight: 600; }
+
+  /* ── Inline code ── */
+  .content code {
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: 12.5px;
+    background: rgba(255,255,255,0.07);
+    color: #d0c7b8;
+    padding: 2px 7px;
+    border-radius: 5px;
+    border: 1px solid rgba(255,255,255,0.07);
+  }
+
+  /* ── Callout boxes ── */
+  .callout {
+    margin: 28px 0;
+    padding: 18px 20px;
+    border-radius: 10px;
+    border-left: 3px solid;
+    font-size: 14px;
+    line-height: 1.7;
+  }
+  .callout.insight {
+    background: rgba(99, 102, 241, 0.07);
+    border-color: rgba(99, 102, 241, 0.5);
+    color: #c4c4f0;
+  }
+  .callout.warning {
+    background: rgba(245, 158, 11, 0.07);
+    border-color: rgba(245, 158, 11, 0.5);
+    color: #e8d5a3;
+  }
+  .callout .callout-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+    opacity: 0.7;
+  }
+
+  /* ── Pull quote ── */
+  .pullquote {
+    margin: 36px 0;
+    padding: 0 0 0 24px;
+    border-left: 2px solid rgba(255,255,255,0.15);
+    font-size: 18px;
+    font-weight: 600;
+    color: #ededed;
+    line-height: 1.5;
+    letter-spacing: -0.02em;
+  }
+
+  /* ── Chart figure ── */
+  .chart {
+    margin: 32px 0;
+  }
+  .chart img {
+    width: 100%;
+    display: block;
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+  .chart figcaption {
+    margin-top: 10px;
+    font-size: 12px;
+    color: #6b6b75;
+    line-height: 1.5;
+    text-align: center;
+  }
+
+  @media (max-width: 600px) {
+    h1 { font-size: 26px; }
+    .container { padding: 40px 20px 80px; }
+    .content h2 { font-size: 18px; }
+    .pullquote { font-size: 16px; }
+  }
+
+  /* ── Lightbox ── */
+  .chart img { cursor: zoom-in; }
+  #lightbox {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 999;
+    background: rgba(0,0,0,0.85);
+    backdrop-filter: blur(6px);
+    align-items: center;
+    justify-content: center;
+    padding: 32px;
+  }
+  #lightbox.open { display: flex; }
+  #lightbox img {
+    max-width: 90vw;
+    max-height: 88vh;
+    border-radius: 10px;
+    box-shadow: 0 32px 80px rgba(0,0,0,0.6);
+    animation: lb-in 0.2s ease;
+    cursor: zoom-out;
+  }
+  @keyframes lb-in {
+    from { opacity: 0; transform: scale(0.95); }
+    to   { opacity: 1; transform: scale(1); }
+  }
+</style>
+</head>
+<body>
+<div id="lightbox"><img id="lightbox-img" src="" alt=""></div>
+<div class="container">
+
+  <a href="../index.html" class="back">
+    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8">
+      <path d="M10 12L6 8l4-4" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    Back
+  </a>
+
+  <div class="meta">
+    <span>2026</span>
+    <span>6 min read</span>
+  </div>
+
+  <h1>Plasma - The Gas Is Free, The Rope Is Thin</h1>
+
+  <div class="tags">
+    <span class="tag">Plasma</span>
+    <span class="tag">Ethereum</span>
+    <span class="tag">Scaling</span>
+  </div>
+
+  <div style="position:relative;margin-bottom:40px;">
+    <img src="images/plasma-header.png" alt="Plasma - The Gas Is Free, The Rope Is Thin" style="width:100%;display:block;border-radius:12px;">
+    <div style="position:absolute;left:0;right:0;top:0;bottom:-2px;background:linear-gradient(to bottom, transparent 40%, hsl(210,11.1%,3.53%) 100%);"></div>
+  </div>
+
+  <div class="content">
+
+    <h2>The Coupling Nobody Questions</h2>
+
+    <p>You just got paid 100 USDT. You want to forward half to someone. You can't.</p>
+
+    <p>The transfer reverts, because your wallet holds zero ETH, and Ethereum wants gas in ETH. So before you can move a dollar denominated asset, you have to go acquire a second, volatile asset from an exchange, withdraw it, wait, and only then send. You're holding the value. You just can't move it.</p>
+
+    <p>Everyone reading this has hit some version of that, or watched a user hit it. It's the cold start problem, and on a chain built for payments it's fatal: the account holding dollars is gated by a token it never asked for. Tron softened this by making gas cheap, but "cheap" still means you hold TRX. The coupling never actually breaks. <strong>Sender equals fee payer, fee payer holds native gas.</strong> That rule is baked into every general purpose EVM chain.</p>
+
+    <p>Plasma's pitch is that it broke the rule. Send USDT, pay nothing, never touch the native token. The engineering behind that is real, and worth understanding properly. So is the part nobody puts on the landing page: the way it's funded. Both matter, and this piece is about both.</p>
+
+    <h2>How Plasma Actually Breaks It</h2>
+
+    <p>Plasma's fix is a paymaster. That word gets thrown around loosely, so be precise about what's different here.</p>
+
+    <p>A paymaster is just a mechanism that lets someone other than the sender cover the gas. This isn't new. ERC4337 formalized it on Ethereum years ago. But on Ethereum and its L2s, sponsorship is an app level choice. A specific dApp deploys its own paymaster, funds it from its own budget, and decides to eat gas for its users. It's opt-in, fragmented, and it only works inside the apps that paid to build it. Step outside that app, and you're back to holding ETH.</p>
+
+    <p>Plasma moves the paymaster down a layer. It's not a feature an app bolts on. It's native to the protocol, and it applies to one specific asset: USDT. Every wallet, every app, every user gets the zero fee path by default, with no integration and no smart account plumbing. A plain EOA sending a plain transfer just works. That shift, from optional app feature to chain wide default, is the actual innovation. Not the paymaster itself. Its location.</p>
+
+    <div class="pullquote">The gas didn't disappear. It got expensed to a treasury.</div>
+
+    <p>Here's the part the landing page skips. "Zero fee" doesn't mean the transaction is free. It means someone else is paying, and that someone is the Plasma Foundation. Every USDT transfer still burns real gas, still settles in XPL, still pays validators in XPL. The user pays nothing because a protocol owned paymaster, pre-funded with XPL from the Foundation, covers the cost at the moment of the transfer.</p>
+
+    <p>And it's narrow. Only simple USDT transfers ride free. Everything else, swaps, contract calls, deploys, any non USDT token, pays gas like any other chain. For those, Plasma offers a softer perk: you can pay the fee in USDT or pBTC instead of XPL, priced by an oracle and converted under the hood, so you still never need the native token. But make no mistake, that's a paid transaction.</p>
+
+    <p>So the honest answer to "does Plasma have gas fees" is: yes, for everything except the one action it chose to subsidize. <strong>It's a two tier system. Free for the remittance. Paid for the DeFi.</strong></p>
+
+    <h2>The Rope</h2>
+
+    <p>Everything above is the clean version. The mechanism is real and it works today. The question is what it depends on, and that question comes straight from Plasma's own documentation.</p>
+
+    <p>The docs are explicit: the paymaster is "directly supported by the foundation." Gas is covered at the moment of the transfer, from a pre-funded XPL balance, drawn from the "Ecosystem & Growth" allocation. The same docs describe self funding as something that could come later, not something running now: "future upgrades could enable gas based validator revenue to fund the system." Read that carefully. The entity paying for zero fee USDT is the Foundation, the source is a pre-funded balance, and the mechanism that would let the network pay for itself is future tense.</p>
+
+    <p>That's not a flaw. Subsidizing early usage is a reasonable bootstrap. But it makes one thing a dependency: at some point, fee revenue from paid activity is meant to shoulder what the Foundation currently carries. So the fair question is whether that revenue is trending toward the handoff, or away from it.</p>
+
+    <figure class="chart">
+      <img src="images/plasma-chain-fees.png" alt="Plasma chain fees and chain revenue over time">
+      <figcaption>Plasma chain fees vs. chain revenue since launch. Source: on-chain data.</figcaption>
+    </figure>
+
+    <p>Here's what the chain actually earns. Fees peaked near $40k in launch week, dropped under $10k by December, and since February have sat near the floor. Chain fees and chain revenue move as a single line, so the protocol keeps almost everything it charges. It's just charging very little. This is the revenue base that's eventually meant to replace the subsidy. Today it is small and flat, not rising.</p>
+
+    <p>There's a second way to read that low number, and it's the strongest counterargument, so let's state it fairly: low chain fees are partly by design. The product is free transfers. ofc the chain collects little. That's true. But it cuts both ways, because it means the network's income is structurally tied to the paid tier (DeFi, contracts, swaps), and that tier has to grow into a very large number to cover a very large volume of free transfers.</p>
+
+    <p>So the question sharpens: is paid activity on Plasma scaling like something that will one day carry the free tier?</p>
+
+    <figure class="chart">
+      <img src="images/plasma-app-vs-chain-fees.png" alt="Plasma app fees vs chain fees comparison">
+      <figcaption>App fees vs. protocol fee capture on Plasma. The gap is the point.</figcaption>
+    </figure>
+
+    <p>This chart isn't an accusation, it's a scale check. Applications on Plasma process meaningful fee volume. The chain's own fee line, the green and orange at the bottom, is barely visible beside it. I'm not claiming apps owe the chain that money, they don't, app fees and protocol revenue are different things. The point is narrower and harder to wave away: there is real economic activity on Plasma, and almost none of it currently converts into protocol fee revenue. Whatever the plan is for the subsidy handoff, the chain's fee capture today is not visibly on a path to it.</p>
+
+    <p>So the section lands not on a verdict but on the question a builder should actually ask before shipping on the free tier: what happens to my unit economics if the subsidy gets capped, metered, or repriced? The zero fee guarantee is a Foundation policy funded by a Foundation balance, not a protocol invariant. That's not a reason to avoid Plasma. It's a reason to know exactly what you're standing on.</p>
+
+    <p>One narrower technical flag, separate from the economics. The gas in USDT path for paid transactions prices conversions through an oracle. Oracle pricing carries latency and manipulation surface, and Plasma hasn't publicly detailed the staleness or deviation protections on that feed. For a payments chain, that's a fair thing to want specified.</p>
+
+    <h2>What You're Standing On</h2>
+
+    <p>Nothing here is about XPL price, token performance, or whether to hold anything. The question is narrower and more practical: if you build on Plasma, what exactly are you building on top of?</p>
+
+    <p>Start with the distinction that matters. There's a difference between a protocol invariant and a policy. An invariant is a rule the protocol enforces and cannot casually revoke. Ethereum will not wake up one day and make your contract's storage mutable by strangers. That guarantee is structural. A policy is a choice the operator makes and can change. Zero fee USDT is the second kind. It's real, it works right now, but it's a Foundation funded arrangement backed by a Foundation balance, not a property the chain enforces on itself. The docs told us that directly.</p>
+
+    <p>For most of what you build, that distinction is invisible. Until the day it isn't.</p>
+
+    <p>Say you ship a remittance app and your entire pitch, your entire retention model, is free transfers. Your users never hold XPL, never see a gas prompt, never think about fees. That UX is your product. Now the subsidy gets capped, metered, or repriced, whatever the trigger, whether pool drawdown or a policy change. Suddenly some transfers cost something, or some users hit a rolling cap mid month and their next send fails. You didn't change anything. Your assumption changed under you. And you find out in production, through support tickets, because the guarantee you built on was never yours to depend on.</p>
+
+    <p>That's the actual risk, and it's not "Plasma is bad." It's that the free tier is a dependency you don't control and can't see the meter on. Good engineering treats that like any other external dependency with an unknown SLA.</p>
+
+    <p>So you design defensively. You build for the free path but you don't assume it. You keep a fallback fee path so your app degrades gracefully instead of reverting when a cap hits. You watch the per-wallet limits and surface them to users before they hit a wall. You treat the identity verification gate on fee free transfers as a real part of your onboarding, not a footnote, because it's already there and it's part of the "free" experience. You architect as if the subsidy could tighten, so that if it does, your product bends instead of breaks.</p>
+
+    <p>And you ask the team the questions the docs don't answer. What triggers a change to the subsidy, and how much notice do builders get? Is there a published drawdown level or a committed floor? When gas based validator revenue takes over, does the user facing free tier change? What are the exact per-wallet caps today, and can an app raise them for its users? None of these are gotchas. They're the questions any serious integration should have answers to, and asking them is how you tell whether you're building on a road or a rope.</p>
+
+    <p>The mechanism is genuinely good. That's not the issue. The issue is knowing which of the guarantees you're leaning on are enforced by the protocol and which are paid for by a treasury, because you build very differently depending on the answer.</p>
+
+    <h2>The Rope Holds Until It Doesn't</h2>
+
+    <p>None of this means Plasma got it wrong. The paymaster is a genuine piece of engineering. Moving gas sponsorship from an app level opt-in to a chain wide default is a real answer to a real problem, and the consensus and execution stack underneath it is solid work (take a look at PlasmaBFT), not marketing. Give credit where it's due.</p>
+
+    <p>But good engineering means knowing what holds weight and what doesn't. Zero fee USDT is real today, and it's carried by a Foundation balance, not by the protocol itself. That's the whole point in one line: <strong>the gas is free, and the rope is thin.</strong></p>
+
+    <p>Build on it with your eyes open, ask the questions the docs leave unanswered, and design as if the free tier is a dependency rather than a law. Because that's exactly what it is.</p>
+
+    <div style="margin-top:48px;padding:20px 24px;border:1px solid rgba(255,255,255,0.08);border-radius:12px;display:flex;align-items:center;justify-content:space-between;gap:16px;">
+      <div>
+        <div style="font-size:11px;font-weight:600;color:#6b6b75;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:4px;">Originally published on</div>
+        <div style="font-size:14px;color:#a1a1a8;">Read the full thread on X</div>
+      </div>
+      <a href="https://x.com/megaparsa/status/2075333110141526222?s=20" target="_blank" style="display:inline-flex;align-items:center;gap:8px;background:#ededed;color:hsl(210,11.1%,3.53%);font-size:13px;font-weight:600;padding:8px 16px;border-radius:8px;white-space:nowrap;flex-shrink:0;transition:opacity 0.15s;" onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.747l7.73-8.835L1.254 2.25H8.08l4.253 5.622 5.911-5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        View on X
+      </a>
+    </div>
+
+  </div>
+
+</div>
+<script>
+  const lb = document.getElementById('lightbox');
+  const lbImg = document.getElementById('lightbox-img');
+  document.querySelectorAll('.chart img').forEach(img => {
+    img.addEventListener('click', () => { lbImg.src = img.src; lbImg.alt = img.alt; lb.classList.add('open'); });
+  });
+  lb.addEventListener('click', () => lb.classList.remove('open'));
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') lb.classList.remove('open'); });
+</script>
+</body>
+</html>
